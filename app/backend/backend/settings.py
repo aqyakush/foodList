@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-@4m5zo#ngrhd684burb+4_odseku%(mv!(uvx8(lek@ft14%hz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#TODO: Work around for now, figure out how to popupale allowed_host in kube
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
