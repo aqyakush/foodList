@@ -2,10 +2,11 @@ replicaCount: 1
 
 image:
   repository: backend
-  version: latest
+  version: v0.1
   pullPolicy: Never
 
 service:
   port: 8000
   targetPort: 8000
   type: LoadBalancer
+  name: http

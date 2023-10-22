@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     // Use the fetch API to get data from the backend
-    fetch('http://localhost:3000/api/recipes/')
+    fetch('http://localhost:8000/api/recipes/')
       .then((response) => response.json())
       .then((data) => {
         setRecipes(data);

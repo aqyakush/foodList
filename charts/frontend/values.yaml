@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: frontend
-  version: latest
+  version: v0.1
   pullPolicy: Never
 
 service:
