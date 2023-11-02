@@ -3,21 +3,21 @@ kind: Ingress
 metadata:
   name: foodlist-ingress
 spec:
+  ingressClassName: nginx
   rules:
-  - host: kubernetes.docker.internal
-    http:
+  - http:
       paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 80           
-      - path: /api
+      - path: /api # Backend service
         pathType: Prefix
         backend:
           service:
             name: backend
             port:
-              number: 8000
+              number: 8000           
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+              name: {{ include "frontend.name" .}}
+              port:
+                number: {{ .Values.service.port }}

@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     // Use the fetch API to get data from the backend
-    fetch('http://localhost:8000/api/recipes/')
+    fetch('api/recipes/')
       .then((response) => response.json())
       .then((data) => {
         setRecipes(data);
@@ -34,7 +34,7 @@ function App() {
     //   <h1>Hello</h1>
     // </header>
     <div>
-      <h1>Recipes</h1>
+      <h1>Recipes test</h1>
       <ul>
         {recipes.map((recipe) => (
           <li key={recipe.id}>{recipe.name}</li>

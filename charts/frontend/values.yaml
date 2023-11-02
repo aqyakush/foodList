@@ -2,10 +2,11 @@ replicaCount: 1
 
 image:
   repository: frontend
-  version: v0.1
+  version: v0.12
   pullPolicy: Never
 
 service:
-  port: 80
-  targetPort: 80
-  type: LoadBalancer
+  port: 3000
+  targetPort: 3000
+  type: NodePort
+  name: frontend

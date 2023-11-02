@@ -1,21 +1,22 @@
 # foodList
 Application to keep track of your favourite recepies
 
-Create images
+Start the minikube
 
-$ docker build -t backend:v0.1 .
-$ docker build -t frontend:v0.1 .
+$ minikube start
 
-Upload images to minikube
+Enable ingress in minikube
 
-$ minikube image load backend:v0.1
-$ minikube image load frontend:v0.1
+$ minikube addons enable ingress
 
-Install helm
+Deploy backend
 
-$ helm install backend backend
-$ helm install frontend frontend
+$ ./utils/build_and_install_backend.sh
 
-Check the check the front end
+Deploy frontend and ingress
 
-$ minikube service list
+$ ./utils/build_and_install_frontend.sh
+
+Get IP address for access the application
+
+$ kubectl get ingress
