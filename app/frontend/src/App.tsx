@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from "styled-components";
 import './App.css';
 
 type Recipe = {
@@ -6,13 +7,22 @@ type Recipe = {
   name: string,
 }
 
+const Title = styled.div`
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin: 10px;
+
+`;
+
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Use the fetch API to get data from the backend
-    fetch('api/recipes/')
+    fetch('http://192.168.49.2/api/recipes/')
       .then((response) => response.json())
       .then((data) => {
         setRecipes(data);
@@ -25,23 +35,18 @@ function App() {
   }, []); // The empty array means this effect runs only once after the initial render
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <>Loading...</>;
   }
 
   return (
-    // <div className="App">
-    // <header className="App-header">
-    //   <h1>Hello</h1>
-    // </header>
-    <div>
-      <h1>Recipes test</h1>
+    <>
+      <Title>Recipes test</Title>
       <ul>
         {recipes.map((recipe) => (
           <li key={recipe.id}>{recipe.name}</li>
         ))}
       </ul>
-    </div>
-  // </div>
+    </>
   );
 }
 
