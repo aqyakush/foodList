@@ -38,7 +38,7 @@ const SearchRecipe = () => {
     useEffect(() => {
       const timerId = setTimeout(() => {
         setDebouncedInput(input);
-      }, 2000); // 2s delay
+      }, 1000); // 1s delay
   
       return () => {
         clearTimeout(timerId);
@@ -47,7 +47,7 @@ const SearchRecipe = () => {
 
     useEffect(() => {
       // Use the fetch API to get data from the backend
-      fetch(`http://192.168.49.2/api/recipes/?name__icontains=${debouncedInput}`)
+      fetch(`http://192.168.49.2/api/recipes/?name=${debouncedInput}`)
         .then((response) => response.json())
         .then((data) => {
           setRecipes(data);
@@ -57,7 +57,7 @@ const SearchRecipe = () => {
           console.error('Error fetching data:', error);
           setLoading(false);
         });
-    }, [debouncedInput]); // The empty array means this effect runs only once after the initial render
+    }, [debouncedInput]);
 
     if (loading) {
       return <>Loading...</>;
@@ -69,8 +69,7 @@ const SearchRecipe = () => {
     
     return (
       <CenterDiv>
-        <StyledInput type="text" placeholder="Search for a recipe" onChange={handleInputChange}/>
-        {/* <Title>Recipes test</Title> */}
+        <StyledInput type="text" placeholder="Search for recipes" onChange={handleInputChange}/>
         <ul>
           {recipes.map((recipe) => (
             <li key={recipe.id}>{recipe.name}</li>
