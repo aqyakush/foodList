@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
+import Card from '../../components/Cards';
+import RecipeView from './components/recipe';
 
-type Recipe = {
+export type Recipe = {
   id: number,
   name: string,
 }
@@ -38,7 +40,7 @@ const SearchRecipe = () => {
     useEffect(() => {
       const timerId = setTimeout(() => {
         setDebouncedInput(input);
-      }, 1000); // 1s delay
+      }, 800); // 1s delay
   
       return () => {
         clearTimeout(timerId);
@@ -70,11 +72,11 @@ const SearchRecipe = () => {
     return (
       <CenterDiv>
         <StyledInput type="text" placeholder="Search for recipes" onChange={handleInputChange}/>
-        <ul>
           {recipes.map((recipe) => (
-            <li key={recipe.id}>{recipe.name}</li>
+            <Card>
+              <RecipeView recipe={recipe}/>
+            </Card>
           ))}
-        </ul>
       </CenterDiv>
     );
   }
