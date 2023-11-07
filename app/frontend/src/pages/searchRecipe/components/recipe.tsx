@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 type RecipeProps = {
     recipe: {
@@ -11,6 +12,23 @@ type Ingredient = {
     id: number;
     name: string;
 }
+
+const RecipeTitle = styled.h1`
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+`;
+
+const IngredientList = styled.ul`
+    list-style-type: none;
+    padding: 0;
+`;
+
+const IngredientItem = styled.li`
+    padding: 10px;
+    position: relative;
+`;
 
 const RecipeView: React.FC<RecipeProps> = ({ recipe }) => {
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -26,12 +44,12 @@ const RecipeView: React.FC<RecipeProps> = ({ recipe }) => {
 
     return (
         <div>
-            <h1 style={{ fontSize: '2rem' }}>{recipe.name}</h1>
-            <ul>
+            <RecipeTitle>{recipe.name}</RecipeTitle>
+            <IngredientList>
                 {ingredients.map((ingredient) => (
-                    <li key={ingredient.id}>{ingredient.name}</li>
+                    <IngredientItem key={ingredient.id}>{ingredient.name}</IngredientItem>
                 ))}
-            </ul>
+            </IngredientList>
         </div>
     );
 };
