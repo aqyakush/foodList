@@ -1,7 +1,7 @@
 from rest_framework import generics
 from django.db.models import Q
-from .models import Ingredient, Recipe
-from .serializers import IngredientSerializer, RecipeSerializer
+from .models import Ingredient, Recipe, Amount
+from .serializers import RecipeSerializer, IngredientSerializer
 
 from rest_framework import generics
 

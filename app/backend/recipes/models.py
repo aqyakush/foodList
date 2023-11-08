@@ -14,3 +14,25 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.name
+
+class Amount(models.Model):
+    UNITS = [
+        ('kg', 'Kilogram'),
+        ('g', 'Gram'),
+        ('ml', 'Milliliter'),
+        ('l', 'Liter'),
+        ('tbsp', 'Tablespoon'),
+        ('tsp', 'Teaspoon'),
+        ('piece', 'Piece'),
+    ]
+
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=5, decimal_places=2)
+    unit = models.CharField(max_length=5, choices=UNITS)
+
+    class Meta:
+        unique_together = ('recipe', 'ingredient')
+
+    def __str__(self):
+        return self.name
