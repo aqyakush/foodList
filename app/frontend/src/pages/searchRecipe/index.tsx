@@ -6,6 +6,19 @@ import RecipeView from './components/recipe';
 export type Recipe = {
   id: number,
   name: string,
+  ingredients: Array<Ingredient>
+}
+
+type Ingredient = {
+  id: number;
+  name: string;
+  amount: Amount;
+}
+
+type Amount = {
+  id: number;
+  amount: number;
+  unit: string;
 }
 
 const StyledInput = styled.input`
