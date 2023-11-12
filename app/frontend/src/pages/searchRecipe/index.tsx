@@ -88,7 +88,7 @@ const SearchRecipe = () => {
       <CenterDiv>
         <StyledInput type="text" placeholder="Search for recipes" onChange={handleInputChange}/>
           {recipes.map((recipe) => (
-            <Card>
+            <Card key={recipe.id}>
               <RecipeView recipe={recipe}/>
             </Card>
           ))}

@@ -93,6 +93,14 @@ const RemoveButton = styled.button`
   cursor: pointer;
   font-size: 20px;
   padding: 0;
+
+  &:hover {
+    color: #0056b3; // Darker shade of blue when hovered over
+  }
+
+  &:active {
+    color: #003580; // Even darker shade of blue when clicked
+  }
 `;
 
 const ListItem = styled.li`
@@ -157,25 +165,25 @@ const CreateRecipe = () => {
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
-            <label>
+            <div>
                 Name:
                 <Input type="text" {...register("name", { required: true })} />
                 {errors.name && <ErrorText>This field is required</ErrorText>}
-            </label>
-            <label>
+            </div>
+            <div>
                 Description:
                 <TextArea
                     {...register("description", { required: true })}
                 />
                 {errors.description && <ErrorText>This field is required</ErrorText>}
-            </label>
-            <label>
+            </div>
+            <div>
                 {ingredients.length > 0 && "Ingredients:"}
                 <ul>
                     {ingredients.map((ingredient, index) => (
-                        <><RemoveButton type="button" onClick={() => removeIngredient(index)}>✖</RemoveButton>
+                        <div key={index}><RemoveButton type="button" onClick={() => removeIngredient(index)}>✖</RemoveButton>
                         <ListItem key={index}>
-                            <label>
+                            <div>
                                 Name:
                                 <Input
                                     type="text"
@@ -185,8 +193,8 @@ const CreateRecipe = () => {
                                 {errors.ingredients?.[index]?.name && (
                                     <ErrorText>This field is required</ErrorText>
                                 )}
-                            </label>
-                            <label>
+                            </div>
+                            <div>
                                 Amount:
                                 <Input
                                     type="number"
@@ -196,8 +204,8 @@ const CreateRecipe = () => {
                                 {errors.ingredients?.[index]?.amount?.amount && (
                                     <ErrorText>This field is required</ErrorText>
                                 )}
-                            </label>
-                            <label>
+                            </div>
+                            <div>
                                 Unit:
                                 <Input
                                     type="text"
@@ -207,11 +215,11 @@ const CreateRecipe = () => {
                                 {errors.ingredients?.[index]?.amount?.unit && (
                                     <ErrorText>This field is required</ErrorText>
                                 )}
-                            </label>
-                        </ListItem></>
+                            </div>
+                        </ListItem></div>
                     ))}
                 </ul>
-            </label>
+            </div>
             <AddIngredientButton type="button" onClick={addIngredient}>Add Ingredient</AddIngredientButton>
             <ButtonContainer>
                 <Button type="submit">Create Recipe</Button>
