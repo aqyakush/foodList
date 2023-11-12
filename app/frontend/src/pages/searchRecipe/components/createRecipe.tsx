@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import styled from 'styled-components';
+import Spinner from 'react-spinner-material';
 
 import React from 'react';
 
@@ -107,11 +108,12 @@ const ListItem = styled.li`
   list-style-type: none;
 `;
 
-const OPENAI_API_KEY = 'XXXX'; // Replace with your actual API key
+const OPENAI_API_KEY = 'XXX'; // Replace with your actual API key
 
 const CreateRecipe = () => {
     const { register, handleSubmit, reset, formState: { errors }, setValue, getValues } = useForm<Recipe>();
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data: Recipe) => {
         try {
@@ -137,6 +139,7 @@ const CreateRecipe = () => {
     };
 
     const onGetIngredients = async () => {
+        setIsLoading(true); // Start loading
         try {
             const recipeName = getValues("name");
             if (recipeName.length < 3) {
@@ -150,18 +153,20 @@ const CreateRecipe = () => {
                 },
                 body: JSON.stringify({
                     "model": "gpt-3.5-turbo",
-                    "messages": [{"role": "user", "content": `Please return recipe for ${recipeName}. The response should be a json file. In form {"name":"recipeName","description":"recipe","ingredients":[{"name":"ingredient 1","amount":{"amount":3,"unit":"tsp"}},{"name":"ingredient 2","amount":{"amount":2,"unit":"l"}}]} for unit only use 'kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece'`}],
+                    "messages": [{"role": "user", "content": `Please return recipe for ${recipeName}. The response should be a json file. In form {"name":"recipeName","description":"recipe","ingredients":[{"name":"ingredient 1","amount":{"amount":3,"unit":"tsp"}},{"name":"ingredient 2","amount":{"amount":2,"unit":"l"}}]} for unit only use 'kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece'.`}],
                     "temperature": 0.7
                 }),
             });
 
             const data = await response.json();
             const recipe = data.choices[0].message.content;
+            setIsLoading(false); // Stop loading
 
             setIngredients(JSON.parse(recipe).ingredients);
             setValue(`description`, JSON.parse(recipe).description);
 
         } catch (error) {
+            setIsLoading(false); // Stop loading
             console.error(error);
         }   
     }
@@ -201,9 +206,9 @@ const CreateRecipe = () => {
                 Name:
                 <Input type="text" {...register("name", { required: true })} />
                 {errors.name && <ErrorText>This field is required</ErrorText>}
-                <button type="button" onClick={onGetIngredients}>
+                {isLoading ? <Spinner /> : <button type="button" onClick={onGetIngredients}>
                     Get recipe Ingredient
-                </button>
+                </button>}
             </div>
             <div>
                 Description:

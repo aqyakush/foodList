@@ -7,6 +7,7 @@ import CreateRecipe from './components/createRecipe';
 export type Recipe = {
   id: number,
   name: string,
+  description: string,
   ingredients: Array<Ingredient>
 }
 

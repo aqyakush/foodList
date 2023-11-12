@@ -27,11 +27,13 @@ const RecipeView: React.FC<RecipeProps> = ({ recipe }) => {
     return (
         <div>
             <RecipeTitle>{recipe.name}</RecipeTitle>
+            Ingredients:
             <IngredientList>
                 {recipe.ingredients.map((ingredient) => (
                     <IngredientItem key={ingredient.id}>{ingredient.name} {ingredient.amount?.amount} {ingredient.amount?.unit}</IngredientItem>
                 ))}
             </IngredientList>
+            <p>{recipe.description}</p>
         </div>
     );
 };
