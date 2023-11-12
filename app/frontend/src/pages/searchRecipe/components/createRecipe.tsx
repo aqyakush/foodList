@@ -107,9 +107,10 @@ const ListItem = styled.li`
   list-style-type: none;
 `;
 
+const OPENAI_API_KEY = 'XXXX'; // Replace with your actual API key
 
 const CreateRecipe = () => {
-    const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<Recipe>();
+    const { register, handleSubmit, reset, formState: { errors }, setValue, getValues } = useForm<Recipe>();
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
     const onSubmit = async (data: Recipe) => {
@@ -134,6 +135,37 @@ const CreateRecipe = () => {
             console.error(error);
         }
     };
+
+    const onGetIngredients = async () => {
+        try {
+            const recipeName = getValues("name");
+            if (recipeName.length < 3) {
+                return;
+            }
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${OPENAI_API_KEY}`,
+                },
+                body: JSON.stringify({
+                    "model": "gpt-3.5-turbo",
+                    "messages": [{"role": "user", "content": `Please return recipe for ${recipeName}. The response should be a json file. In form {"name":"recipeName","description":"recipe","ingredients":[{"name":"ingredient 1","amount":{"amount":3,"unit":"tsp"}},{"name":"ingredient 2","amount":{"amount":2,"unit":"l"}}]} for unit only use 'kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece'`}],
+                    "temperature": 0.7
+                }),
+            });
+
+            const data = await response.json();
+            const recipe = data.choices[0].message.content;
+
+            setIngredients(JSON.parse(recipe).ingredients);
+            setValue(`description`, JSON.parse(recipe).description);
+
+        } catch (error) {
+            console.error(error);
+        }   
+    }
+
 
     const addIngredient = () => {
         setIngredients([...ingredients, { name: '', amount: { amount: 0, unit: ''} }]);
@@ -169,6 +201,9 @@ const CreateRecipe = () => {
                 Name:
                 <Input type="text" {...register("name", { required: true })} />
                 {errors.name && <ErrorText>This field is required</ErrorText>}
+                <button type="button" onClick={onGetIngredients}>
+                    Get recipe Ingredient
+                </button>
             </div>
             <div>
                 Description:
