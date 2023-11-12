@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import Card from '../../components/Cards';
 import RecipeView from './components/recipe';
+import CreateRecipe from './components/createRecipe';
 
 export type Recipe = {
   id: number,
@@ -9,7 +10,7 @@ export type Recipe = {
   ingredients: Array<Ingredient>
 }
 
-type Ingredient = {
+export type Ingredient = {
   id: number;
   name: string;
   amount: Amount;
@@ -41,7 +42,8 @@ const CenterDiv = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 90vh;
+  margin: 100px auto;
+  overflow: auto;
 `;
 
 const SearchRecipe = () => {
@@ -90,6 +92,9 @@ const SearchRecipe = () => {
               <RecipeView recipe={recipe}/>
             </Card>
           ))}
+          <Card>
+            <CreateRecipe />
+          </Card>
       </CenterDiv>
     );
   }
