@@ -96,7 +96,7 @@ const ListItem = styled.li`
   list-style-type: none;
 `;
 
-const OPENAI_API_KEY = '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'; // Replace with your actual API key
+const OPENAI_API_KEY = ''; // Replace with your actual API key
 
 const CreateRecipe = () => {
     const { register, handleSubmit, reset, formState: { errors }, setValue, getValues } = useForm<Recipe>();
