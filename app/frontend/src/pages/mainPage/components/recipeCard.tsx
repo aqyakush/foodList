@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Recipe } from '..';
+import { Recipe } from '../../../types';
+import Card from '../../../components/Cards';
 
 type RecipeProps = {
     recipe: Recipe;
@@ -23,19 +24,19 @@ const IngredientItem = styled.li`
     position: relative;
 `;
 
-const RecipeView: React.FC<RecipeProps> = ({ recipe }) => {
+const RecipeCard: React.FC<RecipeProps> = ({ recipe }) => {
     return (
-        <div>
+        <Card key={recipe.name}>
             <RecipeTitle>{recipe.name}</RecipeTitle>
             Ingredients:
             <IngredientList>
                 {recipe.ingredients.map((ingredient) => (
-                    <IngredientItem key={ingredient.id}>{ingredient.name} {ingredient.amount?.amount} {ingredient.amount?.unit}</IngredientItem>
+                    <IngredientItem key={ingredient.name}>{ingredient.name} {ingredient.amount?.amount} {ingredient.amount?.unit}</IngredientItem>
                 ))}
             </IngredientList>
             <p>{recipe.description}</p>
-        </div>
+        </Card>
     );
 };
 
-export default RecipeView;
+export default RecipeCard;
