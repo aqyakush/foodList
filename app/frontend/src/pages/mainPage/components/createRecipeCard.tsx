@@ -8,71 +8,16 @@ import { Amount, Ingredient, Recipe } from '../../../types';
 import usePostFetch from '../../../hooks/apiHooks/usePostFetch';
 import { API_URL, RECIPES_QUERY } from '../../../utils/apis';
 import Card from '../../../components/Cards';
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-`;
-
-const Input = styled.input`
-  margin-bottom: 20px;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-`;
-
-const TextArea = styled.textarea`
-  margin-bottom: 20px;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-`;
-
-const Button = styled.button`
-  background-color: #007BFF;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  float: right;
-
-  &:hover {
-      background-color: #0056b3;
-  }
-`;
-
-const ErrorText= styled.span`
-  color: darkred;
-  margin-top: -15px;
-  margin-bottom: 15px;
-  display: inline-block;
-`;
+import Button from '../../../components/Button';
+import Form from '../../../components/Form/Form';
+import Input from '../../../components/Form/Input';
+import ErrorText from '../../../components/Form/ErrorText';
+import TextArea from '../../../components/Form/Textarea';
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-`;
-
-const AddIngredientButton = styled(Button)`
-  background-color: white;
-  color: #007BFF;
-
-  &:hover {
-      background-color: #f2f2f2;
-  }
 `;
 
 const RemoveButton = styled.button`
@@ -237,9 +182,9 @@ const CreateRecipe = () => {
                         ))}
                     </ul>
                 </div>
-                <AddIngredientButton type="button" onClick={addIngredient}>Add Ingredient</AddIngredientButton>
+                <Button buttonType="secondary" onClick={addIngredient}>Add Ingredient</Button>
                 <ButtonContainer>
-                    <Button type="submit">Create Recipe</Button>
+                    <Button buttonType="primary" type="submit">Create Recipe</Button>
                 </ButtonContainer>
             </Form>
         </Card>
