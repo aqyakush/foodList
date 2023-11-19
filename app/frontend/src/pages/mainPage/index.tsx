@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import styled from "styled-components";
-import Card from '../../components/Cards';
-import RecipeView from './components/recipeCard';
-import CreateRecipe from './components/createRecipeCard';
+import React from 'react';
 import { Recipe } from '../../types';
 import useFetch from '../../hooks/apiHooks/useFetch';
-import { API_URL, DEBOUNCED_DELAY, RECIPES_QUERY } from '../../utils/apis';
+import { API_URL, RECIPES_QUERY } from '../../utils/apis';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import CenterDiv from '../../components/CenterDiv';
 import RecipeCard from './components/recipeCard';
