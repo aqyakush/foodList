@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-spinner-material';
@@ -10,9 +10,10 @@ import { API_URL, RECIPES_QUERY } from '../../../utils/apis';
 import Card from '../../../components/Cards';
 import Button from '../../../components/Button';
 import Form from '../../../components/Form/Form';
-import Input from '../../../components/Form/Input';
+import Input from '../../../components/Form/InputField';
 import ErrorText from '../../../components/Form/ErrorText';
 import TextArea from '../../../components/Form/Textarea';
+import InputField from '../../../components/Form/InputField';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -44,17 +45,24 @@ const ListItem = styled.li`
 const OPENAI_API_KEY = ''; // Replace with your actual API key
 
 const CreateRecipe = () => {
-    const { register, handleSubmit, reset, formState: { errors }, setValue, getValues } = useForm<Recipe>();
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+    const { control, register, handleSubmit, reset, formState: { errors } } = useForm<Recipe>();
+    
+    const { fields, remove, append } = useFieldArray({
+        control,
+        name: 'ingredients',
+      });
+    
     const { postData }  = usePostFetch<Recipe>(`${API_URL}${RECIPES_QUERY}`);
 
     const onSubmit = (data: Recipe) => {
         try {
             postData(data);
-
             // Handle successful creation of recipe
-            reset();
-            setIngredients([]);
+            reset({
+                name: '',
+                description: '',
+                ingredients: [],
+              });
         } catch (error) {
             console.error(error);
         }
@@ -93,45 +101,45 @@ const CreateRecipe = () => {
     //     }   
     // }
 
+    const ingredients = React.useMemo(() => {
+        return (
+            <div>
+                {fields.length > 0 && "Ingredients:"}
+                <ul>
+                    {fields.map((field, index) => (
+                        <div key={index}><RemoveButton type="button" onClick={() => {
+                            remove(index)
+                        }}>✖</RemoveButton>
+                        <ListItem key={field.id}>
+                            <InputField control={control} 
+                                        name={`ingredients.${index}.name`} 
+                                        label="Name:" 
+                                        rules={{ required: true }} 
+                                        error={errors.ingredients?.[index]?.name}
+                                        defaultValue={field.name}/>
+                            <InputField control={control} 
+                                        name={`ingredients.${index}.amount.amount`} 
+                                        label="Amount:" 
+                                        rules={{ required: true }} 
+                                        error={errors.ingredients?.[index]?.amount?.amount}
+                                        defaultValue={field.amount.amount}/>
+                            <InputField control={control} 
+                                        name={`ingredients.${index}.amount.unit`} 
+                                        label="Unit:" 
+                                        rules={{ required: true }} 
+                                        error={errors.ingredients?.[index]?.amount?.unit}
+                                        defaultValue={field.amount.unit}/>
+                        </ListItem></div>
+                    ))}
+                </ul>
+            </div>
+        )}, [fields, remove, control, errors.ingredients]);
 
-    const addIngredient = () => {
-        setIngredients([...ingredients, { name: '', amount: { amount: 0, unit: ''} }]);
-    };
-
-    const removeIngredient = (index: number) => {
-        const newIngredients = [...ingredients];
-        newIngredients.splice(index, 1);
-        setIngredients(newIngredients);
-    };
-
-    const handleIngredientChange = (index: number, field: keyof Ingredient | keyof Amount, value: string | number) => {
-        const newIngredients = [...ingredients];
-        if (field === 'amount') {
-            console.log(value)
-            newIngredients[index]['amount'][field] = value as number;
-            // Update react-hook-form's internal state
-            // TODO: Check why we need to setValue sepparately for amount.amount
-            setValue(`ingredients.${index}.amount.amount`, value as number);
-        } else if (field === 'name') {
-            newIngredients[index][field] = value as string;
-        } else if (field === 'unit') {
-            console.log(value)
-            newIngredients[index]['amount'][field] = value as string;
-        }
-        setIngredients(newIngredients);
-    };
 
     return (
         <Card>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    Name:
-                    <Input type="text" {...register("name", { required: true })} />
-                    {errors.name && <ErrorText>This field is required</ErrorText>}
-                    {/* {isLoading ? <Spinner /> : <button type="button" onClick={onGetIngredients}>
-                        Get recipe Ingredient
-                    </button>} */}
-                </div>
+                <InputField control={control} name="name" label="Name:" rules={{ required: true }} error={errors.name}/>
                 <div>
                     Description:
                     <TextArea
@@ -139,50 +147,8 @@ const CreateRecipe = () => {
                     />
                     {errors.description && <ErrorText>This field is required</ErrorText>}
                 </div>
-                <div>
-                    {ingredients.length > 0 && "Ingredients:"}
-                    <ul>
-                        {ingredients.map((ingredient, index) => (
-                            <div key={index}><RemoveButton type="button" onClick={() => removeIngredient(index)}>✖</RemoveButton>
-                            <ListItem key={index}>
-                                <div>
-                                    Name:
-                                    <Input
-                                        type="text"
-                                        value={ingredient.name}
-                                        {...register(`ingredients.${index}.name`, { required: true })}
-                                        onChange={(e) => handleIngredientChange(index, 'name', e.target.value)} />
-                                    {errors.ingredients?.[index]?.name && (
-                                        <ErrorText>This field is required</ErrorText>
-                                    )}
-                                </div>
-                                <div>
-                                    Amount:
-                                    <Input
-                                        type="number"
-                                        value={ingredient.amount.amount}
-                                        {...register(`ingredients.${index}.amount.amount`, { required: true })}
-                                        onChange={(e) => handleIngredientChange(index, 'amount', Number(e.target.value))} />
-                                    {errors.ingredients?.[index]?.amount?.amount && (
-                                        <ErrorText>This field is required</ErrorText>
-                                    )}
-                                </div>
-                                <div>
-                                    Unit:
-                                    <Input
-                                        type="text"
-                                        value={ingredient.amount.unit}
-                                        {...register(`ingredients.${index}.amount.unit`, { required: true })}
-                                        onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)} />
-                                    {errors.ingredients?.[index]?.amount?.unit && (
-                                        <ErrorText>This field is required</ErrorText>
-                                    )}
-                                </div>
-                            </ListItem></div>
-                        ))}
-                    </ul>
-                </div>
-                <Button buttonType="secondary" onClick={addIngredient}>Add Ingredient</Button>
+                {ingredients}
+                <Button buttonType="secondary" onClick={() => append({ name: '', amount: { amount: 0, unit: ''} })}>Add Ingredient</Button>
                 <ButtonContainer>
                     <Button buttonType="primary" type="submit">Create Recipe</Button>
                 </ButtonContainer>
