@@ -11,7 +11,7 @@ import SearchInput from './components/searchInput';
 
 
 const SearchRecipe = () => {
-    const { data, setQuery, isLoading, error } = useFetch<Recipe[]>(`${API_URL}${RECIPES_QUERY}`);
+    const { data, setQuery, isLoading, error, refetch } = useFetch<Recipe[]>(`${API_URL}${RECIPES_QUERY}`);
 
     if (isLoading) {
       return (
@@ -25,9 +25,9 @@ const SearchRecipe = () => {
       <CenterDiv>
         <SearchInput setQuery={setQuery}/>
         {data?.map((data) => (  
-            <RecipeCard recipe={data}/>
+            <RecipeCard recipe={data} />
         ))}
-        <CreateRecipeCard />
+        <CreateRecipeCard refetch={refetch}/>
       </CenterDiv>
     );
   }

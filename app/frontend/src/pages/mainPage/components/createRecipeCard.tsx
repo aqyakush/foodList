@@ -1,5 +1,4 @@
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useState } from 'react';
 import styled from 'styled-components';
 import Spinner from 'react-spinner-material';
 
@@ -43,9 +42,13 @@ const ListItem = styled.li`
 
 const UNIT_OPTIONS = ['kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece'];
 
+type CreateRecipeProps = {
+    refetch: () => void;
+};
+
 const OPENAI_API_KEY = ''; // Replace with your actual API key
 
-const CreateRecipe = () => {
+const CreateRecipe: React.FC<CreateRecipeProps> = ({refetch}) => {
     const { control, handleSubmit, reset, formState: { errors } } = useForm<Recipe>();
     
     const { fields, remove, append } = useFieldArray({
@@ -64,6 +67,7 @@ const CreateRecipe = () => {
                 description: '',
                 ingredients: [],
               });
+            refetch();
         } catch (error) {
             console.error(error);
         }

@@ -5,6 +5,9 @@ const useFetch = <T>(url: string, params?: string) => {
     const [data, setData] = useState<T>();
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [reload, setReload] = useState(0);
+
+    const refetch = () => setReload(prevReload => prevReload + 1);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,9 +26,9 @@ const useFetch = <T>(url: string, params?: string) => {
         };
 
         fetchData();
-    }, [url, query]);
+    }, [url, query, reload]);
 
-    return { data, setQuery, isLoading, error };
+    return { data, setQuery, isLoading, error, refetch };
 };
 
 export default useFetch;
