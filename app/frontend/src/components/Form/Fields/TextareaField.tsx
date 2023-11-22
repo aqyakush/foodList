@@ -1,9 +1,9 @@
 import React from "react";
+import { Controller, FieldError } from "react-hook-form";
 import styled from "styled-components";
-import { Controller, FieldError } from 'react-hook-form';
-import ErrorText from "./ErrorText";
+import ErrorText from "../ErrorText";
 
-const Input = styled.input`
+const TextArea = styled.textarea`
   margin-bottom: 20px;
   width: 100%;
   padding: 10px;
@@ -12,7 +12,8 @@ const Input = styled.input`
   border: 1px solid #ccc;
 `;
 
-type Props = {
+
+type TextAreaFieldProps = {
   control: any;
   name: string;
   label: string;
@@ -21,7 +22,7 @@ type Props = {
   error?: FieldError | undefined;
 }
 
-const InputField = ({ control, name, label, defaultValue = '', rules, error }: Props) => {
+const TextAreaField = ({ control, name, label, defaultValue = '', rules, error }: TextAreaFieldProps) => {
   return (
     <Controller
       control={control}
@@ -31,14 +32,14 @@ const InputField = ({ control, name, label, defaultValue = '', rules, error }: P
       render={({ field }) => (
         <div>
           <label>{label}</label>
-          <Input {...field}/>
-          {error && (
-              <ErrorText>This field is required</ErrorText>
-          )}
+          <TextArea
+              {...field}
+          />
+          {error && <ErrorText>This field is required</ErrorText>}
         </div>
       )}
     />
   );
 };
 
-export default InputField;
+export default TextAreaField;

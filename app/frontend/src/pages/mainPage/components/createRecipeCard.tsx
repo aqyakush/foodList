@@ -4,16 +4,15 @@ import styled from 'styled-components';
 import Spinner from 'react-spinner-material';
 
 import React from 'react';
-import { Amount, Ingredient, Recipe } from '../../../types';
+import { Recipe } from '../../../types';
 import usePostFetch from '../../../hooks/apiHooks/usePostFetch';
 import { API_URL, RECIPES_QUERY } from '../../../utils/apis';
 import Card from '../../../components/Cards';
 import Button from '../../../components/Button';
 import Form from '../../../components/Form/Form';
-import Input from '../../../components/Form/InputField';
-import ErrorText from '../../../components/Form/ErrorText';
-import TextArea from '../../../components/Form/Textarea';
-import InputField from '../../../components/Form/InputField';
+import InputField from '../../../components/Form/Fields/InputField';
+import DropdownSelect from '../../../components/Form/Fields/DropdownSelectField';
+import TextAreaField from '../../../components/Form/Fields/TextareaField';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -42,10 +41,12 @@ const ListItem = styled.li`
   list-style-type: none;
 `;
 
+const UNIT_OPTIONS = ['kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece'];
+
 const OPENAI_API_KEY = ''; // Replace with your actual API key
 
 const CreateRecipe = () => {
-    const { control, register, handleSubmit, reset, formState: { errors } } = useForm<Recipe>();
+    const { control, handleSubmit, reset, formState: { errors } } = useForm<Recipe>();
     
     const { fields, remove, append } = useFieldArray({
         control,
@@ -123,12 +124,14 @@ const CreateRecipe = () => {
                                         rules={{ required: true }} 
                                         error={errors.ingredients?.[index]?.amount?.amount}
                                         defaultValue={field.amount.amount}/>
-                            <InputField control={control} 
+                            <DropdownSelect 
+                                        control={control} 
                                         name={`ingredients.${index}.amount.unit`} 
                                         label="Unit:" 
                                         rules={{ required: true }} 
                                         error={errors.ingredients?.[index]?.amount?.unit}
-                                        defaultValue={field.amount.unit}/>
+                                        defaultValue={field.amount.unit}
+                                        selectOptions={UNIT_OPTIONS}/>
                         </ListItem></div>
                     ))}
                 </ul>
@@ -139,18 +142,28 @@ const CreateRecipe = () => {
     return (
         <Card>
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <InputField control={control} name="name" label="Name:" rules={{ required: true }} error={errors.name}/>
-                <div>
-                    Description:
-                    <TextArea
-                        {...register("description", { required: true })}
-                    />
-                    {errors.description && <ErrorText>This field is required</ErrorText>}
-                </div>
+                <InputField 
+                    control={control} 
+                    name="name" 
+                    label="Name:" 
+                    rules={{ required: true }} 
+                    error={errors.name}
+                />
+                <TextAreaField 
+                    control={control} 
+                    name="description" 
+                    label="Description:" 
+                    rules={{ required: true }} 
+                    error={errors.description}
+                />
                 {ingredients}
-                <Button buttonType="secondary" onClick={() => append({ name: '', amount: { amount: 0, unit: ''} })}>Add Ingredient</Button>
+                <Button buttonType="secondary" onClick={() => append({ name: '', amount: { amount: 0, unit: ''} })}>
+                    Add Ingredient
+                </Button>
                 <ButtonContainer>
-                    <Button buttonType="primary" type="submit">Create Recipe</Button>
+                    <Button buttonType="primary" type="submit">
+                        Create Recipe
+                    </Button>
                 </ButtonContainer>
             </Form>
         </Card>
