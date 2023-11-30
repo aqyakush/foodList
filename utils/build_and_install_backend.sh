@@ -14,7 +14,7 @@ echo "The delete backed has finished."
 minikube image rm backend:v0.3
 
 # Build the Docker image for the backend
-sudo docker build -t backend:v0.3 ~/Projects/foodList/app/backend/.
+sudo docker build -t backend:v0.3 ~/test/foodList/app/backend/.
 
 # Load the Docker image into Minikube 
 minikube image load backend:v0.3 &
@@ -28,7 +28,7 @@ echo "The image load to minikube has finished."
 
 
 # Create a Kubernetes deployment and service for the backend
-helm install backend ~/Projects/foodList/charts/backend
+helm install backend ~/test/foodList/charts/backend
 
 # Get the URL of the backend
 minikube service list
