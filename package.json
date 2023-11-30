@@ -1,0 +1,29 @@
+{
+  "name": "foodlist",
+  "version": "1.0.0",
+  "description": "Application to keep track of your favourite recepies",
+  "main": "index.js",
+  "dependencies": {
+    "js-tokens": "^4.0.0",
+    "loose-envify": "^1.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "scheduler": "^0.23.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.9.2"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aqyakush/foodList.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aqyakush/foodList/issues"
+  },
+  "homepage": "https://github.com/aqyakush/foodList#readme"
+}

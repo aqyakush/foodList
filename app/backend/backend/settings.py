@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'rest_framework',
     'recipes',
+    'mealPlan',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
