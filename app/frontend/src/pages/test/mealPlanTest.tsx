@@ -10,12 +10,12 @@ const MealPlanDiv = styled.div`
     width: 200px;
 `;
 
-type MealPlanProps = {
+type MealPlanTestProps = {
     children: React.ReactNode;
     id: string;
 }
 
-const MealPlan: React.FC<MealPlanProps> = (props) => {
+const MealPlanTest: React.FC<MealPlanTestProps> = (props) => {
     const { isOver, setNodeRef } = useDroppable({
         id: props.id,
     });
@@ -32,4 +32,4 @@ const MealPlan: React.FC<MealPlanProps> = (props) => {
     );
 };
 
-export default MealPlan;
+export default MealPlanTest;

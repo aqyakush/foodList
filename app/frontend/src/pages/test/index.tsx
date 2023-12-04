@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {DndContext} from '@dnd-kit/core';
 import Recipe from './recipe';
-import MealPlan from './mealPlan';
+import MealPlanTest from './mealPlanTest';
 
 
 const Test = () => {
@@ -18,9 +18,9 @@ const Test = () => {
         {containers.map((id) => (
             // We updated the Droppable component so it would accept an `id`
             // prop and pass it to `useDroppable`
-            <MealPlan key={id} id={id}>
+            <MealPlanTest key={id} id={id}>
             {parent === id ? draggableMarkup : 'Drop here'}
-            </MealPlan>
+            </MealPlanTest>
         ))}
         </DndContext>
     );
