@@ -1,7 +1,9 @@
+import { Recipe } from "./recipe";
+
 export type MealPlan = {
     id: number;
     name: string;
-    meals: string[];
-    startDate: Date;
-    endDate: Date;
+    recipes: Recipe[];
+    beginning_date: Date;
+    end_date: Date;
 }

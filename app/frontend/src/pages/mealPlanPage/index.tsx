@@ -4,6 +4,7 @@ import { API_URL, MEAL_PLAN_QUERY } from '../../utils/apis';
 import { MealPlan } from '../../types';
 import CenterDiv from '../../components/CenterDiv';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import MealPlanCard from './components/mealPlanCard';
 
 const MealPlanPage = () => {
     const { data, isLoading } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
@@ -19,9 +20,7 @@ const MealPlanPage = () => {
     return (
         <CenterDiv>
             {data?.map((mealPlan) => (
-                <div key={mealPlan.id} className="card">
-                    <h3>{mealPlan.name}</h3>
-                </div>
+                <MealPlanCard mealPlan={mealPlan} />
             ))}
         </CenterDiv>
     );

@@ -1,7 +1,6 @@
 from django.db import models
 from recipes.models import Recipe
 
-# Create your models here.
 class MealPlan(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)

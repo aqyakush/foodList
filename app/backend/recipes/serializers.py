@@ -28,12 +28,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         with transaction.atomic():
             recipe = Recipe.objects.create(**validated_data)
             for ingredient_data in ingredients_data:
-                logger.error("ingredient_data")
-                logger.error(ingredient_data)
                 ingredient, created = Ingredient.objects.get_or_create(name=ingredient_data['name'], recipe=recipe)
                 new_ingredients.append(ingredient)
-                logger.error("ingredient")
-                logger.error(ingredient)
                 amount_data = ingredient_data['amount_set']['first']
                 Amount.objects.create(recipe=recipe, ingredient=ingredient, amount=amount_data['amount'], unit=amount_data['unit'])
         recipe.ingredients.set(new_ingredients)
