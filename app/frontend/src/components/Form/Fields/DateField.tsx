@@ -3,6 +3,7 @@ import { Controller, FieldError } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ErrorText from '../ErrorText';
+import styled from 'styled-components';
 
 type DateFieldProps = {
   control: any;
@@ -12,6 +13,13 @@ type DateFieldProps = {
   rules?: object;
   error?: FieldError | undefined;
 }
+
+const StyledDatePicker = styled(DatePicker)`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
 
 const DateField = ({ control, name, label, dateFormat, rules, error }: DateFieldProps) => {
   return (
@@ -23,7 +31,7 @@ const DateField = ({ control, name, label, dateFormat, rules, error }: DateField
         rules={rules}
         render={({ field }) => (
             <div>
-                <DatePicker
+                <StyledDatePicker
                     selected={field.value}
                     onChange={date => {
                         field.onChange(date);
