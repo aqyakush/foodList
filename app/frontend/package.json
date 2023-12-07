@@ -12,7 +12,9 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
+    "date-fns": "^2.30.0",
     "react": "^18.2.0",
+    "react-datepicker": "^4.24.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
     "react-scripts": "5.0.1",
@@ -46,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-datepicker": "^4.19.3",
     "connect-livereload": "^0.6.1",
     "livereload": "^0.9.3",
     "nodemon": "^3.0.1",

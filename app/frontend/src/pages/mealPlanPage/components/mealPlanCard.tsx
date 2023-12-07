@@ -30,7 +30,7 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan }) => {
             <MealPlanTitle>{`${mealPlan.name} (${mealPlan.beginning_date} - ${mealPlan.end_date})`} </MealPlanTitle>
             Recipes:
             <RecipeList>
-                {mealPlan.recipes.map((recipe) => (
+                {mealPlan.recipes?.map((recipe) => (
                     <RecipeItem key={recipe.name}>{recipe.name}</RecipeItem>
                 ))}
             </RecipeList>

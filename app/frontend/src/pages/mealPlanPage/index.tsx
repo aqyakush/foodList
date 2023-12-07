@@ -5,9 +5,10 @@ import { MealPlan } from '../../types';
 import CenterDiv from '../../components/CenterDiv';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import MealPlanCard from './components/mealPlanCard';
+import CreateMealPlanCard from './components/createMealPlanCard';
 
 const MealPlanPage = () => {
-    const { data, isLoading } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
+    const { data, isLoading, refetch } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
 
     if (isLoading) {
         return (
@@ -22,7 +23,10 @@ const MealPlanPage = () => {
             {data?.map((mealPlan) => (
                 <MealPlanCard mealPlan={mealPlan} />
             ))}
+            <CreateMealPlanCard refetch={refetch}/>
         </CenterDiv>
+
+
     );
 };
 
