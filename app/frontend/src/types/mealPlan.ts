@@ -7,3 +7,7 @@ export type MealPlan = {
     beginning_date: Date | string;
     end_date: Date | string;
 }
+
+export type MealPlanPatch = {
+    recipe_id: number;
+}

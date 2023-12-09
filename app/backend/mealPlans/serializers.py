@@ -4,7 +4,7 @@ from recipes.models import Recipe
 from recipes.serializers import RecipeSerializer
 
 class MealPlanSerializer(serializers.ModelSerializer):
-    recipes = serializers.PrimaryKeyRelatedField(many=True, queryset=Recipe.objects.all())
+    recipes = serializers.PrimaryKeyRelatedField(many=True, queryset=Recipe.objects.all(), required=False)
 
     class Meta:
         model = MealPlan

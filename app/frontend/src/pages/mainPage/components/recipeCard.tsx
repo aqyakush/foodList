@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Recipe } from '../../../types';
 import Card from '../../../components/Cards';
+import MealPlanDropdown from './dropDownMealPlans';
 
 type RecipeProps = {
     recipe: Recipe;
@@ -35,6 +36,7 @@ const RecipeCard: React.FC<RecipeProps> = ({ recipe }) => {
                 ))}
             </IngredientList>
             <p>{recipe.description}</p>
+            <MealPlanDropdown recipeId={recipe.id}/>
         </Card>
     );
 };
