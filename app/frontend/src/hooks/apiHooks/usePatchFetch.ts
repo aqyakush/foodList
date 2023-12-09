@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 
-const usePatchFetch = <T>(url: string) => {
-    const [data, setData] = useState(null);
+const usePatchFetch = <T, U>(url: string) => {
+    const [data, setData] = useState<U | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -21,7 +21,7 @@ const usePatchFetch = <T>(url: string) => {
                 if (!response.ok) {
                     throw new Error('Failed to patch data');
                 }
-                const responseData = await response.json();
+                const responseData: U = await response.json();
                 setData(responseData);
             } catch (error: any) {
                 setError(error);

@@ -9,10 +9,12 @@ type MealPlanDropdownProps = {
   recipeId: number;
 };
 
+const MEAL_PLAN_URL = `${API_URL}${MEAL_PLAN_QUERY}`;
+
 const MealPlanDropdown: React.FC<MealPlanDropdownProps> = ({ recipeId }) => {
-  const { data, isLoading } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
+  const { data, isLoading } = useFetch<MealPlan[]>(MEAL_PLAN_URL);
   const [selectedMealPlan, setSelectedMealPlan] = useState('');
-  const { patchItem }  = usePatchFetch<MealPlanPatch>(`${API_URL}${MEAL_PLAN_QUERY}`);
+  const { data: fetchData, patchItem }  = usePatchFetch<MealPlanPatch, MealPlan>(MEAL_PLAN_URL);
 
   // FIXME: update the type for event
   const handleSelectChange = (event: any) => {
@@ -38,6 +40,7 @@ const MealPlanDropdown: React.FC<MealPlanDropdownProps> = ({ recipeId }) => {
         {data?.map(mealPlan => (
           <option key={mealPlan.id} value={mealPlan.id}>
             {mealPlan.name}
+            {fetchData?.id === mealPlan.id && " - Added!"}
           </option>
         ))}
       </select>
