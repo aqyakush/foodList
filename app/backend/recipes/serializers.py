@@ -3,7 +3,7 @@ from .models import Recipe, Ingredient, Amount
 from django.db import transaction
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('testlogger')
 
 class AmountSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,12 +27,19 @@ class RecipeSerializer(serializers.ModelSerializer):
         new_ingredients = []
         with transaction.atomic():
             recipe = Recipe.objects.create(**validated_data)
+            logger.error("recipe")
+            logger.error(recipe)
             for ingredient_data in ingredients_data:
-                ingredient, created = Ingredient.objects.get_or_create(name=ingredient_data['name'], recipe=recipe)
+                name = ingredient_data.pop('name')
+                ingredient, created = Ingredient.objects.get_or_create(name=name, defaults=ingredient_data)
+                logger.error("ingredient")
+                logger.error(ingredient)
                 new_ingredients.append(ingredient)
                 amount_data = ingredient_data['amount_set']['first']
                 Amount.objects.create(recipe=recipe, ingredient=ingredient, amount=amount_data['amount'], unit=amount_data['unit'])
-        recipe.ingredients.set(new_ingredients)
+            logger.error("new_ingredients")
+            logger.error(new_ingredients)
+            recipe.ingredients.set(new_ingredients)
         return recipe
 
 
