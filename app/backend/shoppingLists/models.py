@@ -1,5 +1,5 @@
 from django.db import models
-from recipes.models import MealPlan
+from mealPlans.models import MealPlan
 
 UNITS = [
         ('kg', 'Kilogram'),
@@ -14,7 +14,7 @@ UNITS = [
 class ShoppingList(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    meal_plan = models.OneToOneField(MealPlan, on_delete=models.CASCADE)
+    meal_plan = models.OneToOneField(MealPlan, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
