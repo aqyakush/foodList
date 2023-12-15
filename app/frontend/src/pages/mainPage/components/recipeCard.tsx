@@ -31,8 +31,8 @@ const RecipeCard: React.FC<RecipeProps> = ({ recipe }) => {
             <RecipeTitle>{recipe.name}</RecipeTitle>
             Ingredients:
             <IngredientList>
-                {recipe.ingredients.map((ingredient) => (
-                    <IngredientItem key={ingredient.name}>{ingredient.name} {ingredient.amount?.amount} {ingredient.amount?.unit}</IngredientItem>
+                {recipe.amount_set.map((amount) => (
+                    <IngredientItem key={amount.ingredient.name}>{amount.ingredient.name} {amount.amount} {amount.unit}</IngredientItem>
                 ))}
             </IngredientList>
             <p>{recipe.description}</p>

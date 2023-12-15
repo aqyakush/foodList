@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -10,12 +10,12 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
 
     def __str__(self):
         return self.name
 
-class Amount(models.Model):
+class RecipeIngredient(models.Model):
     UNITS = [
         ('kg', 'Kilogram'),
         ('g', 'Gram'),
@@ -35,4 +35,4 @@ class Amount(models.Model):
         unique_together = ('recipe', 'ingredient')
 
     def __str__(self):
-        return self.name
+        return f"{self.amount} {self.unit}"

@@ -1,9 +1,9 @@
-import { Ingredient } from "./ingredient"
+import { Amount } from "./amount"
 
 export type Recipe = {
     id: number,
     name: string,
     description: string,
-    ingredients: Array<Ingredient>
+    amount_set: Array<Amount>
 }
   

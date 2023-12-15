@@ -53,7 +53,7 @@ const CreateRecipe: React.FC<CreateRecipeProps> = ({refetch}) => {
     
     const { fields, remove, append } = useFieldArray({
         control,
-        name: 'ingredients',
+        name: 'amount_set',
       });
     
     const { postData }  = usePostFetch<Recipe>(`${API_URL}${RECIPES_QUERY}`);
@@ -65,7 +65,7 @@ const CreateRecipe: React.FC<CreateRecipeProps> = ({refetch}) => {
             reset({
                 name: '',
                 description: '',
-                ingredients: [],
+                amount_set: [],
               });
             refetch();
         } catch (error) {
@@ -117,30 +117,30 @@ const CreateRecipe: React.FC<CreateRecipeProps> = ({refetch}) => {
                         }}>✖</RemoveButton>
                         <ListItem key={field.id}>
                             <InputField control={control} 
-                                        name={`ingredients.${index}.name`} 
+                                        name={`amount_set.${index}.ingredient.name`} 
                                         label="Name:" 
                                         rules={{ required: true }} 
-                                        error={errors.ingredients?.[index]?.name}
-                                        defaultValue={field.name}/>
+                                        error={errors.amount_set?.[index]?.ingredient?.name}
+                                        defaultValue={field.ingredient.name}/>
                             <InputField control={control} 
-                                        name={`ingredients.${index}.amount.amount`} 
+                                        name={`amount_set.${index}.amount`} 
                                         label="Amount:" 
                                         rules={{ required: true }} 
-                                        error={errors.ingredients?.[index]?.amount?.amount}
-                                        defaultValue={field.amount.amount}/>
+                                        error={errors.amount_set?.[index]?.amount}
+                                        defaultValue={field.amount}/>
                             <DropdownSelect 
                                         control={control} 
-                                        name={`ingredients.${index}.amount.unit`} 
+                                        name={`amount_set.${index}.unit`} 
                                         label="Unit:" 
                                         rules={{ required: true }} 
-                                        error={errors.ingredients?.[index]?.amount?.unit}
-                                        defaultValue={field.amount.unit}
+                                        error={errors.amount_set?.[index]?.unit}
+                                        defaultValue={field.unit}
                                         selectOptions={UNIT_OPTIONS}/>
                         </ListItem></div>
                     ))}
                 </ul>
             </div>
-        )}, [fields, remove, control, errors.ingredients]);
+        )}, [fields, remove, control, errors.amount_set]);
 
 
     return (
@@ -161,7 +161,7 @@ const CreateRecipe: React.FC<CreateRecipeProps> = ({refetch}) => {
                     error={errors.description}
                 />
                 {ingredients}
-                <Button buttonType="secondary" onClick={() => append({ name: '', amount: { amount: 0, unit: ''} })}>
+                <Button buttonType="secondary" onClick={() => append({ amount: 0, unit: '', ingredient: { name: ''} })}>
                     Add Ingredient
                 </Button>
                 <ButtonContainer>

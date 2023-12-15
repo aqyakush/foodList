@@ -6,7 +6,7 @@ RUN mkdir /backend
 # where your code lives  
 WORKDIR /backend  
 
-ENV PYTHONUNBUFFERED 1  
+ENV PYTHONUNBUFFERED 1
 
 # copy whole project to your docker home directory. 
 COPY . /backend 

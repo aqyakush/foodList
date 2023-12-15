@@ -18,6 +18,7 @@ spec:
       - name: {{ .Chart.Name }}
         image: {{ .Values.image.repository }}:{{ .Values.image.version }}
         imagePullPolicy: {{ .Values.image.pullPolicy}}
+        tty: true
         ports:
         - containerPort: {{ .Values.service.targetPort }}
           name: {{ .Values.service.name }}
