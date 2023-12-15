@@ -1,10 +1,14 @@
 from rest_framework import serializers
-from .models import ShoppingList
-from recipes.models import Ingredient
+from .models import ShoppingList, Item
+
+class ItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ['name']
 
 class ShoppingListSerializer(serializers.ModelSerializer):
-    ingredients = serializers.PrimaryKeyRelatedField(many=True, queryset=Ingredient.objects.all())
+    items = ItemSerializer(source='item_set', many=True, read_only=True)
 
     class Meta:
         model = ShoppingList
-        fields = '__all__'
+        fields = ['name', 'meal_plan', 'items']

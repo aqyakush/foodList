@@ -17,7 +17,7 @@ sleep 1
 minikube image rm frontend:v0.12
 
 # Build the Docker image for the frontend
-sudo docker build -t frontend:v0.12 ~/Projects/foodList/app/frontend/.
+sudo docker build -t frontend:v0.12 ~/test/foodList/app/frontend/.
 
 # Load the Docker image into Minikube 
 minikube image load frontend:v0.12 &
@@ -30,7 +30,7 @@ wait $pid
 echo "The load frontend to minikube has finished."
 
 # Create a Kubernetes deployment and service for the frontend
-helm install frontend ~/Projects/foodList/charts/frontend
+helm install frontend ~/test/foodList/charts/frontend
 
 # Get the URL of the frontend
 minikube service list
