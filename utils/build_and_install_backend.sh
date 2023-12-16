@@ -10,6 +10,12 @@ wait $pid
 # Continue with the next command
 echo "The delete backed has finished."
 
+# Get the pod name
+pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | grep '^backend')
+
+# Wait for the pod to terminate
+kubectl wait --for=delete pod/$pod_name
+
 # Delete the Docker image for the backend from Minikube
 minikube image rm backend:v0.3
 
