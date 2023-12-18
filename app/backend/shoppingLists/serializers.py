@@ -4,10 +4,10 @@ from .models import ShoppingList, Item
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['name']
+        fields = ['name', 'shopping_list']
 
 class ShoppingListSerializer(serializers.ModelSerializer):
-    items = ItemSerializer(source='item_set', many=True, read_only=True)
+    items = ItemSerializer(many=True, read_only=True)
 
     class Meta:
         model = ShoppingList

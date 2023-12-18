@@ -1,10 +1,8 @@
-from django.http import JsonResponse
 from rest_framework import generics
 from django.db.models import Q
-from .models import Ingredient, Recipe, RecipeIngredient
+from .models import Ingredient, Recipe
 from .serializers import RecipeSerializer, IngredientSerializer
 import logging
-from django.db import transaction
 
 from rest_framework import generics
 

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Flush the database
+pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | grep '^backend')
+
+echo yes | kubectl exec -ti $pod_name -- python manage.py flush
+
 # Replace with your actual API endpoint
 RECIPES_URL="http://192.168.49.2/api/recipes/"
 
@@ -203,3 +208,12 @@ do
   # Send PATCH request to add a recipe to the meal plan
   curl -X PATCH -H "Content-Type: application/json" -d "$ADD_RECIPE_DATA" $MEALPLAN_ID_URL
 done
+
+CREATE_SHOPPING_LIST_URL="http://192.168.49.2/api/shoppingLists/shoppinglist_from_mealplan/"
+
+CREATE_SHOPPING_LIST_DATA='{
+  "meal_plan_id": '$MEALPLAN_ID',
+  "meal_plan_name": "Weekly Shopping List"
+}'
+
+curl -s -X POST -H "Content-Type: application/json" -d "$CREATE_SHOPPING_LIST_DATA" $CREATE_SHOPPING_LIST_URL
