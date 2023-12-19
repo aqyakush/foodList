@@ -21,7 +21,7 @@ const MealPlanPage = () => {
     return (
         <CenterDiv>
             {data?.map((mealPlan) => (
-                <MealPlanCard mealPlan={mealPlan} />
+                <MealPlanCard mealPlan={mealPlan} refetchMealPlan={refetch} />
             ))}
             <CreateMealPlanCard refetch={refetch}/>
         </CenterDiv>

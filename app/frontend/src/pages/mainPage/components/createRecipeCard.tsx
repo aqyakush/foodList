@@ -19,7 +19,8 @@ const ButtonContainer = styled.div`
   width: 100%;
 `;
 
-const RemoveButton = styled.button`
+// TODO: make a common component for this
+export const RemoveButton = styled.button`
   background-color: transparent;
   color: red;
   border: none;
