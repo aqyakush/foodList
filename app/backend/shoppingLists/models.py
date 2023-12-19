@@ -9,10 +9,11 @@ UNITS = [
         ('tbsp', 'Tablespoon'),
         ('tsp', 'Teaspoon'),
         ('piece', 'Piece'),
+        ('cup', 'Cup'),
+        ('unit', 'Unit'),
     ]
 
 class ShoppingList(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     meal_plan = models.OneToOneField(MealPlan, on_delete=models.CASCADE, null=True)
 

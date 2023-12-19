@@ -16,6 +16,8 @@ pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | gr
 # Wait for the pod to terminate
 kubectl wait --for=delete pod/$pod_name
 
+sleep 1
+
 # Delete the Docker image for the backend from Minikube
 minikube image rm backend:v0.3
 

@@ -24,6 +24,8 @@ class RecipeIngredient(models.Model):
         ('tbsp', 'Tablespoon'),
         ('tsp', 'Teaspoon'),
         ('piece', 'Piece'),
+        ('cup', 'Cup'),
+        ('unit', 'Unit'),
     ]
 
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)

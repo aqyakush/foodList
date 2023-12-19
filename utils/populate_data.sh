@@ -186,7 +186,7 @@ MEALPLAN_URL="http://192.168.49.2/api/mealPlans/"
 # JSON data for mealplan
 MEALPLAN_DATA='{
   "name": "January meal plan",
-  "beginning_date": "2023-01-01",
+  "start_date": "2023-01-01",
   "end_date": "2023-01-31"
 }'
 

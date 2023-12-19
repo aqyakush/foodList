@@ -32,7 +32,7 @@ const CreateMealPlanCard: React.FC<CreateMealPlanCardProps> = ({refetch}) => {
 
     const onSubmit = (data: MealPlan) => {
         try {
-            if (data.beginning_date && isValid(data.beginning_date)) {
+            if (data.start_date && isValid(data.start_date)) {
                 // @ts-ignore-error FIXME: Type 'Date' is not assignable to type 'string'.
                 data.beginning_date = format(data.beginning_date, 'yyyy-MM-dd'); // Format the date here
             }
@@ -44,7 +44,7 @@ const CreateMealPlanCard: React.FC<CreateMealPlanCardProps> = ({refetch}) => {
             // Handle successful creation of mealPlan
             reset({
                 name: '',
-                beginning_date: undefined,
+                start_date: undefined,
                 end_date: undefined,
                 recipes: [],
               });
@@ -69,7 +69,7 @@ const CreateMealPlanCard: React.FC<CreateMealPlanCardProps> = ({refetch}) => {
                     name="beginning_date" 
                     label="Start date" 
                     rules={{ required: true }}
-                    error={errors.beginning_date}/>
+                    error={errors.start_date}/>
                 <DateField 
                     control={control} 
                     name="end_date" 

@@ -40,7 +40,7 @@ const ListItem = styled.li`
   list-style-type: none;
 `;
 
-const UNIT_OPTIONS = ['kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece'];
+const UNIT_OPTIONS = ['kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece','unit','cup'];
 
 type CreateRecipeProps = {
     refetch: () => void;
