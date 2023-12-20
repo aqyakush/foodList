@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
+import { useNotification } from '../../components/Notifications/useNotification';
 
 const usePatchFetch = <T, U>(url: string) => {
+    const addNotification = useNotification();
     const [data, setData] = useState<U | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -25,7 +27,9 @@ const usePatchFetch = <T, U>(url: string) => {
                 setData(responseData);
             } catch (error: any) {
                 setError(error);
+                addNotification(`Failed to patch data ${error.message}`, 'error');
             } finally {
+                addNotification('Data fetched successfully', 'success');
                 setIsLoading(false);
             }
         };

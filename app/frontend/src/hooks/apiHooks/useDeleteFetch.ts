@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNotification } from '../../components/Notifications/useNotification';
 
 const useDeleteFetch = () => {
+    const addNotification = useNotification();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
     const [data, setData] = useState(null);
@@ -21,8 +23,9 @@ const useDeleteFetch = () => {
                 setData(responseData);
             } catch (error: any) {
                 setError(error);
+                addNotification(`Failed to patch data ${error.message}`, 'error');
             }
-
+            addNotification('Data deleted successfully', 'success');
             setIsLoading(false);
         };
 

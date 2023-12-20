@@ -6,17 +6,23 @@ import SearchRecipe from './pages/mainPage';
 import Test from './pages/test';
 import NavBar from './components/Navigation';
 import MealPlanPage from './pages/mealPlanPage';
+import NotificationProvider from './components/Notifications/NotificationProvider';
+import Notifications from './components/Notifications/Notifications';
 
 function App() {
   return (
-    <BrowserRouter>
-    <NavBar />
-      <Routes>
-        <Route path="/" element={<SearchRecipe />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/mealPlans" element={<MealPlanPage />} />
-      </Routes>
-    </BrowserRouter>
+    <NotificationProvider>
+      <BrowserRouter>
+      <NavBar />
+        <Routes>
+          <Route path="/" element={<SearchRecipe />} />
+          <Route path="/test" element={<Test />} />
+          <Route path="/mealPlans" element={<MealPlanPage />} />
+        </Routes>
+      </BrowserRouter>
+      <Notifications />
+    </NotificationProvider>
+    
   );
 }
 
