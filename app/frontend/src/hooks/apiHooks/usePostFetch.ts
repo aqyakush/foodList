@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
+import { useNotification } from '../../components/Notifications/useNotification';
 
 const usePostFetch = <T>(url: string) => {
+    const addNotification = useNotification();
     const [response, setResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -20,9 +22,11 @@ const usePostFetch = <T>(url: string) => {
                 }
                 const responseData = await response.json();
                 setResponse(responseData);
-                setIsLoading(false);
-            } catch (err: any) {
-                setError(err.message);
+                addNotification('Created successfully', 'success');
+            } catch (error: any) {
+                setError(error.message);
+                addNotification(`Failed to create ${error.message}`, 'error');
+            } finally {
                 setIsLoading(false);
             }
         };

@@ -18,9 +18,9 @@ const useFetch = <T>(url: string, params?: string) => {
                 }
                 const data: T = await response.json();
                 setData(data);
-                setIsLoading(false);
             } catch (err: any) {
                 setError(err.message);
+            } finally {
                 setIsLoading(false);
             }
         };

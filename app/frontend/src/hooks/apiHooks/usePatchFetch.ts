@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNotification } from '../../components/Notifications/useNotification';
+import { fi } from 'date-fns/locale';
 
 const usePatchFetch = <T, U>(url: string) => {
     const addNotification = useNotification();
@@ -25,11 +26,11 @@ const usePatchFetch = <T, U>(url: string) => {
                 }
                 const responseData: U = await response.json();
                 setData(responseData);
+                addNotification('Data fetched successfully', 'success');
             } catch (error: any) {
                 setError(error);
                 addNotification(`Failed to patch data ${error.message}`, 'error');
             } finally {
-                addNotification('Data fetched successfully', 'success');
                 setIsLoading(false);
             }
         };
