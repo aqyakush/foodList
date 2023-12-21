@@ -21,4 +21,4 @@ jobs:
         context: .
         push: false
         tags: backend:v3.0
-        dockerfile: ${{ github.workspace }}/app/backend/Dockerfile
+        dockerfile: ./home/runner/work/foodList/foodList/app/backend/Dockerfile
