@@ -21,4 +21,4 @@ jobs:
         context: .
         push: false
         tags: backend:v3.0
-        dockerfile: ./app/backend/Dockerfile
+        dockerfile: ${{ github.workspace }}/app/backend/Dockerfile
