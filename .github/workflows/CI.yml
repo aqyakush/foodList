@@ -27,15 +27,13 @@ jobs:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IGNORE_GITIGNORED_FILES: true
-          VALIDATE_PYTHON_BLACK: true
-          VALIDATE_SHELL_SHELLCHECK: true
-          VALIDATE_TYPESCRIPT_ESLINT: true
+          VALIDATE_CSS: true
           VALIDATE_DOCKERFILE_HADOLINT: true
+          VALIDATE_GITHUB_ACTIONS: true
+          VALIDATE_GITLEAKS: true
+          VALIDATE_JSON: true
           VALIDATE_KUBERNETES_KUBECONFORM: true
-          VALIDATE_SECRETS_GITLEAKS: true
-          VALIDATE_MARKDOWN_MARKDOWNLINT: true
-          VALIDATE_YAML_YAMLLINT: true
-          VALIDATE_JSON_JSONLINT: true
-          VALIDATE_COPYPASTEDETECTION_CPD: true
-
-          
+          VALIDATE_PYTHON_FLAKE8: true
+          VALIDATE_TSX: true
+          VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_YAML: true
