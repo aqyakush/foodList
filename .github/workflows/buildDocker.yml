@@ -21,4 +21,4 @@ jobs:
         context: .
         push: false
         tags: backend:v3.0
-        dockerfile: ./foodList/app/backend/Dockerfile
+        dockerfile: ./app/backend/Dockerfile
