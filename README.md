@@ -1,3 +1,5 @@
+[![Super-Linter](https://github.com/aqyakush/foodList/actions/workflows/CI.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 # foodList
 Application to keep track of your favourite recepies
 
