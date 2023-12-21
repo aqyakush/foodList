@@ -18,6 +18,6 @@ jobs:
     - name: Build Docker images
       uses: docker/build-push-action@v2
       with:
-        context: ./home/runner/work/foodList/foodList/app/backend
+        context: ./app/backend
         push: false
         tags: backend:v3.0
