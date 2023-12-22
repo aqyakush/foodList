@@ -30,7 +30,7 @@ jobs:
         context: ./app/backend
         push: true
         tags: |
-            ghcr.io/${{ github.repository_owner }}/backend:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/backend:v0.3
     
     ## builds and pushes the frontend image to ghcr
     - name: Build Docker frontend image
@@ -39,7 +39,7 @@ jobs:
         context: ./app/frontend
         push: false
         tags: |
-            ghcr.io/${{ github.repository_owner }}/frontend:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/frontend:v0.12
 
     - name: Testing on a k8s Kind Cluster
       uses: helm/kind-action@v1.4.0
@@ -49,3 +49,13 @@ jobs:
         kubectl get nodes
         helm version
         ls -la
+
+    - name : deploy frontend app to k8s cluster
+      run: |
+        helm install frontend /charts/frontend
+        kubectl get pods
+    
+    - name : deploy backend app to k8s cluster
+      run: |
+        helm install backend /charts/backend
+        kubectl get pods
