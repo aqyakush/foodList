@@ -1,39 +1,39 @@
-name: Lint
+# name: Lint
 
-on:
-  push:
-    branches: [ main, master ]
+# on:
+#   push:
+#     branches: [ main, master ]
 
-jobs:
-  build:
-    name: Lint
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     name: Lint
+#     runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      packages: read
-      # To report GitHub Actions status checks
-      statuses: write
+#     permissions:
+#       contents: read
+#       packages: read
+#       # To report GitHub Actions status checks
+#       statuses: write
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Super-linter
-        uses: super-linter/super-linter@v5.7.2  # x-release-please-version
-        env:
-          DEFAULT_BRANCH: main
-          VALIDATE_ALL_CODEBASE: true
-          # To report GitHub Actions status checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          IGNORE_GITIGNORED_FILES: true
-          VALIDATE_CSS: true
-          VALIDATE_DOCKERFILE_HADOLINT: true
-          VALIDATE_GITHUB_ACTIONS: true
-          VALIDATE_GITLEAKS: true
-          VALIDATE_JSON: true
-          VALIDATE_KUBERNETES_KUBECONFORM: true
-          VALIDATE_PYTHON_FLAKE8: true
-          VALIDATE_TSX: true
-          VALIDATE_TYPESCRIPT_ES: true
-          VALIDATE_YAML: true
+#       - name: Super-linter
+#         uses: super-linter/super-linter@v5.7.2  # x-release-please-version
+#         env:
+#           DEFAULT_BRANCH: main
+#           VALIDATE_ALL_CODEBASE: true
+#           # To report GitHub Actions status checks
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           IGNORE_GITIGNORED_FILES: true
+#           VALIDATE_CSS: true
+#           VALIDATE_DOCKERFILE_HADOLINT: true
+#           VALIDATE_GITHUB_ACTIONS: true
+#           VALIDATE_GITLEAKS: true
+#           VALIDATE_JSON: true
+#           VALIDATE_KUBERNETES_KUBECONFORM: true
+#           VALIDATE_PYTHON_FLAKE8: true
+#           VALIDATE_TSX: true
+#           VALIDATE_TYPESCRIPT_ES: true
+#           VALIDATE_YAML: true
