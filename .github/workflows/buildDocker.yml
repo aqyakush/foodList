@@ -1,4 +1,7 @@
 name: Docker Build
+permissions:
+      contents: read
+      packages: write
 
 on:
   push:
