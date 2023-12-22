@@ -44,7 +44,8 @@ jobs:
     - name: Testing on a k8s Kind Cluster
       uses: helm/kind-action@v1.4.0
       ## makes sure cluster is up and running
-      run: |
-          kubectl cluster-info
-          kubectl get nodes
-          helm version
+    - run: |
+        kubectl cluster-info
+        kubectl get nodes
+        helm version
+        ls -la
