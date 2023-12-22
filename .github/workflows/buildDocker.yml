@@ -52,10 +52,12 @@ jobs:
 
     - name : deploy frontend app to k8s cluster
       run: |
-        helm install frontend ./charts/frontend
+        helm install frontend ./charts/frontend'
+        kubectl wait --for=condition=Ready pods --all --timeout=60s
         kubectl get pods
     
     - name : deploy backend app to k8s cluster
       run: |
         helm install backend ./charts/backend
+        kubectl wait --for=condition=Ready pods --all --timeout=60s
         kubectl get pods
