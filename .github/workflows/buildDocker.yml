@@ -29,7 +29,8 @@ jobs:
       with:
         context: ./app/backend
         push: true
-        tags: backend:v3.0
+        tags: |
+            ghcr.io/${{ github.repository_owner }}/backend:v3.0
     
         ## builds and pushes the frontend image to ghcr
     - name: Build Docker frontend image
@@ -37,4 +38,5 @@ jobs:
       with:
         context: ./app/frontend
         push: false
-        tags: frontend:v0.12
+        tags: |
+            ghcr.io/${{ github.repository_owner }}/frontend:v0.12
