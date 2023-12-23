@@ -46,9 +46,6 @@ jobs:
       ## makes sure cluster is up and running
     - run: |
         kubectl cluster-info
-        kubectl get nodes
-        helm version
-        ls -la
 
     - name : deploy frontend app to k8s cluster
       run: |
@@ -75,7 +72,10 @@ jobs:
     - name: Testing the app
       run: |
         # curl -i http://localhost:3000/
-        chmod +x ./utils/wait_for_ingress.sh
-        ./utils/wait_for_ingress.sh
-        address=$(kubectl get ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
-        curl -i http://$address/
+        # chmod +x ./utils/wait_for_ingress.sh
+        # ./utils/wait_for_ingress.sh
+        # address=$(kubectl get ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
+        # curl -i http://$address/
+        kubectl get ns
+        kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
+        curl -i http://localhost:8080/
