@@ -54,12 +54,14 @@ jobs:
       run: |
         helm install frontend ./charts/frontend
         pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | grep '^frontend')
-        kubectl wait --for=condition=Running pod/$pod_name --timeout=60s
+        kubectl get pods
+        kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
         kubectl get pods
     
     - name : deploy backend app to k8s cluster
       run: |
         helm install backend ./charts/backend
         pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | grep '^backend')
-        kubectl wait --for=condition=Running pod/$pod_name --timeout=60s
+        kubectl get pods
+        kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
         kubectl get pods
