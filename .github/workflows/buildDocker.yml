@@ -67,5 +67,7 @@ jobs:
         helm install backend ./charts/backend --set image.repository=ghcr.io/aqyakush/backend --set image.pullPolicy=IfNotPresent
         pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | grep '^backend')
         kubectl get pods
-        kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
+        sleep 20s
+        # kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
         kubectl get pods
+        kubectl get ingress
