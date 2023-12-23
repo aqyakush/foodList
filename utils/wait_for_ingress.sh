@@ -6,6 +6,7 @@ while true; do
   if [ -z "$ADDRESS" ]; then
     echo "Waiting for Ingress to get an address..."
     kubectl describe ingress foodlist-ingress
+    kubectl get all
     sleep 10
   else
     echo "Ingress has address: $ADDRESS"
