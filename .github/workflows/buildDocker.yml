@@ -75,6 +75,7 @@ jobs:
     - name: Testing the app
       run: |
         # curl -i http://localhost:3000/
+        chmod +x ./utils/wait_for_ingress.sh
         ./utils/wait_for_ingress.sh
         address=$(kubectl get ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
         curl -i http://$address/
