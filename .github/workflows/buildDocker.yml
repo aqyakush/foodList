@@ -76,6 +76,7 @@ jobs:
         # ./utils/wait_for_ingress.sh
         # address=$(kubectl get ingress -o jsonpath='{.items[0].status.loadBalancer.ingress[0].ip}')
         # curl -i http://$address/
+        sleep 120s
         kubectl get ns
         kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
         curl -i http://localhost:8080/
