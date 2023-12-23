@@ -21,7 +21,8 @@ class MealPlanDetail(generics.RetrieveUpdateDestroyAPIView):
 
         mealPlan.recipes.add(recipe)
 
-        return Response(MealPlanSerializer(mealPlan).data, status=status.HTTP_200_OK)
+        return Response(MealPlanSerializer(mealPlan).data,
+                        status=status.HTTP_200_OK)
 
 
 class RemoveRecipeFromMealPlanView(views.APIView):

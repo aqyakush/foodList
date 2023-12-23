@@ -19,7 +19,8 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    amount_set = RecipeIngredientSerializer(many=True, source='recipeingredient_set')
+    amount_set = RecipeIngredientSerializer(many=True,
+                                            source='recipeingredient_set')
 
     class Meta:
         model = Recipe
@@ -34,6 +35,13 @@ class RecipeSerializer(serializers.ModelSerializer):
             recipe = Recipe.objects.create(**validated_data)
             for recipeingredient_data in recipeingredient_set_data:
                 ingredient_data = recipeingredient_data.pop('ingredient')
-                ingredient, created = Ingredient.objects.get_or_create(name=ingredient_data['name'])
-                RecipeIngredient.objects.create(recipe=recipe, ingredient=ingredient, **recipeingredient_data)
+                ingredient, created = \
+                    Ingredient.objects.get_or_create(
+                        name=ingredient_data['name'])
+                RecipeIngredient.objects.create(
+                    recipe=recipe,
+                    ingredient=ingredient,
+                    **recipeingredient_data
+                )
         return recipe
+

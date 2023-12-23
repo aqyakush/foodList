@@ -11,7 +11,8 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
+    ingredients = models.ManyToManyField(Ingredient,
+                                         through='RecipeIngredient')
 
     def __str__(self):
         return self.name

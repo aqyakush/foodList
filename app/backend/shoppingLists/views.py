@@ -46,23 +46,27 @@ class ShoppingListFromMealPlan(APIView):
         }
 
         # Create a new ShoppingList instance
-        shopping_list, created = ShoppingList.objects.get_or_create(meal_plan=meal_plan, defaults=default_values)
+        shopping_list, created = ShoppingList.objects.get_or_create(
+            meal_plan=meal_plan, defaults=default_values)
         logger.error("shopping list created")
         logger.error(meal_plan.recipes.all())
-        # Populate the ShoppingList with ShoppingListItem instances for each ingredient in the meal plan
+        # Populate the ShoppingList with ShoppingListItem instances for 
+        # each ingredient in the meal plan
         for recipe in meal_plan.recipes.all():
             for ingredient in recipe.ingredients.all():
                 try:
-                    item = Item.objects.get(shopping_list=shopping_list, name=ingredient.name)
+                    item = Item.objects.get(shopping_list=shopping_list,
+                                            name=ingredient.name)
                     item.delete()  # If it does, delete it
                 except Item.DoesNotExist:
                     pass  # If it doesn't, do nothing
                 # Create a new item
-                item = Item.objects.create(shopping_list=shopping_list, name=ingredient.name)
+                item = Item.objects.create(shopping_list=shopping_list,
+                                           name=ingredient.name)
                 item = Item.objects.get(id=item.id)
                 logger.error("item created")
                 logger.error(item)
                 logger.error("item and fetched")
 
-        return Response({'shopping_list_id': shopping_list.id}, status=status.HTTP_201_CREATED)
-    
+        return Response({'shopping_list_id': shopping_list.id},
+                        status=status.HTTP_201_CREATED)
