@@ -4,9 +4,11 @@ from .models import MealPlan, Recipe
 from .serializers import MealPlanSerializer
 from rest_framework.response import Response
 
+
 class MealPlanList(generics.ListCreateAPIView):
     queryset = MealPlan.objects.all()
     serializer_class = MealPlanSerializer
+
 
 class MealPlanDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MealPlan.objects.all()
@@ -21,6 +23,7 @@ class MealPlanDetail(generics.RetrieveUpdateDestroyAPIView):
 
         return Response(MealPlanSerializer(mealPlan).data, status=status.HTTP_200_OK)
 
+
 class RemoveRecipeFromMealPlanView(views.APIView):
     def delete(self, request, meal_plan_id, recipe_id):
         meal_plan = get_object_or_404(MealPlan, id=meal_plan_id)
@@ -29,7 +32,8 @@ class RemoveRecipeFromMealPlanView(views.APIView):
         meal_plan.recipes.remove(recipe)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
+
+
 class AddRecipeToMealPlanView(views.APIView):
     def post(self, request, meal_plan_id, recipe_id):
         meal_plan = get_object_or_404(MealPlan, id=meal_plan_id)

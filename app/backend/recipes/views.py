@@ -4,9 +4,8 @@ from .models import Ingredient, Recipe
 from .serializers import RecipeSerializer, IngredientSerializer
 import logging
 
-from rest_framework import generics
-
 logger = logging.getLogger(__name__)
+
 
 class RecipeList(generics.ListCreateAPIView):
     serializer_class = RecipeSerializer
@@ -23,6 +22,7 @@ class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
 
+
 class IngredientList(generics.ListCreateAPIView):
     serializer_class = IngredientSerializer
 
@@ -33,6 +33,7 @@ class IngredientList(generics.ListCreateAPIView):
         if recipe_id is not None:
             queryset = queryset.filter(recipe__id=recipe_id)
         return queryset
+
 
 class IngredientDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Ingredient.objects.all()

@@ -2,24 +2,29 @@ from rest_framework import serializers
 from .models import Recipe, Ingredient, RecipeIngredient
 from django.db import transaction
 
+
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = '__all__'
 
+
 class RecipeIngredientSerializer(serializers.ModelSerializer):
     ingredient = IngredientSerializer()
     recipe = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = RecipeIngredient
         fields = ['ingredient', 'recipe', 'amount', 'unit']
 
+
 class RecipeSerializer(serializers.ModelSerializer):
     amount_set = RecipeIngredientSerializer(many=True, source='recipeingredient_set')
+
     class Meta:
         model = Recipe
         fields = ['name', 'description', 'amount_set', 'id']
-    
+
     def validate(self, data):
         return data
 

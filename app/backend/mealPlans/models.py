@@ -1,6 +1,7 @@
 from django.db import models
 from recipes.models import Recipe
 
+
 class MealPlan(models.Model):
     name = models.CharField(max_length=200)
     start_date = models.DateField()

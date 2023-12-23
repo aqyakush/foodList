@@ -12,9 +12,9 @@ ENV PYTHONUNBUFFERED 1
 COPY . /backend 
 
 # run this command to install all dependencies  
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # port where the Django app runs  
 EXPOSE 8000  
 # start server  
-CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+CMD ["python", "manage.py", "makemigrations", "&&", "python", "manage.py", "migrate", "&&", "python", "manage.py", "runserver", "0.0.0.0:8000"]
