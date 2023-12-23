@@ -55,6 +55,8 @@ jobs:
         helm install frontend ./charts/frontend
         pod_name=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | grep '^frontend')
         kubectl get pods
+        sleep 20s
+        kubectl logs $pod_name
         kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
         kubectl get pods
     
