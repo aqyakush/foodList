@@ -44,4 +44,3 @@ class RecipeSerializer(serializers.ModelSerializer):
                     **recipeingredient_data
                 )
         return recipe
-

@@ -50,7 +50,7 @@ class ShoppingListFromMealPlan(APIView):
             meal_plan=meal_plan, defaults=default_values)
         logger.error("shopping list created")
         logger.error(meal_plan.recipes.all())
-        # Populate the ShoppingList with ShoppingListItem instances for 
+        # Populate the ShoppingList with ShoppingListItem instances for
         # each ingredient in the meal plan
         for recipe in meal_plan.recipes.all():
             for ingredient in recipe.ingredients.all():
