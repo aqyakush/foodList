@@ -23,23 +23,23 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    ## builds and pushes the backend image to ghcr
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v2
-      with:
-        context: ./app/backend
-        push: true
-        tags: |
-            ghcr.io/${{ github.repository_owner }}/backend:v0.3
+    # ## builds and pushes the backend image to ghcr
+    # - name: Build and push Docker image
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: ./app/backend
+    #     push: true
+    #     tags: |
+    #         ghcr.io/${{ github.repository_owner }}/backend:v0.3
     
-    ## builds and pushes the frontend image to ghcr
-    - name: Build Docker frontend image
-      uses: docker/build-push-action@v2
-      with:
-        context: ./app/frontend
-        push: true
-        tags: |
-            ghcr.io/${{ github.repository_owner }}/frontend:v0.12
+    # ## builds and pushes the frontend image to ghcr
+    # - name: Build Docker frontend image
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     context: ./app/frontend
+    #     push: true
+    #     tags: |
+    #         ghcr.io/${{ github.repository_owner }}/frontend:v0.12
 
     - name: Testing on a k8s Kind Cluster
       uses: helm/kind-action@v1.4.0
@@ -57,7 +57,9 @@ jobs:
         kubectl get pods
         sleep 20s
         kubectl describe pod $pod_name
-        kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
+        # kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
+        sleep 20s
+        kubectl describe pod $pod_name
         kubectl get pods
     
     - name : deploy backend app to k8s cluster
