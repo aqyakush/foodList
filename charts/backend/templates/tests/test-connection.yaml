@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: "{{ include 'backend.fullname' . }}-test-connection"
   labels:
-    {{- include "backend.labels" . | nindent 4 }}
+    backend: {{- include "backend.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:

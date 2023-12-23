@@ -9,13 +9,14 @@ from django.shortcuts import get_object_or_404
 
 logger = logging.getLogger(__name__)
 
+
 class ItemListView(generics.ListAPIView):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
 
 class ShoppingListList(generics.ListCreateAPIView):
-    queryset = ShoppingList.objects.all().prefetch_related('items') 
+    queryset = ShoppingList.objects.all().prefetch_related('items')
     serializer_class = ShoppingListSerializer
 
 
@@ -64,4 +65,4 @@ class ShoppingListFromMealPlan(APIView):
                 logger.error("item and fetched")
 
         return Response({'shopping_list_id': shopping_list.id}, status=status.HTTP_201_CREATED)
-        
+    
