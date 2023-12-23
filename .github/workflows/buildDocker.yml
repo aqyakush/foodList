@@ -71,3 +71,7 @@ jobs:
         # kubectl wait --for=condition=Running pod/$pod_name --timeout=200s
         kubectl get pods
         kubectl get ingress
+      
+    - name: Testing the app
+      run: |
+        curl -i http://localhost:3000/
