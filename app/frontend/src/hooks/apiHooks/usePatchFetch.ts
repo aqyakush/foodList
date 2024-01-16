@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { useNotification } from '../../components/Notifications/useNotification';
-import { fi } from 'date-fns/locale';
 
 const usePatchFetch = <T, U>(url: string) => {
     const addNotification = useNotification();

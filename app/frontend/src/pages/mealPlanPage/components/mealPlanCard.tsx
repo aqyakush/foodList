@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { MealPlan } from '../../../types';
+import { MealPlan, MealPlanPatch } from '../../../types';
 import Card from '../../../components/Cards';
 import useFetch from '../../../hooks/apiHooks/useFetch';
 import ShoppingList from '../../../types/shoppingList';
-import { API_URL, MEAL_PLAN_QUERY, RECIPES_QUERY, SHOPPING_LIST_MEAL_PLAN_QUERY, SHOPPING_LIST_QUERY } from '../../../utils/apis';
+import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, RECIPES_QUERY, SHOPPING_LIST_MEAL_PLAN_QUERY, SHOPPING_LIST_QUERY } from '../../../utils/apis';
 import useDeleteFetch from '../../../hooks/apiHooks/useDeleteFetch';
 import { RemoveButton } from '../../mainPage/components/createRecipeCard';
+import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
+import AddRecipeSelection from './addRecipeSelection';
 
 type MealPlanCardProps = {
     mealPlan: MealPlan;
@@ -45,6 +47,13 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
 
     const { deleteItem } = useDeleteFetch();
 
+    const { patchItem } = usePatchFetch<MealPlanPatch, MealPlan>(MEAL_PLAN_URL);
+ 
+    const handleAddToMealPlan = (recipeId: number, mealPlanId: string) => {
+        patchItem({ 'recipe_id' : recipeId}, mealPlanId);
+        refetchMealPlan();
+    };
+
     const handleToggle = () => {
         if (!toggle) {
             refetch();
@@ -74,14 +83,15 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
                     </RecipeRow>
                 ))}
             </RecipeList>
-            <button onClick={handleToggle}>{toggle ? 'Hide Shopping List' : 'Show Shopping List'}</button>
+            <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()}/>
+            {/* <button onClick={handleToggle}>{toggle ? 'Hide Shopping List' : 'Show Shopping List'}</button>
             {toggle && shoppingList && (
                 <div>
                     <h2>Shopping List:</h2>
                     {shoppingList.name}
                     {shoppingList.items?.map((item) => (<div>{item.name}</div>))}
                 </div>
-            )}      
+            )}       */}
         </Card>
     );
 };

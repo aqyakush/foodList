@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import useFetch from '../../../hooks/apiHooks/useFetch';
 import { MealPlan, MealPlanPatch } from '../../../types';
-import { API_URL, MEAL_PLAN_QUERY } from '../../../utils/apis';
+import { MEAL_PLAN_URL } from '../../../utils/apis';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 
 type MealPlanDropdownProps = { 
   recipeId: number;
 };
-
-const MEAL_PLAN_URL = `${API_URL}${MEAL_PLAN_QUERY}`;
 
 const MealPlanDropdown: React.FC<MealPlanDropdownProps> = ({ recipeId }) => {
   const { data, isLoading } = useFetch<MealPlan[]>(MEAL_PLAN_URL);
