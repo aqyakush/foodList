@@ -41,6 +41,15 @@ const RecipeRow = styled.div`
     justify-content: flex-start;
 `;
 
+const StyledLink = styled(Link)`
+    color: blue;
+    text-decoration: none;
+
+    &:visited {
+        color: blue;
+    }
+`;
+
 const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }) => {
     const [toggle, setToggle] = useState(false);
     const [shoppingList, setShoppingList] = useState<ShoppingList>();
@@ -82,7 +91,7 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
                             handleDelete(mealPlan.id, recipe.id)
                         }}>✖</RemoveButton>
                         <RecipeItem key={recipe.name}>
-                            <Link to={`/recipes/?name=${recipe.name}`}>{recipe.name}</Link>
+                            <StyledLink to={`/recipes/?name=${recipe.name}`}>{recipe.name}</StyledLink>
                         </RecipeItem>
                     </RecipeRow>
                 ))}
