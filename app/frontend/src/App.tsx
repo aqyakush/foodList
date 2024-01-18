@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import SearchRecipe from './pages/mainPage';
 import Test from './pages/test';
@@ -15,7 +15,8 @@ function App() {
       <BrowserRouter>
       <NavBar />
         <Routes>
-          <Route path="/" element={<SearchRecipe />} />
+          <Route path="/recipes" element={<SearchRecipe />} />
+          <Route path="*" element={<RedirectToRecipes />} />
           <Route path="/test" element={<Test />} />
           <Route path="/mealPlans" element={<MealPlanPage />} />
         </Routes>
@@ -24,6 +25,16 @@ function App() {
     </NotificationProvider>
     
   );
+}
+
+const RedirectToRecipes = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/recipes');
+  }, [navigate]);
+
+  return null;
 }
 
 export default App;
