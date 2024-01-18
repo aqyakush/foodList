@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MealPlan, MealPlanPatch } from '../../../types';
 import Card from '../../../components/Cards';
 import useFetch from '../../../hooks/apiHooks/useFetch';
 import ShoppingList from '../../../types/shoppingList';
-import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, RECIPES_QUERY, SHOPPING_LIST_MEAL_PLAN_QUERY, SHOPPING_LIST_QUERY } from '../../../utils/apis';
+import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, RECIPES_QUERY, SHOPPING_LIST_MEAL_PLAN_QUERY } from '../../../utils/apis';
 import useDeleteFetch from '../../../hooks/apiHooks/useDeleteFetch';
 import { RemoveButton } from '../../mainPage/components/createRecipeCard';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import AddRecipeSelection from './addRecipeSelection';
+import { Link } from 'react-router-dom';
+
 
 type MealPlanCardProps = {
     mealPlan: MealPlan;
@@ -79,7 +81,9 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
                         <RemoveButton type="button" onClick={() => {
                             handleDelete(mealPlan.id, recipe.id)
                         }}>✖</RemoveButton>
-                        <RecipeItem key={recipe.name}>{recipe.name}</RecipeItem>
+                        <RecipeItem key={recipe.name}>
+                            <Link to={`/recipes/?name=${recipe.name}`}>{recipe.name}</Link>
+                        </RecipeItem>
                     </RecipeRow>
                 ))}
             </RecipeList>

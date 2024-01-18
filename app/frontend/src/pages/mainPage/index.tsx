@@ -7,11 +7,17 @@ import CenterDiv from '../../components/CenterDiv';
 import RecipeCard from './components/recipeCard';
 import CreateRecipeCard from './components/createRecipeCard';
 import SearchInput from './components/searchInput';
+import { useLocation } from 'react-router-dom';
 
 
 
 const SearchRecipe = () => {
     const { data, setQuery, isLoading, error, refetch } = useFetch<Recipe[]>(`${API_URL}${RECIPES_QUERY}`);
+    const location = useLocation();
+    // Function to parse query parameters
+    const getQueryParam = () => {
+       return new URLSearchParams(location.search).get('name');
+    };
 
     if (isLoading) {
       return (
@@ -23,7 +29,7 @@ const SearchRecipe = () => {
     
     return (
       <CenterDiv>
-        <SearchInput setQuery={setQuery}/>
+        <SearchInput setQuery={setQuery} param={getQueryParam()}/>
         {data?.map((data) => (  
             <RecipeCard recipe={data} />
         ))}

@@ -4,6 +4,7 @@ import { DEBOUNCED_DELAY } from '../../../utils/apis';
 
 interface SearchInputProps {
     setQuery: (query: string) => void;
+    param: string | null;
 }
 
 const StyledInput = styled.input`
@@ -21,8 +22,8 @@ const StyledInput = styled.input`
   }
 `;
 
-const SearchInput: React.FC<SearchInputProps> = ({ setQuery }) => {
-    const [input, setInput] = useState('');
+const SearchInput: React.FC<SearchInputProps> = ({ setQuery, param }) => {
+    const [input, setInput] = useState(param ? param : '');
     const [debouncedInput, setDebouncedInput] = useState('');
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,18 +34,18 @@ const SearchInput: React.FC<SearchInputProps> = ({ setQuery }) => {
         const timerId = setTimeout(() => {
           setDebouncedInput(input);
         }, DEBOUNCED_DELAY); //0.8s delay
-    
+
         return () => {
           clearTimeout(timerId);
         };
-      }, [input]);
+      }, [input, setQuery]);
   
       useEffect(() => {
         debouncedInput ? setQuery(`?name=${debouncedInput}`) : setQuery('');
-      }, [debouncedInput]);
+      }, [debouncedInput, setQuery]);
 
     return (
-        <StyledInput type="text" placeholder="Search for recipes" onChange={handleInputChange}/>
+        <StyledInput type="text" placeholder="Search for recipes" onChange={handleInputChange} value={input}/>
     );
 };
 
