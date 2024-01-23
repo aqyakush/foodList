@@ -53,10 +53,14 @@ class ShoppingListFromMealPlan(APIView):
         # Populate the ShoppingList with ShoppingListItem instances for
         # each ingredient in the meal plan
         for recipe in meal_plan.recipes.all():
+            logger.error("recipe")
+            logger.error(recipe)
             for ingredient in recipe.ingredients.all():
                 try:
                     item = Item.objects.get(shopping_list=shopping_list,
                                             name=ingredient.name)
+                    logger.error("item to delete")
+                    logger.error(item)
                     item.delete()  # If it does, delete it
                 except Item.DoesNotExist:
                     pass  # If it doesn't, do nothing
@@ -64,9 +68,6 @@ class ShoppingListFromMealPlan(APIView):
                 item = Item.objects.create(shopping_list=shopping_list,
                                            name=ingredient.name)
                 item = Item.objects.get(id=item.id)
-                logger.error("item created")
-                logger.error(item)
-                logger.error("item and fetched")
 
         return Response({'shopping_list_id': shopping_list.id},
                         status=status.HTTP_201_CREATED)

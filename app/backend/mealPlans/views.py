@@ -1,8 +1,11 @@
 from rest_framework import generics, views, status
+from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from .models import MealPlan, Recipe
 from .serializers import MealPlanSerializer
 from rest_framework.response import Response
+from rest_framework.viewsets import ViewSet
 
 
 class MealPlanList(generics.ListCreateAPIView):
@@ -10,12 +13,12 @@ class MealPlanList(generics.ListCreateAPIView):
     serializer_class = MealPlanSerializer
 
 
-class MealPlanDetail(generics.RetrieveUpdateDestroyAPIView):
+class MealPlanDetail(ViewSet, generics.RetrieveUpdateDestroyAPIView):
     queryset = MealPlan.objects.all()
     serializer_class = MealPlanSerializer
 
     # TODO: Remove or improve to patch any information about the meal plan
-    def patch(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
         mealPlan = self.get_object()
         recipe = Recipe.objects.get(pk=request.data.get('recipe_id'))
 
@@ -23,6 +26,21 @@ class MealPlanDetail(generics.RetrieveUpdateDestroyAPIView):
 
         return Response(MealPlanSerializer(mealPlan).data,
                         status=status.HTTP_200_OK)
+
+    @action(detail=True)
+    def shoppingList(self, request, *args, **kwargs):
+        mealPlan = self.get_object()
+        shoppingListData = []
+
+        for recipe in mealPlan.recipes.all():
+            for recipe_ingredient in recipe.recipeingredient_set.all():
+                shoppingListData.append({
+                    'name': recipe_ingredient.ingredient.name,
+                    'amount': recipe_ingredient.amount,
+                    'unit': recipe_ingredient.unit
+                })
+
+        return JsonResponse(shoppingListData, safe=False)
 
 
 class RemoveRecipeFromMealPlanView(views.APIView):

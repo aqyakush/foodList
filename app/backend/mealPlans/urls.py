@@ -5,7 +5,10 @@ from .views import AddRecipeToMealPlanView
 
 urlpatterns = [
     path('', MealPlanList.as_view()),
-    path('<int:pk>/', MealPlanDetail.as_view()),
+    path('<int:pk>/', MealPlanDetail.as_view({'patch': 'update'})),
+    path('<int:pk>/shoppinglist/',
+         MealPlanDetail.as_view({'get': 'shoppingList'}),
+         name='mealplan-shoppinglist'),
     path('<int:meal_plan_id>/recipes/<int:recipe_id>/',
          RemoveRecipeFromMealPlanView.as_view(),
          name='remove_recipe_from_mealplan'),

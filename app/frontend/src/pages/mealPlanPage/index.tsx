@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import useFetch from '../../hooks/apiHooks/useFetch';
 import { API_URL, MEAL_PLAN_QUERY } from '../../utils/apis';
 import { MealPlan } from '../../types';

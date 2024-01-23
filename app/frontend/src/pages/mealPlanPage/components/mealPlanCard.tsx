@@ -10,6 +10,7 @@ import { RemoveButton } from '../../mainPage/components/createRecipeCard';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import AddRecipeSelection from './addRecipeSelection';
 import { Link } from 'react-router-dom';
+import ShoppingListSimple from '../../../types/shoppingListSimple';
 
 
 type MealPlanCardProps = {
@@ -52,20 +53,20 @@ const StyledLink = styled(Link)`
 
 const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }) => {
     const [toggle, setToggle] = useState(false);
-    const [shoppingList, setShoppingList] = useState<ShoppingList>();
-    // TODO: Update shopping list when the recipe is added to meal plan
-    const { data, isLoading, refetch } = useFetch<ShoppingList>(`${API_URL}${SHOPPING_LIST_MEAL_PLAN_QUERY}${mealPlan.id}`);
+    const [shoppingList, setShoppingList] = useState<ShoppingListSimple>();
+    const { data, refetch } = useFetch<ShoppingListSimple>(`${API_URL}${MEAL_PLAN_QUERY}${mealPlan.id}/shoppinglist/`);
 
     const { deleteItem } = useDeleteFetch();
 
     const { patchItem } = usePatchFetch<MealPlanPatch, MealPlan>(MEAL_PLAN_URL);
  
-    const handleAddToMealPlan = (recipeId: number, mealPlanId: string) => {
+    const handleAddToMealPlan = React.useCallback((recipeId: number, mealPlanId: string) => {
         patchItem({ 'recipe_id' : recipeId}, mealPlanId);
         refetchMealPlan();
-    };
+        refetch();
+    },[patchItem, refetch, refetchMealPlan]);
 
-    const handleToggle = () => {
+    const handleToggle = React.useCallback(() => {
         if (!toggle) {
             refetch();
             if (data) {
@@ -73,12 +74,21 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
             }
         }
         setToggle(!toggle);
-    };
+    }, [toggle, data, refetch]);
 
-    const handleDelete = async (mealPlanId: number, recipeId:number) => {
+    const handleDelete = React.useCallback( async (mealPlanId: number, recipeId:number) => {
         await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${mealPlanId}/${RECIPES_QUERY}${recipeId}`)
         refetchMealPlan();
-    };
+        refetch();
+    }, [deleteItem, refetch, refetchMealPlan]);
+
+    const shoppingListItems = React.useMemo(() => 
+        toggle && shoppingList && (
+            <div>
+                <h2>Shopping List:</h2>
+                {shoppingList.map((item) => (<div>{item.name} {item.amount} {item.unit}</div>))}
+            </div>
+        ), [toggle, shoppingList]);
 
     return (
         <Card key={mealPlan.name}>
@@ -97,14 +107,8 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
                 ))}
             </RecipeList>
             <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()}/>
-            {/* <button onClick={handleToggle}>{toggle ? 'Hide Shopping List' : 'Show Shopping List'}</button>
-            {toggle && shoppingList && (
-                <div>
-                    <h2>Shopping List:</h2>
-                    {shoppingList.name}
-                    {shoppingList.items?.map((item) => (<div>{item.name}</div>))}
-                </div>
-            )}       */}
+            <button onClick={handleToggle}>{toggle ? 'Hide Shopping List' : 'Show Shopping List'}</button>
+            {shoppingListItems}      
         </Card>
     );
 };
