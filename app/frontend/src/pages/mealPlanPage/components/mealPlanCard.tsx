@@ -62,6 +62,7 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
  
     const handleAddToMealPlan = React.useCallback((recipeId: number, mealPlanId: string) => {
         patchItem({ 'recipe_id' : recipeId}, mealPlanId);
+        setToggle(false);
         refetchMealPlan();
         refetch();
     },[patchItem, refetch, refetchMealPlan]);
@@ -78,6 +79,7 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
 
     const handleDelete = React.useCallback( async (mealPlanId: number, recipeId:number) => {
         await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${mealPlanId}/${RECIPES_QUERY}${recipeId}`)
+        setToggle(false);
         refetchMealPlan();
         refetch();
     }, [deleteItem, refetch, refetchMealPlan]);

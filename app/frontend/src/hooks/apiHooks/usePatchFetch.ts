@@ -25,17 +25,17 @@ const usePatchFetch = <T, U>(url: string) => {
                 }
                 const responseData: U = await response.json();
                 setData(responseData);
-                addNotification('Data fetched successfully', 'success');
+                addNotification('Data Patched', 'Data fetched successfully', 'success');
             } catch (error: any) {
                 setError(error);
-                addNotification(`Failed to patch data ${error.message}`, 'error');
+                addNotification('Error', `Failed to patch data ${error.message}`, 'error');
             } finally {
                 setIsLoading(false);
             }
         };
 
         patchData();
-    }, [url, data]);
+    }, [url, addNotification]);
 
     return { data, isLoading, error, patchItem };
 };

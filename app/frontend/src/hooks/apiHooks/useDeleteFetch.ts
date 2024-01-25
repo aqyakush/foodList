@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNotification } from '../../components/Notifications/useNotification';
-import { fi } from 'date-fns/locale';
 
 const useDeleteFetch = () => {
     const addNotification = useNotification();
@@ -16,16 +15,22 @@ const useDeleteFetch = () => {
                     method: 'DELETE',
                 });
 
+                console.log("response", response)
+
                 if (!response.ok) {
                     throw new Error('Failed to delete data');
                 }
-                
-                const responseData = await response.json();
-                setData(responseData);
-                addNotification('Data deleted successfully', 'success');
+
+                // Only try to parse the response as JSON if there is a response body
+                if (response.status !== 204 && response.body) {
+                    const responseData = await response.json();
+                    setData(responseData);
+                }
+                addNotification('Deleted', 'Data deleted successfully', 'success');
             } catch (error: any) {
+                console.log("error", error)
                 setError(error);
-                addNotification(`Failed to patch data ${error.message}`, 'error');
+                addNotification('Error', `Failed to patch data ${error.message}`, 'error');
             } finally { 
                 setIsLoading(false);
             }

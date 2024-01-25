@@ -22,10 +22,10 @@ const usePostFetch = <T>(url: string) => {
                 }
                 const responseData = await response.json();
                 setResponse(responseData);
-                addNotification('Created successfully', 'success');
+                addNotification('Data created', 'Created successfully', 'success');
             } catch (error: any) {
                 setError(error.message);
-                addNotification(`Failed to create ${error.message}`, 'error');
+                addNotification('Error', `Failed to create ${error.message}`, 'error');
             } finally {
                 setIsLoading(false);
             }
