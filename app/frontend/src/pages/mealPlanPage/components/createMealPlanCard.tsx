@@ -46,7 +46,7 @@ const CreateMealPlanCard: React.FC<CreateMealPlanCardProps> = ({refetch}) => {
                 name: '',
                 start_date: undefined,
                 end_date: undefined,
-                recipes: [],
+                meals: [],
               });
             refetch();
         } catch (error) {

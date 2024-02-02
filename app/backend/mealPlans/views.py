@@ -2,10 +2,15 @@ from rest_framework import generics, views, status
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from .models import MealPlan, Recipe
-from .serializers import MealPlanSerializer
+import logging
+
+from recipes.models import Recipe
+from .models import MealPlan, Meal
+from .serializers import MealPlanSerializer, MealSerializer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+
+logger = logging.getLogger(__name__)
 
 
 class MealPlanList(generics.ListCreateAPIView):
@@ -22,7 +27,12 @@ class MealPlanDetail(ViewSet, generics.RetrieveUpdateDestroyAPIView):
         mealPlan = self.get_object()
         recipe = Recipe.objects.get(pk=request.data.get('recipe_id'))
 
-        mealPlan.recipes.add(recipe)
+        meal = Meal.objects.create(meal_plan=mealPlan, recipe=recipe)
+
+        meal.save()
+        mealPlan.save()
+
+        logger.info('Meal plan updated successfully')
 
         return Response(MealPlanSerializer(mealPlan).data,
                         status=status.HTTP_200_OK)
@@ -32,8 +42,8 @@ class MealPlanDetail(ViewSet, generics.RetrieveUpdateDestroyAPIView):
         mealPlan = self.get_object()
         shoppingListData = []
 
-        for recipe in mealPlan.recipes.all():
-            for recipe_ingredient in recipe.recipeingredient_set.all():
+        for meal in mealPlan.meals.all():
+            for recipe_ingredient in meal.recipe.recipeingredient_set.all():
                 shoppingListData.append({
                     'name': recipe_ingredient.ingredient.name,
                     'amount': recipe_ingredient.amount,
@@ -43,21 +53,26 @@ class MealPlanDetail(ViewSet, generics.RetrieveUpdateDestroyAPIView):
         return JsonResponse(shoppingListData, safe=False)
 
 
-class RemoveRecipeFromMealPlanView(views.APIView):
-    def delete(self, request, meal_plan_id, recipe_id):
-        meal_plan = get_object_or_404(MealPlan, id=meal_plan_id)
-        recipe = get_object_or_404(Recipe, id=recipe_id)
+class MealDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer
 
-        meal_plan.recipes.remove(recipe)
+
+class RemoveMealFromMealPlanView(views.APIView):
+    def delete(self, request, meal_plan_id, meal_id):
+        meal_plan = get_object_or_404(MealPlan, id=meal_plan_id)
+        meal = get_object_or_404(Meal, id=meal_id)
+
+        meal_plan.recipes.remove(meal)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class AddRecipeToMealPlanView(views.APIView):
-    def post(self, request, meal_plan_id, recipe_id):
+    def post(self, request, meal_plan_id, meal_id):
         meal_plan = get_object_or_404(MealPlan, id=meal_plan_id)
-        recipe = get_object_or_404(Recipe, id=recipe_id)
+        meal = get_object_or_404(Recipe, id=meal_id)
 
-        meal_plan.recipes.add(recipe)
+        meal_plan.meals.add(meal)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

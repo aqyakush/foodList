@@ -15,16 +15,12 @@ const MealPlanDropdown: React.FC<MealPlanDropdownProps> = ({ recipeId }) => {
   const { data: fetchData, patchItem }  = usePatchFetch<MealPlanPatch, MealPlan>(MEAL_PLAN_URL);
 
   // FIXME: update the type for event
-  const handleSelectChange = (event: any) => {
+  const handleSelectChange = React.useCallback((event: any) => {
     const mealPlanId = event.target.value;
     setSelectedMealPlan(mealPlanId);
-  };
+    patchItem({ 'recipe_id' : recipeId}, mealPlanId);
+  }, [patchItem, recipeId]);
 
-  useEffect(() => {
-    if (selectedMealPlan) {
-      patchItem({ 'recipe_id' : recipeId}, selectedMealPlan);
-    }
-  }, [selectedMealPlan, recipeId]);
 
   if (isLoading) {
     return <LoadingSpinner />;
