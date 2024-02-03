@@ -187,7 +187,7 @@ MEALPLAN_URL="http://192.168.49.2/api/mealPlans/"
 MEALPLAN_DATA='{
   "name": "January meal plan",
   "start_date": "2023-01-01",
-  "end_date": "2023-01-31"
+  "end_date": "2023-01-07"
 }'
 
 # Send POST request to create a mealplan

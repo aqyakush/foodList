@@ -6,11 +6,11 @@ import useFetch from '../../../hooks/apiHooks/useFetch';
 import ShoppingList from '../../../types/shoppingList';
 import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, MEAL_QUERY, RECIPES_QUERY, SHOPPING_LIST_MEAL_PLAN_QUERY } from '../../../utils/apis';
 import useDeleteFetch from '../../../hooks/apiHooks/useDeleteFetch';
-import { RemoveButton } from '../../mainPage/components/createRecipeCard';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import AddRecipeSelection from './addRecipeSelection';
-import { Link } from 'react-router-dom';
 import ShoppingListSimple from '../../../types/shoppingListSimple';
+import MealPlanCalendar from './mealPlanCalendar';
+import MealList from './mealList';
 
 
 type MealPlanCardProps = {
@@ -28,32 +28,6 @@ const MealPlanTitle = styled.h1`
     color: #333;
     text-align: center;
     margin-bottom: 20px;
-`;
-
-const RecipeList = styled.ul`
-    list-style-type: none;
-    padding: 0;
-`;
-
-const RecipeItem = styled.li`
-    padding-left: 5px;
-    padding-top: 2px;
-    position: relative;
-`;
-
-const RecipeRow = styled.div`
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-`;
-
-const StyledLink = styled(Link)`
-    color: blue;
-    text-decoration: none;
-
-    &:visited {
-        color: blue;
-    }
 `;
 
 const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }) => {
@@ -97,24 +71,11 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
             </div>
         ), [toggle, shoppingList]);
 
-    const recipes: RecipesList = mealPlan.meals?.map((meal) => { return { recipe: meal.recipe, mealId: meal.id}});
-
     return (
         <Card key={mealPlan.name}>
             <MealPlanTitle>{`${mealPlan.name} (${mealPlan.start_date} - ${mealPlan.end_date})`} </MealPlanTitle>
-            Recipes:
-            <RecipeList>
-                {recipes?.map((item) => (
-                    <RecipeRow>
-                        <RemoveButton type="button" onClick={() => {
-                            handleDelete(mealPlan.id, item.mealId)
-                        }}>✖</RemoveButton>
-                        <RecipeItem key={item.recipe.name}>
-                            <StyledLink to={`/recipes/?name=${item.recipe.name}`}>{item.recipe.name}</StyledLink>
-                        </RecipeItem>
-                    </RecipeRow>
-                ))}
-            </RecipeList>
+            <MealPlanCalendar mealPlan={mealPlan} onDelete={handleDelete} refetch={refetchMealPlan}/>
+            <MealList handleDelete={handleDelete} mealPlan={mealPlan} refetch={refetchMealPlan}/>
             <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()}/>
             <button onClick={handleToggle}>{toggle ? 'Hide Shopping List' : 'Show Shopping List'}</button>
             {shoppingListItems}      

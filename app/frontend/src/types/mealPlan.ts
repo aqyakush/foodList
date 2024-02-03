@@ -15,6 +15,6 @@ export type MealPlanPatch = {
 export type Meal = {
     id: number;
     name: string;
-    data: Date | string;
+    date: Date | string;
     recipe: Recipe;
 }
