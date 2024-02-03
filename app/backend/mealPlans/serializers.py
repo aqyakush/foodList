@@ -13,6 +13,29 @@ class MealPlanSerializer(serializers.ModelSerializer):
         model = MealPlan
         fields = '__all__'
 
+    def validate(self, data):
+        start_date = data.get('start_date')
+        end_date = data.get('end_date')
+
+        # TODO: verify that start_date is before end_date
+
+        overlapping_meal_plans = MealPlan.objects.filter(
+            start_date__lte=end_date,
+            end_date__gte=start_date
+        )
+
+        if self.instance:
+            overlapping_meal_plans = overlapping_meal_plans.exclude(
+                id=self.instance.id)
+
+        if overlapping_meal_plans.exists():
+            raise serializers.ValidationError(
+                "The meal plan's start date and end date overlap with" +
+                "another meal plan."
+            )
+
+        return data
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         representation['meals'] = MealSerializer(instance.meals.all(),
