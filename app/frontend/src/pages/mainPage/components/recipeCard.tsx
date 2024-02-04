@@ -8,6 +8,12 @@ type RecipeProps = {
     recipe: Recipe;
 };
 
+const TitleContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 const RecipeTitle = styled.h1`
     font-size: 2rem;
     color: #333;
@@ -25,18 +31,36 @@ const IngredientItem = styled.li`
     position: relative;
 `;
 
+const Arrow = styled.div`
+    text-align: right;
+    cursor: pointer;
+`;
+
 const RecipeCard: React.FC<RecipeProps> = ({ recipe }) => {
+    const [isExpanded, setIsExpanded] = React.useState(true);
+
+    const handleTitleClick = () => {
+        setIsExpanded(!isExpanded);
+    };
     return (
         <Card key={recipe.name}>
-            <RecipeTitle>{recipe.name}</RecipeTitle>
-            Ingredients:
-            <IngredientList>
-                {recipe.amount_set.map((amount) => (
-                    <IngredientItem key={amount.ingredient.name}>{amount.ingredient.name} {amount.amount} {amount.unit}</IngredientItem>
-                ))}
-            </IngredientList>
-            <p>{recipe.description}</p>
-            <MealPlanDropdown recipeId={recipe.id}/>
+            <TitleContainer onClick={handleTitleClick}>
+                <RecipeTitle>{recipe.name}</RecipeTitle>
+                <Arrow> {isExpanded ? '▼' : '►'}</Arrow>
+            </TitleContainer>
+            {isExpanded && (
+                <>
+                    Ingredients:
+                    <IngredientList>
+                        {recipe.amount_set.map((amount) => (
+                            <IngredientItem key={amount.ingredient.name}>{amount.ingredient.name} {amount.amount} {amount.unit}</IngredientItem>
+                        ))}
+                    </IngredientList>
+                    <p>{recipe.description}</p>
+                    <MealPlanDropdown recipeId={recipe.id}/>
+                </>
+            )}
+            
         </Card>
     );
 };

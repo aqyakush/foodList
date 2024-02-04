@@ -30,11 +30,27 @@ const MealPlanTitle = styled.h1`
     margin-bottom: 20px;
 `;
 
+const Arrow = styled.div`
+    text-align: right;
+    cursor: pointer;
+`;
+
+const TitleContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }) => {
     const [toggle, setToggle] = useState(false);
     const [shoppingList, setShoppingList] = useState<ShoppingListSimple>();
     const { data, refetch } = useFetch<ShoppingListSimple>(`${API_URL}${MEAL_PLAN_QUERY}${mealPlan.id}/shoppinglist/`);
 
+    const [isExpanded, setIsExpanded] = React.useState(true);
+
+    const handleTitleClick = () => {
+        setIsExpanded(!isExpanded);
+    };
     const { deleteItem } = useDeleteFetch();
 
     const { patchItem } = usePatchFetch<MealPlanPatch, MealPlan>(MEAL_PLAN_URL);
@@ -56,7 +72,7 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
         setToggle(!toggle);
     }, [toggle, data, refetch]);
 
-    const handleDelete = React.useCallback( async (mealPlanId: number, mealId:number) => {
+    const handleDelete = React.useCallback( async (mealId:number) => {
         await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${MEAL_QUERY}${mealId}/`)
         setToggle(false);
         refetchMealPlan();
@@ -73,12 +89,20 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
 
     return (
         <Card key={mealPlan.name}>
-            <MealPlanTitle>{`${mealPlan.name} (${mealPlan.start_date} - ${mealPlan.end_date})`} </MealPlanTitle>
-            <MealPlanCalendar mealPlan={mealPlan} onDelete={handleDelete} refetch={refetchMealPlan}/>
-            <MealList handleDelete={handleDelete} mealPlan={mealPlan} refetch={refetchMealPlan}/>
-            <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()}/>
-            <button onClick={handleToggle}>{toggle ? 'Hide Shopping List' : 'Show Shopping List'}</button>
-            {shoppingListItems}      
+            <TitleContainer onClick={handleTitleClick}>
+                <MealPlanTitle>{`${mealPlan.name} (${mealPlan.start_date} - ${mealPlan.end_date})`} </MealPlanTitle>
+                <Arrow> {isExpanded ? '▼' : '►'}</Arrow>
+            </TitleContainer>
+            {isExpanded && (
+                <>
+                    <MealPlanCalendar mealPlan={mealPlan} onDelete={handleDelete} refetch={refetchMealPlan}/>
+                    <MealList handleDelete={handleDelete} mealPlan={mealPlan} refetch={refetchMealPlan}/>
+                    <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()}/>
+                    <button onClick={handleToggle}>{toggle ? 'Hide Shopping List' : 'Show Shopping List'}</button>
+                    {shoppingListItems}    
+                </>
+            )}
+             
         </Card>
     );
 };
