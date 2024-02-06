@@ -23,5 +23,5 @@ jobs:
         with:
           # This part is also where you can pass other options, for example:
           pip_path: app/backend/requirements.txt
-          project_path: app/bakend/
+          project_path: app/backend/
           output_path: docs/model.png
