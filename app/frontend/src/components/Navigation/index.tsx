@@ -43,6 +43,9 @@ const NavBar = () => {
                 <li>
                     <StyledNavLink to="/mealPlans">Meal Plans</StyledNavLink>
                 </li>
+                <li>
+                    <StyledNavLink to="/shoppingLists">Shopping Lists</StyledNavLink>
+                </li>
             </ul>
         </StyledNav>
     );
