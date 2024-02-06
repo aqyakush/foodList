@@ -5,7 +5,7 @@ import MealRow from './mealRow';
 
 interface MealPlanCalendarProps {
     mealPlan: MealPlan;
-    onDelete: (mealPlanId: number, mealId: number) => Promise<void>
+    onDelete: (mealId: number) => Promise<void>
     refetch: () => void;
 }
 

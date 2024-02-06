@@ -12,7 +12,6 @@ import Form from '../../../components/Form/Form';
 import InputField from '../../../components/Form/Fields/InputField';
 import DateField from '../../../components/Form/Fields/DateField';
 import { format, isValid } from 'date-fns';
-import ts from 'typescript';
 
 const ButtonContainer = styled.div`
   display: flex;

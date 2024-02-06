@@ -3,9 +3,15 @@ from .models import ShoppingList, Item
 
 
 class ItemSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ['amount', 'unit', 'ingredient', 'shopping_list',
+                  'is_bought', 'name']
+
+    def get_name(self, obj):
+        return obj.ingredient.name
 
 
 class ShoppingListSerializer(serializers.ModelSerializer):

@@ -31,7 +31,7 @@ const MealItem = styled.li`
 
 type MealProps = {
     mealPlan: MealPlan;
-    handleDelete: (mealPlanId: number, mealId: number) => Promise<void>
+    handleDelete: (mealId: number) => Promise<void>
     meal: Meal;
     refetch: () => void;
 }
@@ -64,7 +64,7 @@ const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan, refetch })
     return (
         <Row>
             <RemoveButton type="button" onClick={() => {
-                handleDelete(mealPlan.id, meal.id)
+                handleDelete(meal.id)
             }}>✖</RemoveButton>
             <MealItem key={meal.recipe.name}>
                 <StyledLink to={`/recipes/?name=${meal.recipe.name}`}>{meal.recipe.name}</StyledLink>

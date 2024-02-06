@@ -10,7 +10,7 @@ const RecipeList = styled.ul`
 
 type MealListProps = {
     mealPlan: MealPlan;
-    handleDelete: (mealPlanId: number, mealId: number) => Promise<void>
+    handleDelete: (mealId: number) => Promise<void>
     refetch: () => void;
 }
 

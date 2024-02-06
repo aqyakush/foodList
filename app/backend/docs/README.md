@@ -20,3 +20,10 @@ The purpose of the backend code base is to handle the server-side operations of 
 
 ## Development Workflow
 
+## Generate DB schema
+
+Run the following command to generate the DB schema:
+
+```bash
+python3 manage.py graph_models -a -g -o docs/model.png
+```
