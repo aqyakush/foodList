@@ -17,10 +17,19 @@ The purpose of the backend code base is to handle the server-side operations of 
 
 ## Technologies Used
 
-
 ## Development Workflow
 
 ## Generate DB schema
+
+Install the `django-extensions` package by running the following command:
+
+```python
+INSTALLED_APPS = [
+    ...
+    'django_extensions',
+    ...
+]
+```
 
 Run the following command to generate the DB schema:
 
