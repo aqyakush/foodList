@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useFetch from '../../../hooks/apiHooks/useFetch';
 import { API_URL, RECIPES_QUERY } from '../../../utils/apis';
-import Select, { ActionMeta, SingleValue } from 'react-select';
+import Select, { SingleValue } from 'react-select';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import styled from 'styled-components';
 
@@ -17,14 +17,13 @@ const RowContainer = styled.div`
     gap: 10px;
 `;
 
-interface Recipe {
+type Recipe = {
     id: number;
     name: string;
 }
 
-interface AddRecipeSelectionProps {
+type AddRecipeSelectionProps = {
     mealPlanId: string;
-    // recipes: Recipe[];
     addToMealPlan: (recipeId: number, mealPlanId: string) => void;
 }
 

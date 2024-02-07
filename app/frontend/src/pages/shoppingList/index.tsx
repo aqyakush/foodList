@@ -7,7 +7,7 @@ import ShoppingList from '../../types/shoppingList';
 import ShoppingListCard from './components.tsx/ShoppingListCard';
 
 const ShoppingListPage = () => {
-    const { data, isLoading, refetch } = useFetch<ShoppingList[]>(`${API_URL}${SHOPPING_LIST_QUERY}`);
+    const { data, isLoading } = useFetch<ShoppingList[]>(`${API_URL}${SHOPPING_LIST_QUERY}`);
 
     if (isLoading) {
         return (

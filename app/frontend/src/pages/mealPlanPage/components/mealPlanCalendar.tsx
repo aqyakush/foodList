@@ -3,7 +3,7 @@ import { MealPlan } from '../../../types';
 import { eachDayOfInterval, format } from 'date-fns';
 import MealRow from './mealRow';
 
-interface MealPlanCalendarProps {
+type MealPlanCalendarProps = {
     mealPlan: MealPlan;
     onDelete: (mealId: number) => Promise<void>
     refetch: () => void;
@@ -22,11 +22,13 @@ const MealPlanCalendar: React.FC<MealPlanCalendarProps> = ({ mealPlan, onDelete,
             {dates.map((date, index) => {
                 const formattedDate = format(date, 'yyyy-MM-dd');
                 const mealsForTheDay = meals?.filter(meal => format(new Date(meal.date), 'yyyy-MM-dd') === formattedDate);
-
+                
                 return (
                     <div key={index}>
                         <h3>{format(date, 'EEEE, yyyy-MM-dd')}</h3>
-                        {mealsForTheDay && mealsForTheDay.map((meal) => { return meal && <MealRow meal={meal} handleDelete={onDelete} mealPlan={mealPlan} refetch={refetch}/>})}
+                        {mealsForTheDay && mealsForTheDay.map((meal) => (
+                            meal && <MealRow meal={meal} handleDelete={onDelete} mealPlan={mealPlan} refetch={refetch}/>
+                        ))}
                     </div>
                 );
             })}

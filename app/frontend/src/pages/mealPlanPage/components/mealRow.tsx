@@ -11,6 +11,8 @@ const Row = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
+    gap: 5px;
+    margin-bottom: 10px;
 `;
 
 const StyledLink = styled(Link)`
@@ -79,7 +81,7 @@ const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan, refetch })
                     }
                 })}
             </select>
-            {selectedDate && <button onClick={handleButtonClick}>Patch Meal</button>}
+            {selectedDate && <button onClick={handleButtonClick}>Change date</button>}
         </Row>
     );
 };

@@ -1,12 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
 import { MealPlan } from '../../../types';
 import MealRow from './mealRow';
+import List from '../../../components/List/List';
 
-const RecipeList = styled.ul`
-    list-style-type: none;
-    padding: 0;
-`;
 
 type MealListProps = {
     mealPlan: MealPlan;
@@ -16,12 +12,19 @@ type MealListProps = {
 
 const MealList: React.FC<MealListProps> = ({ handleDelete, mealPlan, refetch }) => {
     return (
-        <RecipeList>
-                {mealPlan?.meals?.map((item) => (
-                    !item.date && (
-                    <MealRow meal={item} key={item.id} handleDelete={handleDelete} mealPlan={mealPlan} refetch={refetch}/>)
-                ))}
-            </RecipeList>
+        <List>
+            {mealPlan?.meals?.map((item) => (
+                !item.date && (
+                    <MealRow
+                        meal={item}
+                        key={item.id}
+                        handleDelete={handleDelete}
+                        mealPlan={mealPlan}
+                        refetch={refetch}
+                    />
+                )
+            ))}
+        </List>
     );
 };
 

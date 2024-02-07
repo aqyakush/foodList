@@ -8,26 +8,24 @@ import MealPlanCard from './components/mealPlanCard';
 import CreateMealPlanCard from './components/createMealPlanCard';
 
 const MealPlanPage = () => {
-    const { data, isLoading, refetch } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
+  const { data, isLoading, refetch } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
 
-    if (isLoading) {
-        return (
-          <CenterDiv>
-            <LoadingSpinner />  
-          </CenterDiv>
-        );
-      }
-
+  if (isLoading) {
     return (
-        <CenterDiv>
-            {data?.map((mealPlan) => (
-                <MealPlanCard mealPlan={mealPlan} refetchMealPlan={refetch} />
-            ))}
-            <CreateMealPlanCard refetch={refetch}/>
-        </CenterDiv>
-
-
+      <CenterDiv>
+        <LoadingSpinner />
+      </CenterDiv>
     );
+  }
+
+  return (
+    <CenterDiv>
+      {data?.map((mealPlan) => (
+        <MealPlanCard mealPlan={mealPlan} refetchMealPlan={refetch} />
+      ))}
+      <CreateMealPlanCard refetch={refetch} />
+    </CenterDiv>
+  );
 };
 
 export default MealPlanPage;
