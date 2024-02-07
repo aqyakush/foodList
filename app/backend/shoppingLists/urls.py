@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from shoppingLists import views
-from .views import ItemListView, ShoppingListByMealPlanView
+from .views import ItemDetail, ItemListView, ShoppingListByMealPlanView
 from .views import ShoppingListFromMealPlan
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
          ShoppingListByMealPlanView.as_view(),
          name='shoppinglist_by_mealplan'),
     path('items/', ItemListView.as_view(), name='item_list'),
+    path('items/<int:pk>/', ItemDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

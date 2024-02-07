@@ -8,7 +8,7 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ['amount', 'unit', 'ingredient', 'shopping_list',
-                  'is_bought', 'name']
+                  'is_bought', 'name', 'id']
 
     def get_name(self, obj):
         return obj.ingredient.name

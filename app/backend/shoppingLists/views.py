@@ -15,6 +15,11 @@ class ItemListView(generics.ListAPIView):
     serializer_class = ItemSerializer
 
 
+class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
+
 class ShoppingListList(generics.ListCreateAPIView):
     queryset = ShoppingList.objects.all().prefetch_related('items')
     serializer_class = ShoppingListSerializer
