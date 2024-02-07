@@ -71,9 +71,3 @@ class MealSerializer(serializers.ModelSerializer):
             )
 
         return data
-
-    # def to_representation(self, instance):
-    #     representation = super().to_representation(instance)
-    #     if hasattr(instance, 'recipe'):
-    #         representation['recipe'] = RecipeSerializer().data
-    #     return representation

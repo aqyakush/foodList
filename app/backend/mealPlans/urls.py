@@ -1,19 +1,11 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import MealDetail, RemoveMealFromMealPlanView, MealPlanList
-from .views import AddRecipeToMealPlanView, MealPlanDetail
+from .views import MealDetail, MealPlanList
+from .views import MealPlanDetail
 
 urlpatterns = [
     path('', MealPlanList.as_view()),
-    path('<int:pk>/', MealPlanDetail.as_view({'patch': 'update'})),
-    path('<int:pk>/shoppinglist/',
-         MealPlanDetail.as_view({'get': 'shoppingList'}),
-         name='mealplan-shoppinglist'),
-    path('<int:meal_plan_id>/recipes/<int:recipe_id>/',
-         RemoveMealFromMealPlanView.as_view(),
-         name='remove_recipe_from_mealplan'),
-    path('<int:meal_plan_id>/recipes/<int:recipe_id>/add/',
-         AddRecipeToMealPlanView.as_view(), name='add_recipe_to_mealplan'),
+    path('<int:pk>/', MealPlanDetail.as_view()),
     path('meal/<int:pk>/', MealDetail.as_view()),
 ]
 
