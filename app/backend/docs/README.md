@@ -27,3 +27,11 @@ Run the following command to generate the DB schema:
 ```bash
 python3 manage.py graph_models -a -g -o docs/model.png
 ```
+
+## Run Tests
+
+Run the following command to execute the backend tests:
+
+```bash
+python3 manage.py test mealPlans.tests
+```
