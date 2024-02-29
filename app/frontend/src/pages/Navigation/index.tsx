@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import useFetch from '../../hooks/apiHooks/useFetch';
 import { MealPlan } from '../../types';
 import { API_URL, MEAL_PLAN_QUERY } from '../../utils/apis';
+import Modals from '../../components/Modal';
+import CreateMealPlanForm from '../mealPlanPage/components/createMealPlanForm';
 
 const StyledNavLink = styled(NavLink)`
   display: block;
@@ -62,12 +64,35 @@ const MoreButton = styled.div`
   }
 `;
 
+const AddMealPlanButton = styled.div`
+  display: block;
+  color: white;
+  text-align: left;
+  padding: 14px 30px;
+  text-decoration: none;
 
+  &:hover {
+    background-color: #111;
+    cursor: pointer;
+  }
+`;
 
 const NavBar = () => {
     const { data, isLoading, refetch } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
     const [isViewingOpen, setIsViewingOpen] = React.useState(false);
     const [isPlanningOpen, setIsPlanningOpen] = React.useState(false);
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+    const handleAddMealPlan = React.useCallback(() => {
+      console.log('Add meal plan');
+      setIsModalOpen(true);
+      refetch();
+    }, [refetch]);
+
+    const handleAction = React.useCallback(() => {
+      refetch();
+      setIsModalOpen(false)
+    }, [refetch]);
 
     return (
       <Test>
@@ -100,9 +125,15 @@ const NavBar = () => {
                         <StyledNavLink to={`planning/mealPlans/${mealPlan.id}`}>{mealPlan.name}</StyledNavLink>
                       </li>
                 ))}
+                    <li>
+                      <AddMealPlanButton onClick={handleAddMealPlan}>+ Meal Plan</AddMealPlanButton>
+                    </li>
                   </DropdownMenu>
               </li>
           </StyledNav>
+          <Modals isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} >
+              <CreateMealPlanForm handleAction={handleAction} />
+          </Modals>
       </Test>
     );
 }

@@ -6,7 +6,6 @@ import React from 'react';
 import { MealPlan } from '../../../types';
 import usePostFetch from '../../../hooks/apiHooks/usePostFetch';
 import { API_URL, MEAL_PLAN_QUERY } from '../../../utils/apis';
-import Card from '../../../components/Cards';
 import Button from '../../../components/Button';
 import Form from '../../../components/Form/Form';
 import InputField from '../../../components/Form/Fields/InputField';
@@ -17,13 +16,14 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  margin-top: 20px; // Add top margin
 `;
 
-type CreateMealPlanCardProps = {
-    refetch: () => void;
+type CreateMealPlanFormProps = {
+    handleAction: () => void;
 };
 
-const CreateMealPlanCard: React.FC<CreateMealPlanCardProps> = ({refetch}) => {
+const CreateMealPlanForm: React.FC<CreateMealPlanFormProps> = ({handleAction}) => {
     const { control, handleSubmit, reset, formState: { errors } } = useForm<MealPlan>();
     
     
@@ -47,14 +47,14 @@ const CreateMealPlanCard: React.FC<CreateMealPlanCardProps> = ({refetch}) => {
                 end_date: undefined,
                 meals: [],
               });
-            refetch();
+            handleAction();
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
-        <Card>
+        <>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputField 
                     control={control} 
@@ -82,8 +82,8 @@ const CreateMealPlanCard: React.FC<CreateMealPlanCardProps> = ({refetch}) => {
                     </Button>
                 </ButtonContainer>
             </Form>
-        </Card>
+        </>
     );
 };
 
-export default CreateMealPlanCard;
+export default CreateMealPlanForm;

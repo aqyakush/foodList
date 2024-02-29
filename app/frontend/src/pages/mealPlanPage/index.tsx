@@ -5,7 +5,8 @@ import { MealPlan } from '../../types';
 import CenterDiv from '../../components/CenterDiv';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import MealPlanCard from './components/mealPlanCard';
-import CreateMealPlanCard from './components/createMealPlanCard';
+import CreateMealPlanForm from './components/createMealPlanForm';
+import Card from '../../components/Cards';
 
 const MealPlanPage = () => {
   const { data, isLoading, refetch } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
@@ -23,7 +24,9 @@ const MealPlanPage = () => {
       {data?.map((mealPlan) => (
         <MealPlanCard mealPlan={mealPlan} refetchMealPlan={refetch} />
       ))}
-      <CreateMealPlanCard refetch={refetch} />
+      <Card>
+        <CreateMealPlanForm handleAction={refetch} />
+      </Card>
     </CenterDiv>
   );
 };
