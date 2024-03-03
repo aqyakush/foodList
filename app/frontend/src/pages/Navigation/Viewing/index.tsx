@@ -1,5 +1,4 @@
 import React from 'react';
-import DropdownMenu from '../../../components/Navigation/DropdownMenu';
 import StyledNavLink from '../../../components/Navigation/StyledNavLink';
 import MoreButton from '../../../components/Navigation/MoreButton';
 
