@@ -1,7 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
 import { MealPlan, MealPlanPatch } from '../../../types';
-import Card from '../../../components/Cards';
 import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, MEAL_QUERY } from '../../../utils/apis';
 import useDeleteFetch from '../../../hooks/apiHooks/useDeleteFetch';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';

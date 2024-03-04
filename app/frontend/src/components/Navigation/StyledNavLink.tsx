@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const StyledNavLink = styled(NavLink)`
   display: block;
+  flex: 1;
   color: white;
   text-align: left;
   padding: 14px 30px;

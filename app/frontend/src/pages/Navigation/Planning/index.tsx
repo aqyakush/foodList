@@ -1,6 +1,4 @@
 import React from 'react';
-import DropdownMenu from '../../../components/Navigation/DropdownMenu';
-import StyledNavLink from '../../../components/Navigation/StyledNavLink';
 import styled from 'styled-components';
 import MoreButton from '../../../components/Navigation/MoreButton';
 import useFetch from '../../../hooks/apiHooks/useFetch';
@@ -8,39 +6,7 @@ import { MealPlan } from '../../../types';
 import { API_URL, MEAL_PLAN_QUERY } from '../../../utils/apis';
 import Modals from '../../../components/Modal';
 import CreateMealPlanForm from '../../mealPlanPage/components/createMealPlanForm';
-
-type MenuProps = {
-    isOpen: boolean;
-    onClose: () => void;
-    onDelete: () => void;
-  }
-  
-
-const Menu = ({ isOpen, onClose, onDelete }: MenuProps) => {
-    return (
-      <DropdownMenu isOpen={isOpen}>
-        <li>
-          <button onClick={onDelete}>Delete</button>
-        </li>
-      </DropdownMenu>
-    );
-  };
-
-  
-const StyledLi = styled.li`
-    display: block;
-    position: relative;
-  `;
-  
-const MenuButton = styled.button`
-    position: absolute;
-    right: 0;
-    background: transparent;
-    border: none;
-    font-size: 1.5em;
-    color: gray;
-    cursor: pointer;
-  `;
+import MealPlanNav from './MealPlanNav';
 
 const AddMealPlanButton = styled.div`
   display: block;
@@ -57,8 +23,6 @@ const AddMealPlanButton = styled.div`
 
 const PlanningNavigation: React.FC = () => {
     const { data, refetch } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
-
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
 
     const handleAction = React.useCallback(() => {
@@ -77,11 +41,7 @@ const PlanningNavigation: React.FC = () => {
         <>
             <MoreButton title='Planning'>
                 {data?.map((mealPlan) => (
-                    <StyledLi>
-                        <StyledNavLink to={`planning/mealPlans/${mealPlan.id}`}>{mealPlan.name}</StyledNavLink>
-                        <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>...</MenuButton>
-                        <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => console.log(mealPlan.id)} />
-                    </StyledLi>
+                    <MealPlanNav mealPlan={mealPlan} refetch={refetch}/>
                 ))}
                 <li>
                     <AddMealPlanButton onClick={handleAddMealPlan}>+ Meal Plan</AddMealPlanButton>
