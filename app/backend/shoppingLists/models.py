@@ -32,9 +32,15 @@ class Item(models.Model):
     shopping_list = models.ForeignKey(ShoppingList, on_delete=models.CASCADE,
                                       related_name='items')
     is_bought = models.BooleanField(default=False)
+    name = models.CharField(max_length=255, null=True)  # Add this line
+
+    def save(self, *args, **kwargs):
+        if self.ingredient and not self.name:
+            self.name = self.ingredient.name
+        super().save(*args, **kwargs)
 
     class Meta:
         unique_together = ('ingredient', 'shopping_list',)
 
     def __str__(self):
-        return self.ingredient.name
+        return self.ingredient.name if self.ingredient else self.name

@@ -3,7 +3,6 @@ from .models import ShoppingList, Item
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -11,7 +10,7 @@ class ItemSerializer(serializers.ModelSerializer):
                   'is_bought', 'name', 'id']
 
     def get_name(self, obj):
-        return obj.ingredient.name
+        return obj.ingredient.name if obj.ingredient else obj.name
 
 
 class ShoppingListSerializer(serializers.ModelSerializer):
