@@ -4,10 +4,12 @@ import { API_URL, SHOPPING_LIST_QUERY } from '../../utils/apis';
 import CenterDiv from '../../components/CenterDiv';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ShoppingList from '../../types/shoppingList';
-import ShoppingListCard from './components.tsx/ShoppingListCard';
+import ShoppingListCard from './components/ShoppingListCard';
 
 const ShoppingListPage = () => {
-    const { data, isLoading } = useFetch<ShoppingList[]>(`${API_URL}${SHOPPING_LIST_QUERY}`);
+    const { data, isLoading, refetch } = useFetch<ShoppingList[]>(`${API_URL}${SHOPPING_LIST_QUERY}`);
+
+    console.log(data);
 
     if (isLoading) {
         return (
@@ -20,7 +22,7 @@ const ShoppingListPage = () => {
     return (
         <CenterDiv>
             {data?.map((shoppingList) => (
-                <ShoppingListCard key={shoppingList.id} shoppingList={shoppingList} />
+                <ShoppingListCard key={shoppingList.id} shoppingList={shoppingList} refetch={refetch}/>
             ))}
         </CenterDiv>
 

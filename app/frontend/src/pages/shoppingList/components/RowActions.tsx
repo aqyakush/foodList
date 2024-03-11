@@ -1,41 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
-import StyledNavLink from '../../../components/Navigation/StyledNavLink';
-import { MealPlan } from '../../../types';
+import Item from '../../../types/item';
 import useDeleteFetch from '../../../hooks/apiHooks/useDeleteFetch';
-import { API_URL, MEAL_PLAN_QUERY } from '../../../utils/apis';
-import { useNavigate } from 'react-router-dom';
-
-const StyledLi = styled.li`
-    display: flex;
-    position: relative;
-`;
-
-const MenuButton = styled.button`
-    position: absolute;
-    flex: 0;
-    right: 0;
-    background: transparent;
-    border: none;
-    font-size: 1.5em;
-    color: gray;
-    cursor: pointer;
-    height: 100%;
-
-    &:active {
-      background-color: green; // Change the background color when clicked
-    }
-  `;
+import { SHOPPING_LIST_ITEMS_URL } from '../../../utils/apis';
+import styled from 'styled-components';
 
 type MenuDivProps = {
   isOpen: boolean;
 }
 
 const MenuList = styled.ul<MenuDivProps>`
-    display: ${props => props.isOpen ? 'block' : 'none'};
     position: absolute;
-    top: 100%; // Position it right below the parent element
-    right: 0; // Align it to the right edge of the parent element
+    display: ${props => props.isOpen ? 'block' : 'none'};
     border: 1px solid #ccc; // Add a border
     border-radius: 4px; // Round the corners
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Add a shadow
@@ -105,33 +80,41 @@ export const Menu = ({ isOpen, onClose, onDelete, buttonRef }: MenuProps) => {
   );
 };
 
-type MealPlanNavProps = {
-    mealPlan: MealPlan;
-    refetch: () => void;
-};
+const MenuButton = styled.button`
+    position: relative;
+    right: 0;
+    background: transparent;
+    border: none;
+    font-size: 1em;
+    color: gray;
+    cursor: pointer;
 
-const MealPlanNav: React.FC<MealPlanNavProps> = ({ mealPlan, refetch }) => {
-    const navigate = useNavigate();
-  
+    &:active {
+        background-color: gray;
+    }
+  `;
+
+type RowActionsProps = {
+    item: Item;
+    refetch: () => void;
+}
+
+const RowActions: React.FC<RowActionsProps> = ({ item, refetch }) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const buttonRef = React.useRef(null);
     const { deleteItem } = useDeleteFetch();
     
-    const handleDelete = React.useCallback( async (mealId:number) => {
-      await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${mealId}/`)
+    const handleDelete = React.useCallback( async () => {
+      await deleteItem(`${SHOPPING_LIST_ITEMS_URL}${item.id}/`)
       refetch();
-      navigate('viewing/mealPlans'); 
-  }, [deleteItem, navigate, refetch]);
+  }, [deleteItem, item.id, refetch]);
 
     return (
-        <StyledLi>
-            <StyledNavLink to={`planning/mealPlans/${mealPlan.id}`}>
-              {mealPlan.name}
-            </StyledNavLink>
+        <td>
             <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)} ref={buttonRef}>⋮</MenuButton>
-            <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => handleDelete(mealPlan.id)}  buttonRef={buttonRef} />
-        </StyledLi>
+            <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => handleDelete()}  buttonRef={buttonRef} />
+        </td>
     );
 };
 
-export default MealPlanNav;
+export default RowActions;

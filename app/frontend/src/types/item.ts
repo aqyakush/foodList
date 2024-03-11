@@ -1,7 +1,7 @@
 type Item = {
     id: number;
     name: string;
-    ingedient: string;
+    ingredient?: string | null;
     unit: string;
     amount: number;
     shopping_list: number;
