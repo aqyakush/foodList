@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Item from '../../../types/item';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import { SHOPPING_LIST_ITEMS_URL } from '../../../utils/apis';
 import RowActions from './RowActions';
+import styled from 'styled-components';
+
+const AmountDiv = styled.div`
+  max-width: 100px; /* Adjust this value as needed */
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const InputAmount = styled.input`
+  max-width: 100px; /* Adjust this value as needed */
+`;
+
 
 type ItemPatch = {
     is_bought?: boolean;
@@ -18,6 +32,7 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
     const [isChecked, setIsChecked] = useState(item.is_bought);
     const [isEditing, setIsEditing] = useState(false);
     const [amount, setAmount] = useState(item.amount);
+    const initialAmount = useRef(item.amount); 
     const { patchItem } = usePatchFetch<ItemPatch, Item>(SHOPPING_LIST_ITEMS_URL);
 
     const handleCheckboxChange = () => {
@@ -31,11 +46,13 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
     
     const handleBlur = () => {
         setIsEditing(false);
-        patchItem({ 'amount' : amount}, item.id.toString());
+        if (amount !== initialAmount.current) { 
+            patchItem({ 'amount' : amount}, item.id.toString());
+            initialAmount.current = amount;
+        }
     };
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
-        console.log(event.key);
         if (event.key === 'Enter') {
           handleBlur();
         }
@@ -57,9 +74,12 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
             <td>{item.name}</td>
             <td onClick={handleEdit}>
             {isEditing ? (
-                <input type="text" value={amount} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
+                <InputAmount type="text" value={amount} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
             ) : (
-                amount
+                <AmountDiv>
+                    {amount}
+                </AmountDiv>
+                
             )}
             </td>
             <td>{item.unit}</td>

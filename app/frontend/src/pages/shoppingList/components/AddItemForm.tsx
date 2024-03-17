@@ -9,16 +9,24 @@ import DropdownSelect from '../../../components/Form/Fields/DropdownSelectField'
 import styled from 'styled-components';
 
 const ButtonContainer = styled.div`
-    margin-bottom: 20px;
-    padding: 10px;
+    padding-top: 20px;
     font-size: 16px;
 `;
 
 const Form = styled.form`
   display: flex;
-  gap: 20px;
+  gap: 40px;
   align-items: flex-start;
 `;
+
+const AmountField = styled.div`
+  width: 50px; 
+`;
+
+const UnitField = styled.div`
+  width: 100px;
+`;
+
 
 
 const UNIT_OPTIONS = ['kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece','unit','cup'];
@@ -29,7 +37,9 @@ type AddItemFormProps = {
 };
 
 const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction }) => {
-    const { control, handleSubmit, reset, formState: { errors } } = useForm<Item>();
+    const { control, handleSubmit, reset, formState: { errors }, watch } = useForm<Item>();
+
+    const values = watch(); 
     
     const { postData }  = usePostFetch<Item>(`${SHOPPING_LIST_ITEMS_URL}`);
 
@@ -66,22 +76,34 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction })
                 rules={{ required: true }} 
                 error={errors.name}
             />
-            <InputField 
-                control={control} 
-                name="amount" 
-                label="Amount:" 
-                rules={{ required: true }} 
-                error={errors.amount}
-            />
-            <DropdownSelect 
-                control={control} 
-                name={`unit`} 
-                label="Unit:" 
-                rules={{ required: true }} 
-                error={errors.unit}
-                selectOptions={UNIT_OPTIONS}/>
+            <AmountField>
+                <InputField 
+                    control={control} 
+                    name="amount" 
+                    label="Amount:" 
+                    rules={{ required: true }} 
+                    error={errors.amount}
+                    type='number'
+                    defaultValue={1}
+                    min={0}
+                />
+            </AmountField>
+
+            <UnitField>
+                <DropdownSelect 
+                    control={control} 
+                    name={`unit`} 
+                    label="Unit:" 
+                    rules={{ required: true }} 
+                    error={errors.unit}
+                    selectOptions={UNIT_OPTIONS}/>
+            </UnitField>
             <ButtonContainer>
-                <Button buttonType="primary" type="submit">
+                <Button 
+                    buttonType="primary" 
+                    type="submit" 
+                    disabled={!values.name || !values.amount || !values.unit}
+                    title={!values.name || !values.amount || !values.unit ? 'Please provide information to be able to create an item' : ''}>
                     Create Item
                 </Button>
             </ButtonContainer>

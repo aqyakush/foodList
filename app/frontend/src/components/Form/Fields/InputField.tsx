@@ -4,7 +4,6 @@ import { Controller, FieldError } from 'react-hook-form';
 import ErrorText from "../ErrorText";
 
 const Input = styled.input`
-  margin-bottom: 20px;
   width: 100%;
   padding: 10px;
   font-size: 16px;
@@ -19,9 +18,11 @@ type InputFieldProps = {
   defaultValue?: string | number;
   rules?: object;
   error?: FieldError | undefined;
+  type?: string;
+  min?: number;
 }
 
-const InputField = ({ control, name, label, defaultValue = '', rules, error }: InputFieldProps) => {
+const InputField = ({ control, name, label, defaultValue = '', rules, error, type, min }: InputFieldProps) => {
   return (
     <Controller
       control={control}
@@ -31,7 +32,7 @@ const InputField = ({ control, name, label, defaultValue = '', rules, error }: I
       render={({ field }) => (
         <div>
           <label>{label}</label>
-          <Input {...field}/>
+          <Input {...field} type={type} min={min}/>
           {error && (
               <ErrorText>This field is required</ErrorText>
           )}
