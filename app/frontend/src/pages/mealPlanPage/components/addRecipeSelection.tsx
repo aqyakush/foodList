@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import useFetch from '../../../hooks/apiHooks/useFetch';
-import { API_URL, RECIPES_QUERY } from '../../../utils/apis';
-import Select, { SingleValue } from 'react-select';
+import { API_URL, MEAL_PLAN_URL, MEAL_QUERY, RECIPES_QUERY, SHOPPING_LIST_ITEMS_URL } from '../../../utils/apis';
+import { SingleValue } from 'react-select';
+import { ActionMeta } from 'react-select';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import styled from 'styled-components';
+import CreatableSelect from 'react-select/creatable';
+import usePostFetch from '../../../hooks/apiHooks/usePostFetch';
+import { Meal } from '../../../types';
 
-const StyledSelect = styled(Select)`
+
+const StyledSelect = styled(CreatableSelect)`
     width: 50%;
 `;
 
@@ -25,6 +30,7 @@ type Recipe = {
 type AddRecipeSelectionProps = {
     mealPlanId: string;
     addToMealPlan: (recipeId: number, mealPlanId: string) => void;
+    refetch: () => void;
 }
 
 type option = {
@@ -32,10 +38,14 @@ type option = {
     label: string;
 };
 
-const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ addToMealPlan, mealPlanId }) => {
+type MealToCreate = Pick<Meal, 'name' | 'meal_plan'> & { date: null, recipe: null};
+
+const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ addToMealPlan, mealPlanId, refetch }) => {
     const [selectedRecipe, setSelectedRecipe] = useState<SingleValue<option>>();
 
     const { data,isLoading } = useFetch<Recipe[]>(`${API_URL}${RECIPES_QUERY}`);
+
+    const { postData }  = usePostFetch<MealToCreate>(`${MEAL_PLAN_URL}${MEAL_QUERY}create/`);
 
     const options: option[] = React.useMemo(() => {
         if (data) {
@@ -44,8 +54,19 @@ const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ addToMealPlan, 
         return [];
     }, [data]);
 
-    const handleRecipeSelection = (newValue: SingleValue<option>) => {
-        setSelectedRecipe(newValue);
+    const handleRecipeSelection = async (newValue: SingleValue<option>, actionMeta: ActionMeta<option>) => {
+        if (actionMeta.action === 'create-option') {
+            const meal: MealToCreate = {
+                name: newValue?.label || '',
+                meal_plan: mealPlanId,
+                recipe: null,
+                date: null
+            }
+            postData(meal);
+            refetch();
+        } else {
+            setSelectedRecipe(newValue);
+        }
     };
 
     const handleAddToMealPlan = () => {

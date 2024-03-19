@@ -63,14 +63,17 @@ const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan, refetch })
         console.log(selectedDate);
     }, [meal.id, patchItem, refetch, selectedDate]);
 
+    console.log(meal)
+
     return (
         <Row>
             <RemoveButton type="button" onClick={() => {
                 handleDelete(meal.id)
             }}>✖</RemoveButton>
-            <MealItem key={meal.recipe.name}>
+            {meal.recipe ? 
+            (<MealItem key={meal.recipe.name}>
                 <StyledLink to={`/recipes/?name=${meal.recipe.name}`}>{meal.recipe.name}</StyledLink>
-            </MealItem>
+            </MealItem>) : (<MealItem key={meal.name}>{meal.name}</MealItem>)}
             <select value={selectedDate} onChange={handleDateChange}>
                 {dates.map((date, index) => {
                     if (!date) {

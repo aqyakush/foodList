@@ -48,7 +48,7 @@ class MealSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Meal
-        fields = ['id', 'date', 'recipe', 'meal_plan']
+        fields = ['id', 'date', 'recipe', 'meal_plan', 'name']
 
     def validate(self, data):
         """
@@ -56,18 +56,23 @@ class MealSerializer(serializers.ModelSerializer):
         the meal_plan.
         """
         meal = self.instance
-        meal_plan = meal.meal_plan
+        if meal is None:
+            # Handle the case when meal is None
+            meal_plan = data.get('meal_plan')
+        else:
+            meal_plan = meal.meal_plan
         if not hasattr(meal_plan, 'start_date') or not hasattr(meal_plan,
                                                                'end_date'):
             raise serializers.ValidationError(
                 "Meal plan does not have 'start_date' or 'end_date'."
             )
 
-        if data['date'] < meal_plan.start_date or \
-           data['date'] > meal_plan.end_date:
-            raise serializers.ValidationError(
-                "The date of the meal is not within the start and end date "
-                "of the meal plan."
-            )
+        date = data.get('date')
+        if date is not None:
+            if date < meal_plan.start_date or date > meal_plan.end_date:
+                raise serializers.ValidationError(
+                    "The date of the meal is not within the start and end date"
+                    "of the meal plan."
+                )
 
         return data

@@ -84,20 +84,28 @@ class MealDetail(generics.RetrieveUpdateDestroyAPIView):
         meal_plan = meal.meal_plan
         shopping_list = meal_plan.shopping_list
         recipe = meal.recipe
-
-        # Get the recipes that were removed
-        for ingredient in recipe.ingredients.all():
-            try:
-                item = Item.objects.get(ingredient=ingredient,
-                                        shopping_list=shopping_list)
-                item.amount -= RecipeIngredient.objects.get(
-                    recipe=recipe, ingredient=ingredient).amount
-                if item.amount <= 0:
-                    item.delete()
-                else:
-                    item.save()
-            except Item.DoesNotExist:
-                pass
+        if recipe is None:
+            # Handle the case when recipe is None
+            pass
+        else:
+            # Get the recipes that were removed
+            for ingredient in recipe.ingredients.all():
+                try:
+                    item = Item.objects.get(ingredient=ingredient,
+                                            shopping_list=shopping_list)
+                    item.amount -= RecipeIngredient.objects.get(
+                        recipe=recipe, ingredient=ingredient).amount
+                    if item.amount <= 0:
+                        item.delete()
+                    else:
+                        item.save()
+                except Item.DoesNotExist:
+                    pass
 
         meal.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class MealCreate(generics.CreateAPIView):
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer

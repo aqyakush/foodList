@@ -16,5 +16,6 @@ export type Meal = {
     id: number;
     name: string;
     date: Date | string;
-    recipe: Recipe;
+    recipe?: Recipe;
+    meal_plan: string;
 }

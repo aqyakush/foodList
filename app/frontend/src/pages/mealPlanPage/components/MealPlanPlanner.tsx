@@ -32,7 +32,7 @@ const MealPlanPlanner: React.FC<MealPlanPlannerProps> = ({ mealPlan, refetchMeal
         <>
             <MealPlanCalendar mealPlan={mealPlan} onDelete={handleDelete} refetch={refetchMealPlan}/>
             <MealList handleDelete={handleDelete} mealPlan={mealPlan} refetch={refetchMealPlan}/>
-            <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()}/>
+            <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()} refetch={refetchMealPlan}/>
         </>
     );
 };

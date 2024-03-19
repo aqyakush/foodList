@@ -17,6 +17,7 @@ class Meal(models.Model):
     date = models.DateField(null=True)
     recipe = models.ForeignKey(Recipe, on_delete=models.SET_NULL,
                                null=True, blank=True, related_name='meals')
+    name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return self.recipe.name
