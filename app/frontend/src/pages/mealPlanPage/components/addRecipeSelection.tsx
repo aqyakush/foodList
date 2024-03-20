@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useFetch from '../../../hooks/apiHooks/useFetch';
-import { API_URL, MEAL_PLAN_URL, MEAL_QUERY, RECIPES_QUERY, SHOPPING_LIST_ITEMS_URL } from '../../../utils/apis';
+import { API_URL, MEAL_PLAN_URL, MEAL_QUERY, RECIPES_QUERY } from '../../../utils/apis';
 import { SingleValue } from 'react-select';
 import { ActionMeta } from 'react-select';
 import LoadingSpinner from '../../../components/LoadingSpinner';

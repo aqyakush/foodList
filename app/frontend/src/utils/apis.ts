@@ -1,4 +1,5 @@
-export const API_URL = "http://192.168.49.2/api/";
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+export const API_URL = backendUrl ? backendUrl : "http://192.168.49.2/api/";
 export const RECIPES_QUERY = "recipes/";
 export const MEAL_QUERY = "meal/";
 export const MEAL_PLAN_QUERY = "mealPlans/";
