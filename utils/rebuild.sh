@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Navigate to your project directory
+# Navigate to project directory
 cd  ~/foodList
 
-# Pull the latest master
-git checkout master
-git pull origin master
+# Pull the latest main
+git checkout main
+git pull origin main
 
 # Check if there are running containers
 if [ "$(docker ps -q)" != "" ]; then
