@@ -7,11 +7,20 @@ cd  ~/foodList
 git checkout master
 git pull origin master
 
-# Stop all running containers
-sudo docker stop $(docker ps -q)
+# Check if there are running containers
+if [ "$(docker ps -q)" != "" ]; then
+    # Stop all running containers
+    sudo docker stop $(docker ps -q)
+fi
 
-# Remove all Docker images
-sudo docker rmi $(docker images -q)
+# Remove all stopped containers
+sudo docker rm $(docker ps -a -q)
+
+# Check if there are any Docker images
+if [ "$(docker images -q)" != "" ]; then
+    # Remove all Docker images
+    sudo docker rmi $(docker images -q)
+fi
 
 cd  ~/foodList/app
 
