@@ -40,7 +40,7 @@ function App() {
             <ViewContainer>
               <Routes>
                 <Route path="/viewing/recipes" element={<SearchRecipe />} />
-                <Route path="*" element={<RedirectToRecipes />} />
+                <Route path="*" element={<RedirectToMealPlan />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/viewing/mealPlans" element={<MealPlanPage />} />
                 <Route path="/viewing/shoppingLists" element={<ShoppingListPage />} />
@@ -56,11 +56,11 @@ function App() {
   );
 }
 
-const RedirectToRecipes = () => {
+const RedirectToMealPlan = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate('/viewing/recipes');
+    navigate('/viewing/mealPlans');
   }, [navigate]);
 
   return null;
