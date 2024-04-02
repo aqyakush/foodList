@@ -6,7 +6,13 @@ import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import AddRecipeSelection from './addRecipeSelection';
 import MealPlanCalendar from './mealPlanCalendar';
 import MealList from './mealList';
+import styled from 'styled-components';
 
+const Separator = styled.div`
+  border: 1px solid lightgray;
+  height: auto;
+  margin: 0 1rem;
+`;
 
 type MealPlanPlannerProps = {
     mealPlan: MealPlan;
@@ -31,6 +37,7 @@ const MealPlanPlanner: React.FC<MealPlanPlannerProps> = ({ mealPlan, refetchMeal
     return (
         <>
             <MealPlanCalendar mealPlan={mealPlan} onDelete={handleDelete} refetch={refetchMealPlan}/>
+            <Separator />
             <MealList handleDelete={handleDelete} mealPlan={mealPlan} refetch={refetchMealPlan}/>
             <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()} refetch={refetchMealPlan}/>
         </>
