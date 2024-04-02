@@ -79,8 +79,9 @@ const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan, refetch })
                     if (!date) {
                         return <option key={index} value={''}>Select a date</option>
                     } else {
-                        const formattedDate = format(date, 'yyyy-MM-dd');
-                        return <option key={index} value={formattedDate}>{formattedDate}</option>
+                        const formattedDate = format(date, 'EEE, yyyy-MM-dd');
+                        const dateForRequest = format(date, 'yyyy-MM-dd');
+                        return <option key={index} value={dateForRequest}>{formattedDate}</option>
                     }
                 })}
             </select>
