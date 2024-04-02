@@ -8,9 +8,7 @@ import ShoppingListCard from './components/ShoppingListCard';
 
 const ShoppingListPage = () => {
     const { data, isLoading, refetch } = useFetch<ShoppingList[]>(`${API_URL}${SHOPPING_LIST_QUERY}`);
-
-    console.log(data);
-
+    
     if (isLoading) {
         return (
           <CenterDiv>

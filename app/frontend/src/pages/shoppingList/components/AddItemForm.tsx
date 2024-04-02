@@ -55,8 +55,8 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction })
             postData(finalData);
             reset({
                 name: '',
-                unit: '',
-                amount: 0.0,
+                unit: 'piece',
+                amount: 1.0,
                 ingredient: undefined,
                 shopping_list: undefined,
                 is_bought: false,
@@ -96,6 +96,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction })
                     label="Unit:" 
                     rules={{ required: true }} 
                     error={errors.unit}
+                    defaultValue={'piece'}
                     selectOptions={UNIT_OPTIONS}/>
             </UnitField>
             <ButtonContainer>
