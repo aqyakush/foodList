@@ -9,8 +9,14 @@ const AmountDiv = styled.div`
   max-width: 100px; /* Adjust this value as needed */
 
   &:hover {
-    cursor: pointer;
+    cursor: text;
   }
+`;
+
+const NameDiv = styled.div<{ isEditable?: boolean }>`
+    &:hover {
+        cursor: ${props => (props.isEditable ? 'text' : 'default')};
+    }
 `;
 
 const InputAmount = styled.input`
@@ -20,6 +26,7 @@ const InputAmount = styled.input`
 
 type ItemPatch = {
     is_bought?: boolean;
+    name?: string;
     amount?: number;
 };
 
@@ -30,9 +37,12 @@ type ItemRowProps = {
 
 const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
     const [isChecked, setIsChecked] = useState(item.is_bought);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isAmountEditing, setIsAmountEditing] = useState(false);
+    const [isNameEditing, setIsNameEditing] = useState(false);
     const [amount, setAmount] = useState(item.amount);
+    const [name, setName] = useState(item.name);
     const initialAmount = useRef(item.amount); 
+    const initialName = useRef(item.name); 
     const { patchItem } = usePatchFetch<ItemPatch, Item>(SHOPPING_LIST_ITEMS_URL);
 
     const handleCheckboxChange = () => {
@@ -40,15 +50,24 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
         patchItem({ 'is_bought' : !isChecked}, item.id.toString());
     };
 
-    const handleEdit = () => {
-        setIsEditing(true);
+    const handleAmountEdit = () => {
+        setIsAmountEditing(true);
     };
     
+    const handleNameEdit = () => {
+        setIsNameEditing(true);
+    };
+
     const handleBlur = () => {
-        setIsEditing(false);
+        setIsAmountEditing(false);
+        setIsNameEditing(false);
         if (amount !== initialAmount.current) { 
             patchItem({ 'amount' : amount}, item.id.toString());
             initialAmount.current = amount;
+        }
+        if (name !== initialName.current) { 
+            patchItem({ 'name' : name}, item.id.toString());
+            initialName.current = name;
         }
     };
 
@@ -58,8 +77,12 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
         }
       };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAmount(Number(event.target.value));
+    };
+
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
     };
 
     return (
@@ -71,15 +94,22 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
                     onChange={handleCheckboxChange}
                 />
             </td>
-            <td>{item.name}</td>
-            <td onClick={handleEdit}>
-            {isEditing ? (
-                <InputAmount type="text" value={amount} onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
+            <td onClick={handleNameEdit}>
+                {isNameEditing && !item.ingredient ? (
+                    <input type="text" value={name} onChange={handleNameChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
+                ) : (
+                    <NameDiv isEditable={!item.ingredient}>
+                        {name}
+                    </NameDiv>
+                )}
+            </td>
+            <td onClick={handleAmountEdit}>
+            {isAmountEditing ? (
+                <InputAmount type="text" value={amount} onChange={handleAmountChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
             ) : (
                 <AmountDiv>
                     {amount}
                 </AmountDiv>
-                
             )}
             </td>
             <td>{item.unit}</td>
