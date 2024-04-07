@@ -15,7 +15,8 @@ const PlanningMealPlan: React.FC = () => {
   return (
     <Space>
       <MealPlanSection />
-      <RecipesSection />
+      {/* INFO: depricete Recipes section due to limited use */}
+      {/* <RecipesSection /> */}
       <ShoppingListSection />
     </Space>
   );
