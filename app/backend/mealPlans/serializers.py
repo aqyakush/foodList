@@ -48,7 +48,7 @@ class MealSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Meal
-        fields = ['id', 'date', 'recipe', 'meal_plan', 'name']
+        fields = ['id', 'date', 'recipe', 'meal_plan', 'name', 'meal_type']
 
     def validate(self, data):
         """
