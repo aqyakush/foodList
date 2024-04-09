@@ -1,11 +1,10 @@
 import React from 'react';
 import Section from '../../components/section';
 import { useParams } from 'react-router-dom';
-import useFetch from '../../../../hooks/apiHooks/useFetch';
-import MealPlanPlanner from '../../../mealPlanPage/components/MealPlanPlanner';
-import { API_URL, MEAL_PLAN_QUERY } from '../../../../utils/apis';
-import { MealPlan } from '../../../../types/mealPlan';
 import styled from 'styled-components';
+import { MealPlansProvider } from '../../../mealPlanPage/MealPlansContext';
+import MealPlanView from './MealPlanView';
+
 
 const CenterDiv = styled.div`
   flex-grow: 1;
@@ -18,17 +17,14 @@ const CenterDiv = styled.div`
 
 const MealPlanSection: React.FC = () => {
     const params = useParams();
-    const { data: mealPlan, isLoading: mealPlanLoading, refetch: refetchMealPlan } = useFetch<MealPlan>(`${API_URL}${MEAL_PLAN_QUERY}${params.id}`);
     
     return (
         <Section title="Meal Plan" openByDefault>
             <CenterDiv>
-            {
-                mealPlanLoading ? <CenterDiv>Loading...</CenterDiv> : 
-                mealPlan ? <MealPlanPlanner mealPlan={mealPlan} refetchMealPlan={refetchMealPlan} /> : <CenterDiv>No meal plan found</CenterDiv>
-            }
+                <MealPlansProvider params={params}>
+                    <MealPlanView />
+                </MealPlansProvider>
             </CenterDiv>
-            
         </Section>
     );
 };

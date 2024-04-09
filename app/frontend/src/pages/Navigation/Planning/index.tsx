@@ -31,7 +31,6 @@ const PlanningNavigation: React.FC = () => {
     }, [refetch]);
 
     const handleAddMealPlan = React.useCallback(() => {
-        console.log('Add meal plan');
         setIsCreateModalOpen(true);
         refetch();
       }, [refetch, setIsCreateModalOpen]);
@@ -41,7 +40,7 @@ const PlanningNavigation: React.FC = () => {
         <>
             <MoreButton title='Planning'>
                 {data?.map((mealPlan) => (
-                    <MealPlanNav mealPlan={mealPlan} refetch={refetch}/>
+                    <MealPlanNav key={mealPlan.id} mealPlan={mealPlan} refetch={refetch}/>
                 ))}
                 <li>
                     <AddMealPlanButton onClick={handleAddMealPlan}>+ Meal Plan</AddMealPlanButton>

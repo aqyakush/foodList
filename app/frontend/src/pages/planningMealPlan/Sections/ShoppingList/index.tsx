@@ -1,6 +1,5 @@
 import React from 'react';
 import Section from '../../components/section';
-import ShoppingListPage from '../../../shoppingList';
 import { useParams } from 'react-router-dom';
 import useFetch from '../../../../hooks/apiHooks/useFetch';
 import ShoppingList from '../../../../types/shoppingList';

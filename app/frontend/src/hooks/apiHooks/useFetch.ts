@@ -27,8 +27,26 @@ const useFetch = <T>(url: string, params?: string) => {
 
         fetchData();
     }, [url, query, reload]);
+    // const fetchMealPlan = async () => {
+    //     try {
+    //         const response = await fetch(`${url}${query}`);
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! status: ${response.status}`);
+    //         }
+    //         const data: T = await response.json();
+    //         setData(data);
+    //     } catch (error: any) {
+    //         setError(error.message);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
 
-    return { data, setQuery, isLoading, error, refetch };
+    // useEffect(() => {
+    //     fetchMealPlan();
+    // }, []);
+
+    return { data, setQuery, isLoading, error, refetch};
 };
 
 export default useFetch;

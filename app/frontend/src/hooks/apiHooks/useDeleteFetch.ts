@@ -15,8 +15,6 @@ const useDeleteFetch = () => {
                     method: 'DELETE',
                 });
 
-                console.log("response", response)
-
                 if (!response.ok) {
                     throw new Error('Failed to delete data');
                 }
@@ -28,7 +26,6 @@ const useDeleteFetch = () => {
                 }
                 addNotification('Deleted', 'Data deleted successfully', 'success');
             } catch (error: any) {
-                console.log("error", error)
                 setError(error);
                 addNotification('Error', `Failed to patch data ${error.message}`, 'error');
             } finally { 

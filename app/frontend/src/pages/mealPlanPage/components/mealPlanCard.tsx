@@ -7,7 +7,6 @@ import MealPlanPlanner from './MealPlanPlanner';
 
 type MealPlanCardProps = {
     mealPlan: MealPlan;
-    refetchMealPlan: () => void;
 };
 
 const MealPlanTitle = styled.h1`
@@ -28,7 +27,7 @@ const TitleContainer = styled.div`
     align-items: center;
 `;
 
-const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }) => {
+const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan }) => {
     const [isExpanded, setIsExpanded] = React.useState(true);
 
     const handleTitleClick = () => {
@@ -42,7 +41,7 @@ const MealPlanCard: React.FC<MealPlanCardProps> = ({ mealPlan, refetchMealPlan }
                 <Arrow> {isExpanded ? '▼' : '►'}</Arrow>
             </TitleContainer>
             {isExpanded && 
-                <MealPlanPlanner mealPlan={mealPlan} refetchMealPlan={refetchMealPlan}/>    
+                <MealPlanPlanner mealPlan={mealPlan}/>    
             }
              
         </Card>

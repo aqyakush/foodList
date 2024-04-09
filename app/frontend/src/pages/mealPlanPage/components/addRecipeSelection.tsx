@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import useFetch from '../../../hooks/apiHooks/useFetch';
 import { API_URL, MEAL_PLAN_URL, MEAL_QUERY, RECIPES_QUERY } from '../../../utils/apis';
 import { SingleValue } from 'react-select';
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import CreatableSelect from 'react-select/creatable';
 import usePostFetch from '../../../hooks/apiHooks/usePostFetch';
 import { Meal } from '../../../types';
+import { MealPlansContext } from '../MealPlansContext';
 
 
 const StyledSelect = styled(CreatableSelect)`
@@ -30,7 +31,6 @@ type Recipe = {
 type AddRecipeSelectionProps = {
     mealPlanId: string;
     addToMealPlan: (recipeId: number, mealPlanId: string) => void;
-    refetch: () => void;
 }
 
 type option = {
@@ -40,7 +40,8 @@ type option = {
 
 type MealToCreate = Pick<Meal, 'name' | 'meal_plan'> & { date: null, recipe: null};
 
-const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ addToMealPlan, mealPlanId, refetch }) => {
+const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ addToMealPlan, mealPlanId }) => {
+    const { refetch } = useContext(MealPlansContext);
     const [selectedRecipe, setSelectedRecipe] = useState<SingleValue<option>>();
 
     const { data,isLoading } = useFetch<Recipe[]>(`${API_URL}${RECIPES_QUERY}`);

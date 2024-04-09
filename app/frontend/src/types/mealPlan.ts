@@ -18,4 +18,5 @@ export type Meal = {
     date: Date | string;
     recipe?: Recipe;
     meal_plan: string;
+    meal_type?: string;
 }

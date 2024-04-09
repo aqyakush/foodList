@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { RemoveButton } from '../../mainPage/components/createRecipeCard';
@@ -6,6 +6,7 @@ import { eachDayOfInterval, format } from 'date-fns';
 import { Meal, MealPlan } from '../../../types/mealPlan';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import { MEAL_PLAN_URL, MEAL_QUERY } from '../../../utils/apis';
+import { MealPlansContext } from '../MealPlansContext';
 
 const Row = styled.div`
     display: flex;
@@ -35,18 +36,22 @@ type MealProps = {
     mealPlan: MealPlan;
     handleDelete: (mealId: number) => Promise<void>
     meal: Meal;
-    refetch: () => void;
 }
 
-type MealDate = {
-    date: Date | string;
+type MealUpdate = {
+    date?: Date | string;
+    meal_type?: string;
 }
 
-const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan, refetch }) => {
+const mealTypes = ['', 'breakfast', 'lunch', 'dinner', 'snack', 'brunch', 'linner'];
+
+const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
+    const { refetch } = useContext(MealPlansContext);
     const { start_date, end_date } = mealPlan;
     const [selectedDate, setSelectedDate] = React.useState('');
+    const [mealType, setMealType] = React.useState(meal.meal_type || '');
 
-    const { patchItem } = usePatchFetch<MealDate, Meal>(`${MEAL_PLAN_URL}${MEAL_QUERY}`);
+    const { patchItem } = usePatchFetch<MealUpdate, Meal>(`${MEAL_PLAN_URL}${MEAL_QUERY}`);
 
     const dates = [undefined, ...eachDayOfInterval({
         start: new Date(start_date),
@@ -57,14 +62,32 @@ const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan, refetch })
         setSelectedDate(event.target.value);
     };
 
+    const handleMealTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setMealType(event.target.value);
+    };
+
     const handleButtonClick = React.useCallback(async () => {
-        await patchItem({ date: selectedDate }, meal.id.toString());
+        let data = {};
+        if (selectedDate) {
+            data = { ...data, date: selectedDate }
+        }
+        if (mealType) {
+            data = { ...data, meal_type: mealType }
+        }
+        await patchItem(data, meal.id.toString());
         refetch();
-        console.log(selectedDate);
-    }, [meal.id, patchItem, refetch, selectedDate]);
+    }, [meal.id, mealType, patchItem, refetch, selectedDate]);
 
-    console.log(meal)
-
+    const createButton = React.useMemo(() => {
+        if (selectedDate && meal.meal_type !== mealType && mealType) {
+            return <button onClick={handleButtonClick}>Change date and meal type</button>
+        } else if (selectedDate) {
+            return <button onClick={handleButtonClick}>Change date</button>
+        } else if (meal.meal_type !== mealType && mealType) {
+            return <button onClick={handleButtonClick}>Change meal type</button>
+        }
+    }, [handleButtonClick, meal.meal_type, mealType, selectedDate])
+    
     return (
         <Row>
             <RemoveButton type="button" onClick={() => {
@@ -85,7 +108,16 @@ const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan, refetch })
                     }
                 })}
             </select>
-            {selectedDate && <button onClick={handleButtonClick}>Change date</button>}
+            <select value={mealType} onChange={handleMealTypeChange}>
+                {mealTypes.map((type, index) => {
+                    if (!type) {
+                        return <option key={index} value={''}>Select a meal type</option>
+                    } else {
+                        return <option key={index} value={type}>{type}</option>
+                    }
+                })}
+            </select>
+            {createButton}
         </Row>
     );
 };

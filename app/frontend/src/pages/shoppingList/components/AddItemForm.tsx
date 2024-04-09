@@ -51,7 +51,6 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction })
                 shopping_list: shoppingList,
                 is_bought: false,
             }
-            console.log(finalData);
             postData(finalData);
             reset({
                 name: '',
