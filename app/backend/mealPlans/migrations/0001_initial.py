@@ -29,6 +29,7 @@ class Migration(migrations.Migration):
                 ('date', models.DateField(null=True)),
                 ('meal_plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='meals', to='mealPlans.mealplan')),
                 ('recipe', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='meals', to='recipes.recipe')),
+                ('name', models.CharField(blank=True, max_length=200, null=True)),
             ],
         ),
     ]

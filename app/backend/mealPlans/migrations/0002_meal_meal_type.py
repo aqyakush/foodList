@@ -15,9 +15,4 @@ class Migration(migrations.Migration):
             name='meal_type',
             field=models.CharField(blank=True, choices=[('breakfast', 'Breakfast'), ('lunch', 'Lunch'), ('dinner', 'Dinner'), ('snack', 'Snack'), ('brunch', 'Brunch'), ('linner', 'Linner')], max_length=10, null=True),
         ),
-        migrations.AddField(
-            model_name='meal',
-            name='name',
-            field=models.CharField(blank=True, max_length=200, null=True),
-        ),
     ]
