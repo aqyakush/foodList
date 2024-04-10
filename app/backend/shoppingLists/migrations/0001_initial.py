@@ -31,6 +31,7 @@ class Migration(migrations.Migration):
                 ('is_bought', models.BooleanField(default=False)),
                 ('ingredient', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='items', to='recipes.ingredient')),
                 ('shopping_list', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='shoppingLists.shoppinglist')),
+                ('name', models.CharField(max_length=255, null=True)),
             ],
             options={
                 'unique_together': {('ingredient', 'shopping_list')},
