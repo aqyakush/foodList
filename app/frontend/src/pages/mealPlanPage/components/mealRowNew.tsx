@@ -45,7 +45,7 @@ type MealUpdate = {
 
 const mealTypes = ['', 'breakfast', 'lunch', 'dinner', 'snack', 'brunch', 'linner'];
 
-const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
+const MealRowNew: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
     const { refetch } = useContext(MealPlansContext);
     const { start_date, end_date } = mealPlan;
     const [selectedDate, setSelectedDate] = React.useState('');
@@ -122,4 +122,4 @@ const MealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
     );
 };
 
-export default MealRow;
+export default MealRowNew;

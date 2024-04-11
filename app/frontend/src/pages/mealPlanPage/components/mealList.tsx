@@ -1,6 +1,6 @@
 import React from 'react';
 import { MealPlan } from '../../../types';
-import MealRow from './mealRow';
+import MealRow from './mealRowNew';
 import List from '../../../components/List/List';
 
 

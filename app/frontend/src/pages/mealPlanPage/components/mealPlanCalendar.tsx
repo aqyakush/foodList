@@ -1,16 +1,15 @@
 import React from 'react';
 import { MealPlan } from '../../../types';
 import { eachDayOfInterval, format } from 'date-fns';
-import MealRow from './mealRow';
+import MealRowEdit from './mealPlanEdit';
 
 type MealPlanCalendarProps = {
     mealPlan: MealPlan;
-    onDelete: (mealId: number) => Promise<void>
 }
 
 const mealOrder = ['breakfast', 'brunch', 'lunch', 'linner', 'dinner', 'snack'];
 
-const MealPlanCalendar: React.FC<MealPlanCalendarProps> = ({ mealPlan, onDelete }) => {
+const MealPlanCalendar: React.FC<MealPlanCalendarProps> = ({ mealPlan }) => {
     const { start_date, end_date, meals } = mealPlan;
 
     const dates = eachDayOfInterval({
@@ -32,7 +31,7 @@ const MealPlanCalendar: React.FC<MealPlanCalendarProps> = ({ mealPlan, onDelete 
                             if (b.meal_type === undefined || b.meal_type === null) return -1;
                             return mealOrder.indexOf(a.meal_type) - mealOrder.indexOf(b.meal_type);
                         }).map((meal) => (
-                            meal && <MealRow key={meal.id} meal={meal} handleDelete={onDelete} mealPlan={mealPlan}/>
+                            meal && <MealRowEdit key={meal.id} meal={meal} mealPlan={mealPlan}/>
                         ))}
                     </div>
                 );

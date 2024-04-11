@@ -37,7 +37,7 @@ const MealPlanPlanner: React.FC<MealPlanPlannerProps> = ({ mealPlan }) => {
 
     return (
         <>
-            <MealPlanCalendar mealPlan={mealPlan} onDelete={handleDelete}/>
+            <MealPlanCalendar mealPlan={mealPlan}/>
             <Separator />
             <MealList handleDelete={handleDelete} mealPlan={mealPlan}/>
             <AddRecipeSelection addToMealPlan={handleAddToMealPlan} mealPlanId={mealPlan.id.toString()}/>
