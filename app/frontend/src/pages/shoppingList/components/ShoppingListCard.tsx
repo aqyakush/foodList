@@ -3,6 +3,9 @@ import ShoppingList from '../../../types/shoppingList';
 import ItemRow from './ItemRow';
 import List from '../../../components/List/List';
 import AddItemForm from './AddItemForm';
+import { FiCopy } from 'react-icons/fi';
+import styled from 'styled-components';
+
 
 
 type ShoppingListProps = {
@@ -10,10 +13,49 @@ type ShoppingListProps = {
     refetch: () => void;
 }
 
+const TitleContainer = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+`;
+
+const CopyButton = styled.div`
+    margin-left: 20px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+
+    &:active {
+        transform: scale(0.95);
+    }
+`;
+
 const ShoppingListCard: React.FC<ShoppingListProps> = ({ shoppingList, refetch }) => {
+    const [copySuccess, setCopySuccess] = React.useState('');
+
+    const copyListToClipboard = async () => {
+        const listText = shoppingList.items.map(item => `${item.name} ${item.amount} ${item.unit}`).join('\n');
+        try {
+            await navigator.clipboard.writeText(listText);
+            setCopySuccess('Copied!');
+        } catch (err) {
+            setCopySuccess('Failed to copy text');
+        }
+
+        setTimeout(
+            () => {
+                setCopySuccess('');
+            }, 2000);
+    };
+
     return (
         <div>
-            <h2>{shoppingList.name}</h2>
+            <TitleContainer>
+                <h2>{shoppingList.name}</h2>
+                <CopyButton onClick={copyListToClipboard}>
+                    {copySuccess === '' ? <FiCopy /> : copySuccess}
+                </CopyButton>
+            </TitleContainer>
+            
             <List>
                 {shoppingList.items.map((item, index) => (
                     <li key={index}>
