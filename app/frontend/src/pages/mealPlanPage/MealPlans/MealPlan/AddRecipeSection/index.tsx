@@ -7,9 +7,9 @@ import LoadingSpinner from '../../../../../components/LoadingSpinner';
 import styled from 'styled-components';
 import CreatableSelect from 'react-select/creatable';
 import usePostFetch from '../../../../../hooks/apiHooks/usePostFetch';
-import { Meal } from '../../../../../types';
+import { Meal, MealPlanPatch, MealPlan as MealPlanType } from '../../../../../types';
 import { MealPlansContext } from '../../../MealPlansContext';
-
+import usePatchFetch from '../../../../../hooks/apiHooks/usePatchFetch';
 
 const StyledSelect = styled(CreatableSelect)`
     width: 50%;
@@ -30,7 +30,6 @@ type Recipe = {
 
 type AddRecipeSelectionProps = {
     mealPlanId: string;
-    addToMealPlan: (recipeId: number, mealPlanId: string) => void;
 }
 
 type option = {
@@ -40,13 +39,15 @@ type option = {
 
 type MealToCreate = Pick<Meal, 'name' | 'meal_plan'> & { date: null, recipe: null};
 
-const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ addToMealPlan, mealPlanId }) => {
+const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ mealPlanId }) => {
     const { refetch } = useContext(MealPlansContext);
     const [selectedRecipe, setSelectedRecipe] = useState<SingleValue<option>>();
 
     const { data,isLoading } = useFetch<Recipe[]>(`${API_URL}${RECIPES_QUERY}`);
 
     const { postData }  = usePostFetch<MealToCreate>(`${MEAL_PLAN_URL}${MEAL_QUERY}create/`);
+
+    const { patchItem } = usePatchFetch<MealPlanPatch, MealPlanType>(MEAL_PLAN_URL);
 
     const options: option[] = React.useMemo(() => {
         if (data) {
@@ -70,12 +71,13 @@ const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ addToMealPlan, 
         }
     };
 
-    const handleAddToMealPlan = () => {
+    const handleAddToMealPlan = React.useCallback(() => {
         if (selectedRecipe) {
-            addToMealPlan(selectedRecipe.value, mealPlanId);
+            patchItem({ 'recipe_id' : selectedRecipe.value}, mealPlanId);
             setSelectedRecipe(null);
+            refetch();
         }
-    };
+    }, [patchItem, refetch, selectedRecipe, mealPlanId]);
 
     if (isLoading) {
         return <LoadingSpinner />;

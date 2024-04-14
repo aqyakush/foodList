@@ -6,10 +6,9 @@ import List from '../../../../../components/List/List';
 
 type MealListProps = {
     mealPlan: MealPlan;
-    handleDelete: (mealId: number) => Promise<void>
 }
 
-const MealList: React.FC<MealListProps> = ({ handleDelete, mealPlan}) => {
+const MealList: React.FC<MealListProps> = ({ mealPlan}) => {
     return (
         <List>
             {mealPlan?.meals?.map((item) => (
@@ -17,7 +16,6 @@ const MealList: React.FC<MealListProps> = ({ handleDelete, mealPlan}) => {
                     <MealRow
                         meal={item}
                         key={item.id}
-                        handleDelete={handleDelete}
                         mealPlan={mealPlan}
                     />
                 )

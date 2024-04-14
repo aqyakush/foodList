@@ -5,9 +5,10 @@ import { RemoveButton } from '../../../../../mainPage/components/createRecipeCar
 import { eachDayOfInterval, format } from 'date-fns';
 import { Meal, MealPlan } from '../../../../../../types/mealPlan';
 import usePatchFetch from '../../../../../../hooks/apiHooks/usePatchFetch';
-import { MEAL_PLAN_URL, MEAL_QUERY } from '../../../../../../utils/apis';
+import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, MEAL_QUERY } from '../../../../../../utils/apis';
 import { MealPlansContext } from '../../../../MealPlansContext';
 import { MEAL_TYPES } from '../../utils';
+import useDeleteFetch from '../../../../../../hooks/apiHooks/useDeleteFetch';
 
 const Row = styled.div`
     display: flex;
@@ -35,7 +36,6 @@ const MealItem = styled.li`
 
 type MealProps = {
     mealPlan: MealPlan;
-    handleDelete: (mealId: number) => Promise<void>
     meal: Meal;
 }
 
@@ -44,13 +44,19 @@ type MealUpdate = {
     meal_type?: string;
 }
 
-const NewMealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
+const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
     const { refetch } = useContext(MealPlansContext);
     const { start_date, end_date } = mealPlan;
     const [selectedDate, setSelectedDate] = React.useState('');
     const [mealType, setMealType] = React.useState(meal.meal_type || '');
 
     const { patchItem } = usePatchFetch<MealUpdate, Meal>(`${MEAL_PLAN_URL}${MEAL_QUERY}`);
+    const { deleteItem } = useDeleteFetch();
+
+    const handleDelete = React.useCallback( async (mealId:number) => {
+        await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${MEAL_QUERY}${mealId}/`)
+        refetch();
+    }, [deleteItem, refetch]);
 
     const dates = [undefined, ...eachDayOfInterval({
         start: new Date(start_date),
