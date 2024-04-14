@@ -34,12 +34,17 @@ const ShoppingListCard: React.FC<ShoppingListProps> = ({ shoppingList, refetch }
 
     const copyListToClipboard = async () => {
         const listText = shoppingList.items.map(item => `${item.name} ${item.amount} ${item.unit}`).join('\n');
+        const textarea = document.createElement('textarea');
+        textarea.value = listText;
+        document.body.appendChild(textarea);
+        textarea.select();
         try {
-            await navigator.clipboard.writeText(listText);
+            document.execCommand('copy');
             setCopySuccess('Copied!');
         } catch (err) {
             setCopySuccess('Failed to copy text');
         }
+        document.body.removeChild(textarea);
 
         setTimeout(
             () => {
