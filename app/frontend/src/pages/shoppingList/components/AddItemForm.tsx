@@ -27,8 +27,6 @@ const UnitField = styled.div`
   width: 100px;
 `;
 
-
-
 const UNIT_OPTIONS = ['kg','g', 'ml', 'l', 'tbsp', 'tsp', 'piece','unit','cup'];
 
 type AddItemFormProps = {
@@ -43,7 +41,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction })
     
     const { postData }  = usePostFetch<Item>(`${SHOPPING_LIST_ITEMS_URL}`);
 
-    const onSubmit = (data: Item) => {
+    const onSubmit = React.useCallback((data: Item) => {
         try {
             const finalData = {
                 ...data,
@@ -64,7 +62,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction })
         } catch (error) {
             console.error(error);
         }
-    };
+    }, [postData, reset, shoppingList, handleAction]);
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
