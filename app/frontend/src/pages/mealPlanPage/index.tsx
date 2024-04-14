@@ -1,6 +1,6 @@
 import React from 'react';
 import { MealPlansProvider } from './MealPlansContext';
-import MealPlans from './components/MealPlans';
+import MealPlans from './MealPlans';
 
 const MealPlanPage = () => {
   return (

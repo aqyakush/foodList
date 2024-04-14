@@ -1,7 +1,7 @@
 import React from 'react';
-import { MealPlan } from '../../../types';
+import { MealPlan } from '../../../../../types';
 import { eachDayOfInterval, format } from 'date-fns';
-import MealRowEdit from './mealPlanEdit';
+import EditMealRow from './EditMealRow';
 
 type MealPlanCalendarProps = {
     mealPlan: MealPlan;
@@ -31,7 +31,7 @@ const MealPlanCalendar: React.FC<MealPlanCalendarProps> = ({ mealPlan }) => {
                             if (b.meal_type === undefined || b.meal_type === null) return -1;
                             return mealOrder.indexOf(a.meal_type) - mealOrder.indexOf(b.meal_type);
                         }).map((meal) => (
-                            meal && <MealRowEdit key={meal.id} meal={meal} mealPlan={mealPlan}/>
+                            meal && <EditMealRow key={meal.id} meal={meal} mealPlan={mealPlan}/>
                         ))}
                     </div>
                 );

@@ -1,7 +1,7 @@
 import React from 'react';
-import { MealPlan } from '../../../types';
-import MealRow from './mealRowNew';
-import List from '../../../components/List/List';
+import { MealPlan } from '../../../../../types';
+import MealRow from './NewMealRow';
+import List from '../../../../../components/List/List';
 
 
 type MealListProps = {

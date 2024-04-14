@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { RemoveButton } from '../../mainPage/components/createRecipeCard';
 
-import { Meal, MealPlan } from '../../../types/mealPlan';
-import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
-import { MEAL_PLAN_URL, MEAL_QUERY } from '../../../utils/apis';
-import { MealPlansContext } from '../MealPlansContext';
-import MealPlanRowActions from './mealPlanRowActions';
+import { Meal, MealPlan } from '../../../../../../types/mealPlan';
+import usePatchFetch from '../../../../../../hooks/apiHooks/usePatchFetch';
+import { MEAL_PLAN_URL, MEAL_QUERY } from '../../../../../../utils/apis';
+import { MealPlansContext } from '../../../../MealPlansContext';
+import MealPlanRowActions from './mealRowActions';
+import { MEAL_TYPES } from '../../utils';
 
 const Row = styled.div`
     display: flex;
@@ -67,9 +67,7 @@ export type MealUpdate = {
 }
 
 
-const mealTypes = ['', 'breakfast', 'lunch', 'dinner', 'snack', 'brunch', 'linner'];
-
-const MealRowEdit: React.FC<MealProps> = ({ meal, mealPlan }) => {
+const EditMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
     const { refetch } = useContext(MealPlansContext);
     
     const [isMealTypeEditing, setIsMealTypeEditing] = React.useState(false);
@@ -114,7 +112,7 @@ const MealRowEdit: React.FC<MealProps> = ({ meal, mealPlan }) => {
             <div onClick={handleMealTypeEdit}>
             {isMealTypeEditing || !mealType ? (
                 <select value={mealType} onChange={handleMealTypeChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus>
-                    {mealTypes.map((type, index) => {
+                    {MEAL_TYPES.map((type, index) => {
                         if (!type) {
                             return <option key={index} value={''}>Select a meal type</option>
                         } else {
@@ -132,4 +130,4 @@ const MealRowEdit: React.FC<MealProps> = ({ meal, mealPlan }) => {
     );
 };
 
-export default MealRowEdit;
+export default EditMealRow;

@@ -1,11 +1,11 @@
 import React from 'react';
-import useDeleteFetch from '../../../hooks/apiHooks/useDeleteFetch';
-import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, MEAL_QUERY } from '../../../utils/apis';
+import useDeleteFetch from '../../../../../../hooks/apiHooks/useDeleteFetch';
+import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, MEAL_QUERY } from '../../../../../../utils/apis';
 import styled from 'styled-components';
-import { Meal, MealPlan } from '../../../types';
+import { Meal, MealPlan } from '../../../../../../types';
 import { eachDayOfInterval, format } from 'date-fns';
-import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
-import { MealUpdate } from './mealPlanEdit';
+import usePatchFetch from '../../../../../../hooks/apiHooks/usePatchFetch';
+import { MealUpdate } from '.';
 
 type MenuDivProps = {
   isOpen: boolean;
@@ -127,7 +127,7 @@ type RowActionsProps = {
     refetch: () => void;
 }
 
-const MealPlanRowActions: React.FC<RowActionsProps> = ({ meal, mealPlan, refetch }) => {
+const MealRowActions: React.FC<RowActionsProps> = ({ meal, mealPlan, refetch }) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const buttonRef = React.useRef(null);
     const { deleteItem } = useDeleteFetch();
@@ -152,4 +152,4 @@ const MealPlanRowActions: React.FC<RowActionsProps> = ({ meal, mealPlan, refetch
     );
 };
 
-export default MealPlanRowActions;
+export default MealRowActions;

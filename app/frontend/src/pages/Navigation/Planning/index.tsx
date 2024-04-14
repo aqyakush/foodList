@@ -5,7 +5,7 @@ import useFetch from '../../../hooks/apiHooks/useFetch';
 import { MealPlan } from '../../../types';
 import { API_URL, MEAL_PLAN_QUERY } from '../../../utils/apis';
 import Modals from '../../../components/Modal';
-import CreateMealPlanForm from '../../mealPlanPage/components/createMealPlanForm';
+import CreateMealPlanForm from '../../mealPlanPage/MealPlans/CreateMealPlanForm';
 import MealPlanNav from './MealPlanNav';
 
 const AddMealPlanButton = styled.div`

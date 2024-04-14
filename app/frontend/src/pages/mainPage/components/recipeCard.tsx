@@ -3,23 +3,13 @@ import styled from 'styled-components';
 import { Recipe } from '../../../types';
 import Card from '../../../components/Cards';
 import MealPlanDropdown from './dropDownMealPlans';
+import TitleWithArrow from '../../../components/TitleWithArrow';
+import useToggle from '../../../hooks/useToggle';
+import { is } from 'date-fns/locale';
 
 type RecipeProps = {
     recipe: Recipe;
 };
-
-const TitleContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const RecipeTitle = styled.h1`
-    font-size: 2rem;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-`;
 
 const IngredientList = styled.ul`
     list-style-type: none;
@@ -31,23 +21,12 @@ const IngredientItem = styled.li`
     position: relative;
 `;
 
-const Arrow = styled.div`
-    text-align: right;
-    cursor: pointer;
-`;
-
 const RecipeCard: React.FC<RecipeProps> = ({ recipe }) => {
-    const [isExpanded, setIsExpanded] = React.useState(true);
+    const [ isExpanded, onExpand ]  = useToggle(true);
 
-    const handleTitleClick = () => {
-        setIsExpanded(!isExpanded);
-    };
     return (
         <Card key={recipe.name}>
-            <TitleContainer onClick={handleTitleClick}>
-                <RecipeTitle>{recipe.name}</RecipeTitle>
-                <Arrow> {isExpanded ? '▼' : '►'}</Arrow>
-            </TitleContainer>
+            <TitleWithArrow title={recipe.name} isExpanded={isExpanded} onClick={onExpand} />
             {isExpanded && (
                 <>
                     Ingredients:

@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
-import useFetch from '../../../hooks/apiHooks/useFetch';
-import { API_URL, MEAL_PLAN_URL, MEAL_QUERY, RECIPES_QUERY } from '../../../utils/apis';
+import useFetch from '../../../../../hooks/apiHooks/useFetch';
+import { API_URL, MEAL_PLAN_URL, MEAL_QUERY, RECIPES_QUERY } from '../../../../../utils/apis';
 import { SingleValue } from 'react-select';
 import { ActionMeta } from 'react-select';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import LoadingSpinner from '../../../../../components/LoadingSpinner';
 import styled from 'styled-components';
 import CreatableSelect from 'react-select/creatable';
-import usePostFetch from '../../../hooks/apiHooks/usePostFetch';
-import { Meal } from '../../../types';
-import { MealPlansContext } from '../MealPlansContext';
+import usePostFetch from '../../../../../hooks/apiHooks/usePostFetch';
+import { Meal } from '../../../../../types';
+import { MealPlansContext } from '../../../MealPlansContext';
 
 
 const StyledSelect = styled(CreatableSelect)`

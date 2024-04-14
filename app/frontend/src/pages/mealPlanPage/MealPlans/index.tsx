@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import MealPlanCard from './mealPlanCard';
+import MealPlanCard from './MealPlanCard';
 import CenterDiv from '../../../components/CenterDiv';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import Card from '../../../components/Cards';
 import { MealPlansContext } from '../MealPlansContext';
-import CreateMealPlanForm from './createMealPlanForm';
+import CreateMealPlanForm from './CreateMealPlanForm';
 
 
 const MealPlans: React.FC = () => {
@@ -17,7 +17,6 @@ const MealPlans: React.FC = () => {
         </CenterDiv>
       );
     }
-
 
     return (
         <CenterDiv>

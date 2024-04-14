@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { RemoveButton } from '../../mainPage/components/createRecipeCard';
+import { RemoveButton } from '../../../../../mainPage/components/createRecipeCard';
 import { eachDayOfInterval, format } from 'date-fns';
-import { Meal, MealPlan } from '../../../types/mealPlan';
-import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
-import { MEAL_PLAN_URL, MEAL_QUERY } from '../../../utils/apis';
-import { MealPlansContext } from '../MealPlansContext';
+import { Meal, MealPlan } from '../../../../../../types/mealPlan';
+import usePatchFetch from '../../../../../../hooks/apiHooks/usePatchFetch';
+import { MEAL_PLAN_URL, MEAL_QUERY } from '../../../../../../utils/apis';
+import { MealPlansContext } from '../../../../MealPlansContext';
+import { MEAL_TYPES } from '../../utils';
 
 const Row = styled.div`
     display: flex;
@@ -43,9 +44,7 @@ type MealUpdate = {
     meal_type?: string;
 }
 
-const mealTypes = ['', 'breakfast', 'lunch', 'dinner', 'snack', 'brunch', 'linner'];
-
-const MealRowNew: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
+const NewMealRow: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
     const { refetch } = useContext(MealPlansContext);
     const { start_date, end_date } = mealPlan;
     const [selectedDate, setSelectedDate] = React.useState('');
@@ -109,7 +108,7 @@ const MealRowNew: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
                 })}
             </select>
             <select value={mealType} onChange={handleMealTypeChange}>
-                {mealTypes.map((type, index) => {
+                {MEAL_TYPES.map((type, index) => {
                     if (!type) {
                         return <option key={index} value={''}>Select a meal type</option>
                     } else {
@@ -122,4 +121,4 @@ const MealRowNew: React.FC<MealProps> = ({ meal, handleDelete, mealPlan }) => {
     );
 };
 
-export default MealRowNew;
+export default NewMealRow;

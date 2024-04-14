@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ExpandArrow from '../ExpandArrow';
 
 const Text = styled.p`
   display: block;
@@ -35,7 +36,9 @@ const MoreButton: React.FC<MoreButtonProps> = ({ title, children }) => {
         <li>
             <StyledDiv onClick={() => setIsOpen(!isOpen)}>
                 <Text>{title}</Text>
-                <Text>{isOpen ? '▲' : '▼'}</Text>
+                <Text>
+                  <ExpandArrow isExpanded={isOpen} />
+                </Text>
             </StyledDiv>
             {content}
         </li>
