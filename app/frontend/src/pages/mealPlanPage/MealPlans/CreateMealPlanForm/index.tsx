@@ -75,7 +75,7 @@ const CreateMealPlanForm: React.FC<CreateMealPlanFormProps> = ({handleAction}) =
                     error={errors.end_date}
                 />
                 <ButtonContainer>
-                    <Button buttonType="primary" type="submit">
+                    <Button buttontype="primary" type="submit">
                         Create Meal plan
                     </Button>
                 </ButtonContainer>

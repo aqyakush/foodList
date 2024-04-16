@@ -12,7 +12,7 @@ const ShoppingListSection: React.FC = () => {
     const { data: shoppingList, isLoading: shoppingLIstLoading, refetch: refetchShoppingLIst } = useFetch<ShoppingList>(`${API_URL}${SHOPPING_LIST_QUERY}${params.id}`);
    
     return (
-        <Section title="Shopping List" isPossibleToClose>
+        <Section title="Shopping List" isPossibleToClose sectionName='shoppingList'>
             {
                 shoppingLIstLoading ? <CenterDiv>Loading...</CenterDiv> : 
                 shoppingList ? <ShoppingListCard key={shoppingList.id} shoppingList={shoppingList} refetch={refetchShoppingLIst}/> : <CenterDiv>No shopping list found</CenterDiv>

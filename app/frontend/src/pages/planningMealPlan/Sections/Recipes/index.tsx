@@ -10,7 +10,7 @@ const ScrollableContent = styled.div`
 
 const RecipesSection: React.FC = () => {
     return (
-        <Section title="Recipes" isPossibleToClose openByDefault>
+        <Section title="Recipes" isPossibleToClose openByDefault sectionName='recipes'>
               <ScrollableContent>
                 <SearchRecipe />
               </ScrollableContent>

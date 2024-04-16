@@ -98,7 +98,7 @@ const AddItemForm: React.FC<AddItemFormProps> = ({ shoppingList, handleAction })
             </UnitField>
             <ButtonContainer>
                 <Button 
-                    buttonType="primary" 
+                    buttontype="primary" 
                     type="submit" 
                     disabled={!values.name || !values.amount || !values.unit}
                     title={!values.name || !values.amount || !values.unit ? 'Please provide information to be able to create an item' : ''}>

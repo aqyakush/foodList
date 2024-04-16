@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
-interface ButtonProps {
-    buttonType?: 'primary' | 'secondary' | 'danger';
+type ButtonProps = {
+    buttontype?: 'primary' | 'secondary' | 'danger';
     disabled?: boolean;
 }
 
@@ -19,7 +19,7 @@ const Button = styled.button<ButtonProps>`
       return;
     }
     
-    switch (props.buttonType) {
+    switch (props.buttontype) {
       case 'primary':
         return css`
             background-color: #007BFF;

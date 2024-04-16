@@ -41,10 +41,29 @@ type SectionProps = {
     children: React.ReactNode;
     isPossibleToClose?: boolean;
     openByDefault?: boolean;
+    sectionName?: string;
 }
 
-const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, openByDefault }) => {
+const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, openByDefault, sectionName }) => {
     const [isOpen, setIsOpen] = React.useState(openByDefault);
+
+        // Load saved state from localStorage when component mounts
+    React.useEffect(() => {
+      const savedState = localStorage.getItem(`sectionState-${sectionName}`);
+      if (savedState) {
+        try {
+          setIsOpen(JSON.parse(savedState));
+        }
+        catch (err) {
+          console.error('Failed to parse section state: ', err);
+        }
+      } 
+    }, [sectionName]);
+
+        // Save state to localStorage whenever it changes
+    React.useEffect(() => {
+      localStorage.setItem(`sectionState-${sectionName}`, JSON.stringify(isOpen));
+    }, [isOpen, sectionName]);
 
     const content = isOpen ? 
         <SectionDiv>

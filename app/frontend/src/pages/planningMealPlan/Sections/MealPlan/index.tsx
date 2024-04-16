@@ -19,7 +19,7 @@ const MealPlanSection: React.FC = () => {
     const params = useParams();
     
     return (
-        <Section title="Meal Plan" openByDefault>
+        <Section title="Meal Plan" openByDefault sectionName='mealPlan'>
             <CenterDiv>
                 <MealPlansProvider params={params}>
                     <MealPlanView />

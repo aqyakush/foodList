@@ -13,9 +13,9 @@ const AmountDiv = styled.div`
   }
 `;
 
-const NameDiv = styled.div<{ isEditable?: boolean }>`
+const NameDiv = styled.div<{ iseditable?: boolean }>`
     &:hover {
-        cursor: ${props => (props.isEditable ? 'text' : 'default')};
+        cursor: ${props => (props.iseditable ? 'text' : 'default')};
     }
 `;
 
@@ -98,7 +98,7 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
                 {isNameEditing && !item.ingredient ? (
                     <input type="text" value={name} onChange={handleNameChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
                 ) : (
-                    <NameDiv isEditable={!item.ingredient}>
+                    <NameDiv iseditable={!item.ingredient}>
                         {name}
                     </NameDiv>
                 )}

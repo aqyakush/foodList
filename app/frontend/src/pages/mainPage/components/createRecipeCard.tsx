@@ -162,11 +162,11 @@ const CreateRecipe: React.FC<CreateRecipeProps> = ({refetch}) => {
                     error={errors.description}
                 />
                 {ingredients}
-                <Button buttonType="secondary" onClick={() => append({ amount: 0, unit: '', ingredient: { name: ''} })}>
+                <Button buttontype="secondary" onClick={() => append({ amount: 0, unit: '', ingredient: { name: ''} })}>
                     Add Ingredient
                 </Button>
                 <ButtonContainer>
-                    <Button buttonType="primary" type="submit">
+                    <Button buttontype="primary" type="submit">
                         Create Recipe
                     </Button>
                 </ButtonContainer>
