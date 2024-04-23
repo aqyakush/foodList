@@ -5,6 +5,8 @@ from shoppingLists.models import ShoppingList, Item
 from .models import MealPlan, Meal
 from .serializers import MealPlanSerializer, MealSerializer
 from rest_framework.response import Response
+from rest_framework import viewsets
+from django.db.models import Q
 
 
 class MealPlanList(generics.ListCreateAPIView):
@@ -15,6 +17,30 @@ class MealPlanList(generics.ListCreateAPIView):
         meal_plan = serializer.save()
         ShoppingList.objects.create(name=f'Shopping List for {meal_plan.name}',
                                     meal_plan=meal_plan)
+
+
+class MealPlanViewSet(viewsets.ModelViewSet):
+    queryset = MealPlan.objects.all()
+    serializer_class = MealPlanSerializer
+
+    def update(self, request, pk=None):
+        mealPlan = self.get_object()
+        if 'name' in request.data:
+            mealPlan.name = request.data.get('name')
+        if 'start_date' in request.data:
+            mealPlan.start_date = request.data.get('start_date')
+        if 'end_date' in request.data:
+            mealPlan.end_date = request.data.get('end_date')
+
+        # Delete meals for dates that are no longer in the meal plan
+        Meal.objects.filter(
+            Q(date__lt=mealPlan.start_date) | Q(date__gt=mealPlan.end_date),
+            meal_plan=mealPlan
+        ).delete()
+
+        mealPlan.save()
+        return Response(MealPlanSerializer(mealPlan).data,
+                        status=status.HTTP_200_OK)
 
 
 class MealPlanDetail(generics.RetrieveUpdateDestroyAPIView):
