@@ -1,27 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Item from '../../../types/item';
 import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import { SHOPPING_LIST_ITEMS_URL } from '../../../utils/apis';
 import RowActions from './RowActions';
-import styled from 'styled-components';
-
-const AmountDiv = styled.div`
-  max-width: 100px; /* Adjust this value as needed */
-
-  &:hover {
-    cursor: text;
-  }
-`;
-
-const NameDiv = styled.div<{ iseditable?: boolean }>`
-    &:hover {
-        cursor: ${props => (props.iseditable ? 'text' : 'default')};
-    }
-`;
-
-const InputAmount = styled.input`
-  max-width: 100px; /* Adjust this value as needed */
-`;
+import EditableDiv from '../../../components/EditableDiv';
 
 
 type ItemPatch = {
@@ -37,53 +19,20 @@ type ItemRowProps = {
 
 const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
     const [isChecked, setIsChecked] = useState(item.is_bought);
-    const [isAmountEditing, setIsAmountEditing] = useState(false);
-    const [isNameEditing, setIsNameEditing] = useState(false);
-    const [amount, setAmount] = useState(item.amount);
-    const [name, setName] = useState(item.name);
-    const initialAmount = useRef(item.amount); 
-    const initialName = useRef(item.name); 
     const { patchItem } = usePatchFetch<ItemPatch, Item>(SHOPPING_LIST_ITEMS_URL);
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
         patchItem({ 'is_bought' : !isChecked}, item.id.toString());
     };
+        
+    const handleNameChange = React.useCallback((value: string) => {
+        patchItem({ 'name' : value}, item.id.toString());
+    }, [patchItem, item.id]);
 
-    const handleAmountEdit = () => {
-        setIsAmountEditing(true);
-    };
-    
-    const handleNameEdit = () => {
-        setIsNameEditing(true);
-    };
-
-    const handleBlur = () => {
-        setIsAmountEditing(false);
-        setIsNameEditing(false);
-        if (amount !== initialAmount.current) { 
-            patchItem({ 'amount' : amount}, item.id.toString());
-            initialAmount.current = amount;
-        }
-        if (name !== initialName.current) { 
-            patchItem({ 'name' : name}, item.id.toString());
-            initialName.current = name;
-        }
-    };
-
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-        if (event.key === 'Enter') {
-          handleBlur();
-        }
-      };
-
-    const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAmount(Number(event.target.value));
-    };
-
-    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
-    };
+    const handleAmountChange = React.useCallback((value: string) => {
+        patchItem({ 'amount' : Number(value)}, item.id.toString());
+    }, [patchItem, item.id]);
 
     return (
         <tr style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
@@ -94,24 +43,8 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
                     onChange={handleCheckboxChange}
                 />
             </td>
-            <td onClick={handleNameEdit}>
-                {isNameEditing && !item.ingredient ? (
-                    <input type="text" value={name} onChange={handleNameChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
-                ) : (
-                    <NameDiv iseditable={!item.ingredient}>
-                        {name}
-                    </NameDiv>
-                )}
-            </td>
-            <td onClick={handleAmountEdit}>
-            {isAmountEditing ? (
-                <InputAmount type="text" value={amount} onChange={handleAmountChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
-            ) : (
-                <AmountDiv>
-                    {amount}
-                </AmountDiv>
-            )}
-            </td>
+            <EditableDiv initialValue={item.name} onValueChange={handleNameChange} />
+            <EditableDiv initialValue={item.amount.toString()} onValueChange={handleAmountChange} />
             <td>{item.unit}</td>
             <RowActions item={item} refetch={refetch}/>
         </tr>
