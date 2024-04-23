@@ -8,6 +8,7 @@ import { MEAL_PLAN_URL, MEAL_QUERY } from '../../../../../../utils/apis';
 import { MealPlansContext } from '../../../../MealPlansContext';
 import MealPlanRowActions from './mealRowActions';
 import { MEAL_TYPES } from '../../utils';
+import EditableDiv from '../../../../../../components/EditableDiv';
 
 const Row = styled.div`
     display: flex;
@@ -62,6 +63,7 @@ type MealProps = {
 };
 
 export type MealUpdate = {
+    name?: string;
     date?: Date | string;
     meal_type?: string;
 }
@@ -101,6 +103,10 @@ const EditMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
         }
       };
 
+    const  handleNameChange = React.useCallback((value: string) => {    
+        patchItem({ 'name' : value}, meal.id.toString());
+        refetch();
+    }, [patchItem, meal.id, refetch]);
 
     return (
         <Row>
@@ -108,7 +114,9 @@ const EditMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
             {meal.recipe ? 
             (<MealItem key={meal.recipe.name}>
                 <StyledLink to={`/recipes/?name=${meal.recipe.name}`}>{meal.recipe.name}</StyledLink>
-            </MealItem>) : (<MealItem key={meal.name}>{meal.name}</MealItem>)}
+            </MealItem>) : (<MealItem key={meal.name}>
+                <EditableDiv initialValue={meal.name} onValueChange={handleNameChange} />
+            </MealItem>)}
             <div onClick={handleMealTypeEdit}>
             {isMealTypeEditing || !mealType ? (
                 <select value={mealType} onChange={handleMealTypeChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus>

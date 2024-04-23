@@ -9,6 +9,7 @@ import { API_URL, MEAL_PLAN_QUERY, MEAL_PLAN_URL, MEAL_QUERY } from '../../../..
 import { MealPlansContext } from '../../../../MealPlansContext';
 import { MEAL_TYPES } from '../../utils';
 import useDeleteFetch from '../../../../../../hooks/apiHooks/useDeleteFetch';
+import EditableDiv from '../../../../../../components/EditableDiv';
 
 const Row = styled.div`
     display: flex;
@@ -40,6 +41,7 @@ type MealProps = {
 }
 
 type MealUpdate = {
+    name?: string;
     date?: Date | string;
     meal_type?: string;
 }
@@ -92,6 +94,11 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
             return <button onClick={handleButtonClick}>Change meal type</button>
         }
     }, [handleButtonClick, meal.meal_type, mealType, selectedDate])
+
+    const  handleNameChange = React.useCallback((value: string) => {    
+        patchItem({ 'name' : value}, meal.id.toString());
+        refetch();
+    }, [patchItem, meal.id, refetch]);
     
     return (
         <Row>
@@ -101,7 +108,9 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
             {meal.recipe ? 
             (<MealItem key={meal.recipe.name}>
                 <StyledLink to={`/recipes/?name=${meal.recipe.name}`}>{meal.recipe.name}</StyledLink>
-            </MealItem>) : (<MealItem key={meal.name}>{meal.name}</MealItem>)}
+            </MealItem>) : (<MealItem key={meal.name}>
+                <EditableDiv initialValue={meal.name} onValueChange={handleNameChange} />
+            </MealItem>)}
             <select value={selectedDate} onChange={handleDateChange}>
                 {dates.map((date, index) => {
                     if (!date) {
