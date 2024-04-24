@@ -5,6 +5,8 @@ import { MealPlan } from '../../../types';
 import useDeleteFetch from '../../../hooks/apiHooks/useDeleteFetch';
 import { API_URL, MEAL_PLAN_QUERY } from '../../../utils/apis';
 import { useNavigate } from 'react-router-dom';
+import Modals from '../../../components/Modal';
+import UpdateMealPlanForm from '../../mealPlanPage/MealPlans/UpdateMealPlanForm';
 
 const StyledLi = styled.li`
     display: flex;
@@ -67,10 +69,11 @@ type MenuProps = {
   isOpen: boolean;
   onClose: () => void;
   onDelete: () => void;
+  onUpdate: () => void;
   buttonRef: React.RefObject<HTMLButtonElement>;
 }
 
-export const Menu = ({ isOpen, onClose, onDelete, buttonRef }: MenuProps) => {
+export const Menu = ({ isOpen, onClose, onDelete, onUpdate, buttonRef }: MenuProps) => {
   const menuListRef = React.useRef<HTMLUListElement | null>(null);
 
   React.useEffect(() => {
@@ -96,10 +99,16 @@ export const Menu = ({ isOpen, onClose, onDelete, buttonRef }: MenuProps) => {
     onClose();
   };
 
+  const handleUpdateClick = () => {
+    onUpdate();
+    onClose();
+  }
+
   return (
     <MenuList isOpen={isOpen} ref={menuListRef}>
       <MenuItem>
         <SubMenu onClick={handleDeleteClick}>Delete</SubMenu>
+        <SubMenu onClick={handleUpdateClick}>Update</SubMenu>
       </MenuItem>
     </MenuList>
   );
@@ -112,6 +121,7 @@ type MealPlanNavProps = {
 
 const MealPlanNav: React.FC<MealPlanNavProps> = ({ mealPlan, refetch }) => {
     const navigate = useNavigate();
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = React.useState(false);
   
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const buttonRef = React.useRef(null);
@@ -121,16 +131,31 @@ const MealPlanNav: React.FC<MealPlanNavProps> = ({ mealPlan, refetch }) => {
       await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${mealId}/`)
       refetch();
       navigate('viewing/mealPlans'); 
-  }, [deleteItem, navigate, refetch]);
+    }, [deleteItem, navigate, refetch]);
+
+    const handleUpdate = React.useCallback(() => {
+      setIsUpdateModalOpen(true);
+    }, []);
+
+    const handleAction = React.useCallback(() => {
+      setIsUpdateModalOpen(false)
+      navigate(0); 
+    }, [navigate]);
 
     return (
+      <>
         <StyledLi>
             <StyledNavLink to={`planning/mealPlans/${mealPlan.id}`}>
               {mealPlan.name}
             </StyledNavLink>
             <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)} ref={buttonRef}>⋮</MenuButton>
-            <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => handleDelete(mealPlan.id)}  buttonRef={buttonRef} />
+            <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => handleDelete(mealPlan.id)} onUpdate={() => handleUpdate()} buttonRef={buttonRef} />
         </StyledLi>
+        <Modals isOpen={isUpdateModalOpen} onClose={() => setIsUpdateModalOpen(false)} >
+          <UpdateMealPlanForm handleAction={handleAction} mealPlan={mealPlan} />
+        </Modals>
+      </>
+        
     );
 };
 

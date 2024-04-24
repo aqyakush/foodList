@@ -12,6 +12,7 @@ type DateFieldProps = {
   dateFormat?: string;
   rules?: object;
   error?: FieldError | undefined;
+  defaultValue?: string | Date;
 }
 
 const StyledDatePicker = styled(DatePicker)`
@@ -22,13 +23,15 @@ const StyledDatePicker = styled(DatePicker)`
   border-radius: 4px;
 `;
 
-const DateField = ({ control, name, label, dateFormat, rules, error }: DateFieldProps) => {
+const DateField = ({ control, name, label, dateFormat, defaultValue, rules, error }: DateFieldProps) => {
+  console.log(defaultValue, 'defaultValue')
   return (
     <div>
       <label>{label}</label>
       <Controller
         control={control}
         name={name}
+        defaultValue={defaultValue ? new Date(defaultValue) : undefined}
         rules={rules}
         render={({ field }) => (
             <div>

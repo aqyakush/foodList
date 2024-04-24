@@ -12,6 +12,12 @@ export type MealPlanPatch = {
     recipe_id: number;
 }
 
+export type MealPlanPut = {
+    name: string;
+    start_date: Date | string;
+    end_date: Date | string;
+}
+
 export type Meal = {
     id: number;
     name: string;
