@@ -139,8 +139,7 @@ const MealPlanNav: React.FC<MealPlanNavProps> = ({ mealPlan, refetch }) => {
 
     const handleAction = React.useCallback(() => {
       setIsUpdateModalOpen(false)
-      navigate(0); 
-    }, [navigate]);
+    }, []);
 
     return (
       <>
