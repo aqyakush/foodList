@@ -47,8 +47,8 @@ const MoreButton: React.FC<MoreButtonProps> = ({ title, openByDefault, children 
 
     // Save state to localStorage whenever it changes
     React.useEffect(() => {
-      if (isOpen) {
-      localStorage.setItem(`navState-${title}`, JSON.stringify(isOpen));
+      if (isOpen !== undefined && isOpen !== null) {
+        localStorage.setItem(`navState-${title}`, JSON.stringify(isOpen));
       }
     }, [isOpen, title]);
 
