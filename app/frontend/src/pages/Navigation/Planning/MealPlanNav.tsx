@@ -30,11 +30,11 @@ const MenuButton = styled.button`
   `;
 
 type MenuDivProps = {
-  isOpen: boolean;
+  isopen: string;
 }
 
 const MenuList = styled.ul<MenuDivProps>`
-    display: ${props => props.isOpen ? 'block' : 'none'};
+    display: ${props => props.isopen === 'true' ? 'block' : 'none'};
     position: absolute;
     top: 100%; // Position it right below the parent element
     right: 0; // Align it to the right edge of the parent element
@@ -105,7 +105,7 @@ export const Menu = ({ isOpen, onClose, onDelete, onUpdate, buttonRef }: MenuPro
   }
 
   return (
-    <MenuList isOpen={isOpen} ref={menuListRef}>
+    <MenuList isopen={isOpen.toString()} ref={menuListRef}>
       <MenuItem>
         <SubMenu onClick={handleDeleteClick}>Delete</SubMenu>
         <SubMenu onClick={handleUpdateClick}>Update</SubMenu>

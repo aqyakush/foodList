@@ -62,7 +62,9 @@ const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, o
 
     // Save state to localStorage whenever it changes
     React.useEffect(() => {
-      localStorage.setItem(`sectionState-${sectionName}`, JSON.stringify(isOpen));
+      if (isOpen) {
+        localStorage.setItem(`sectionState-${sectionName}`, JSON.stringify(isOpen));
+      }
     }, [isOpen, sectionName]);
 
     const content = isOpen ? 

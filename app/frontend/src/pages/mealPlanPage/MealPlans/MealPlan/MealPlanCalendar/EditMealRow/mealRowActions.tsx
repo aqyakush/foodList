@@ -8,12 +8,12 @@ import usePatchFetch from '../../../../../../hooks/apiHooks/usePatchFetch';
 import { MealUpdate } from '.';
 
 type MenuDivProps = {
-  isOpen: boolean;
+  isopen: string;
 }
 
 const MenuList = styled.ul<MenuDivProps>`
     position: absolute;
-    display: ${props => props.isOpen ? 'block' : 'none'};
+    display: ${props => props.isopen === 'true' ? 'block' : 'none'};
     border: 1px solid #ccc; // Add a border
     border-radius: 4px; // Round the corners
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Add a shadow
@@ -88,7 +88,7 @@ export const Menu = ({ isOpen, onClose, onDelete, buttonRef, mealPlan, onDateCha
   };
 
   return (
-    <MenuList isOpen={isOpen} ref={menuListRef}>
+    <MenuList isopen={isOpen.toString()} ref={menuListRef}>
       <MenuItem>
         <SubMenu onClick={handleDeleteClick}>Delete</SubMenu>
         <select value={""} onChange={handleDateChange}>
@@ -145,10 +145,10 @@ const MealRowActions: React.FC<RowActionsProps> = ({ meal, mealPlan, refetch }) 
   }, [meal.id, patchItem, refetch]);
 
     return (
-        <td>
+        <div>
             <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)} ref={buttonRef}>⋮</MenuButton>
             <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => handleDelete()}  buttonRef={buttonRef} mealPlan={mealPlan} onDateChange={handleDateChange} />
-        </td>
+        </div>
     );
 };
 

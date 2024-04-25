@@ -47,12 +47,14 @@ const MoreButton: React.FC<MoreButtonProps> = ({ title, openByDefault, children 
 
     // Save state to localStorage whenever it changes
     React.useEffect(() => {
+      if (isOpen) {
       localStorage.setItem(`navState-${title}`, JSON.stringify(isOpen));
+      }
     }, [isOpen, title]);
 
     const content = React.useMemo(() => isOpen ? children : null, [isOpen, children]);
     return (
-        <li>
+        <div>
             <StyledDiv onClick={() => setIsOpen(!isOpen)}>
                 <Text>{title}</Text>
                 <Text>
@@ -60,7 +62,7 @@ const MoreButton: React.FC<MoreButtonProps> = ({ title, openByDefault, children 
                 </Text>
             </StyledDiv>
             {content}
-        </li>
+        </div>
     );
 }
 

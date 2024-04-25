@@ -42,7 +42,7 @@ const EditableDiv: React.FC<EditableDivProps> = ({ initialValue, onValueChange }
     };
 
     return (
-        <td onClick={handleValueEdit}>
+        <div onClick={handleValueEdit}>
             {isValueEditing ? (
                 <input type="text" value={value} onChange={handleValueChange} onBlur={handleBlur} onKeyDown={handleKeyDown} autoFocus />
             ) : (
@@ -50,7 +50,7 @@ const EditableDiv: React.FC<EditableDivProps> = ({ initialValue, onValueChange }
                     {value}
                 </Text>
             )}
-        </td>
+        </div>
     );
 };
 

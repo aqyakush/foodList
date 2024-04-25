@@ -5,12 +5,12 @@ import { SHOPPING_LIST_ITEMS_URL } from '../../../utils/apis';
 import styled from 'styled-components';
 
 type MenuDivProps = {
-  isOpen: boolean;
+  isopen: string;
 }
 
 const MenuList = styled.ul<MenuDivProps>`
     position: absolute;
-    display: ${props => props.isOpen ? 'block' : 'none'};
+    display: ${props => props.isopen === 'true' ? 'block' : 'none'};
     border: 1px solid #ccc; // Add a border
     border-radius: 4px; // Round the corners
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Add a shadow
@@ -72,7 +72,7 @@ export const Menu = ({ isOpen, onClose, onDelete, buttonRef }: MenuProps) => {
   };
 
   return (
-    <MenuList isOpen={isOpen} ref={menuListRef}>
+    <MenuList isopen={isOpen.toString()} ref={menuListRef}>
       <MenuItem>
         <SubMenu onClick={handleDeleteClick}>Delete</SubMenu>
       </MenuItem>

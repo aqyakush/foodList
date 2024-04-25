@@ -6,7 +6,7 @@ type ExpandArrowProps = {
     isExpanded: boolean;
 }
 
-const ExpandArrowStyle = styled.div`
+const ExpandArrowStyle = styled.span`
     text-align: right;
     cursor: pointer;
 `;

@@ -44,7 +44,7 @@ const mealTypeColors: { [key: string]: string } = {
   };
 
 type TagProps = {   
-    mealType: string;
+    mealtype: string;
 }   
 
 const Tag = styled.div<TagProps>`
@@ -52,7 +52,7 @@ const Tag = styled.div<TagProps>`
     padding: 0.5em 1em;
     margin: 0.5em;
     border-radius: 0.25em; // smaller border-radius for more square edges
-    background-color: ${props => mealTypeColors[props.mealType] || '#d3d3d3'}; // light gray as default color
+    background-color: ${props => mealTypeColors[props.mealtype] || '#d3d3d3'}; // light gray as default color
     color: #111;
     font-size: 0.75em;
 `;
@@ -129,7 +129,7 @@ const EditMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
                     })}
                 </select>
             ) : (
-                <Tag mealType={mealType}>
+                <Tag mealtype={mealType}>
                     {mealType}
                 </Tag>
             )}
