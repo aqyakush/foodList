@@ -27,17 +27,36 @@ interface MoreButtonProps {
 interface MoreButtonProps {
     title: string;
     children: React.ReactNode;
+    openByDefault?: boolean;
 }
 
-const MoreButton: React.FC<MoreButtonProps> = ({ title, children }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
+const MoreButton: React.FC<MoreButtonProps> = ({ title, openByDefault, children }) => {
+    const [isOpen, setIsOpen] = React.useState(openByDefault);
+    // Load saved state from localStorage when component mounts
+    React.useEffect(() => {
+      const savedState = localStorage.getItem(`navState-${title}`);
+      if (savedState) {
+        try {
+          setIsOpen(JSON.parse(savedState));
+        }
+        catch (err) {
+          console.error('Failed to parse section state: ', err);
+        }
+      } 
+    }, [title]);
+
+    // Save state to localStorage whenever it changes
+    React.useEffect(() => {
+      localStorage.setItem(`navState-${title}`, JSON.stringify(isOpen));
+    }, [isOpen, title]);
+
     const content = React.useMemo(() => isOpen ? children : null, [isOpen, children]);
     return (
         <li>
             <StyledDiv onClick={() => setIsOpen(!isOpen)}>
                 <Text>{title}</Text>
                 <Text>
-                  <ExpandArrow isExpanded={isOpen} />
+                  <ExpandArrow isExpanded={isOpen ?? false} />
                 </Text>
             </StyledDiv>
             {content}

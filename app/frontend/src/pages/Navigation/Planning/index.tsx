@@ -26,16 +26,15 @@ const PlanningNavigation: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
 
     const handleAction = React.useCallback(() => {
-      refetch();
       setIsCreateModalOpen(false)
+      refetch();
     }, [refetch]);
 
     const handleAddMealPlan = React.useCallback(() => {
         setIsCreateModalOpen(true);
         refetch();
       }, [refetch, setIsCreateModalOpen]);
-    
-      
+
     return (
         <>
             <MoreButton title='Planning'>

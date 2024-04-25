@@ -47,7 +47,7 @@ type SectionProps = {
 const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, openByDefault, sectionName }) => {
     const [isOpen, setIsOpen] = React.useState(openByDefault);
 
-        // Load saved state from localStorage when component mounts
+    // Load saved state from localStorage when component mounts
     React.useEffect(() => {
       const savedState = localStorage.getItem(`sectionState-${sectionName}`);
       if (savedState) {
@@ -60,7 +60,7 @@ const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, o
       } 
     }, [sectionName]);
 
-        // Save state to localStorage whenever it changes
+    // Save state to localStorage whenever it changes
     React.useEffect(() => {
       localStorage.setItem(`sectionState-${sectionName}`, JSON.stringify(isOpen));
     }, [isOpen, sectionName]);
