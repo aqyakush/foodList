@@ -23,8 +23,6 @@ type CreateMealPlanFormProps = {
 
 const CreateMealPlanForm: React.FC<CreateMealPlanFormProps> = ({handleAction}) => {
     const { control, handleSubmit, reset, formState: { errors } } = useForm<MealPlan>();
-    
-    
     const { postData }  = usePostFetch<MealPlan>(`${API_URL}${MEAL_PLAN_QUERY}`);
 
     const onSubmit = (data: MealPlan) => {

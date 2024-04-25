@@ -88,14 +88,14 @@ const EditMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
     };
 
 
-    const handleBlur = async () => {
+    const handleBlur = React.useCallback(async () => {
         setIsMealTypeEditing(false);
         if (mealType !== initialMealType.current) { 
             await patchItem({meal_type: mealType}, meal.id.toString());
             initialMealType.current = mealType;
             refetch();
         }
-    };
+    }, [meal.id, mealType, patchItem, refetch]);
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {

@@ -54,15 +54,15 @@ export const Menu = ({ isOpen, onClose, onDelete, buttonRef, mealPlan, onDateCha
   const menuListRef = React.useRef<HTMLUListElement | null>(null);
   const { start_date, end_date } = mealPlan;
 
-  const dates = [undefined, ...eachDayOfInterval({
+  const dates = React.useMemo(() => [undefined, ...eachDayOfInterval({
     start: new Date(start_date),
     end: new Date(end_date)
-  })];
+  })], [start_date, end_date]);
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleDateChange = React.useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     onDateChange(event.target.value);
     onClose();
-};
+}, [onDateChange, onClose]);
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -82,10 +82,10 @@ export const Menu = ({ isOpen, onClose, onDelete, buttonRef, mealPlan, onDateCha
     };
   }, [buttonRef, onClose]);
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = React.useCallback(() => {
     onDelete();
     onClose();
-  };
+  }, [onDelete, onClose]);
 
   return (
     <MenuList isopen={isOpen.toString()} ref={menuListRef}>

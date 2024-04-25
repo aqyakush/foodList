@@ -60,10 +60,10 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
         refetch();
     }, [deleteItem, refetch]);
 
-    const dates = [undefined, ...eachDayOfInterval({
+    const dates = React.useMemo(() => [undefined, ...eachDayOfInterval({
         start: new Date(start_date),
         end: new Date(end_date)
-    })];
+    })], [end_date, start_date]);
 
     const handleDateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedDate(event.target.value);

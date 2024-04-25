@@ -12,10 +12,10 @@ const mealOrder = ['breakfast', 'brunch', 'lunch', 'linner', 'dinner', 'snack'];
 const MealPlanCalendar: React.FC<MealPlanCalendarProps> = ({ mealPlan }) => {
     const { start_date, end_date, meals } = mealPlan;
 
-    const dates = eachDayOfInterval({
+    const dates = React.useMemo(() => eachDayOfInterval({
         start: new Date(start_date),
         end: new Date(end_date)
-    });
+    }), [start_date, end_date]);
 
     return (
         <div>
