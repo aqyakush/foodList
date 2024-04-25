@@ -128,28 +128,27 @@ type RowActionsProps = {
 }
 
 const MealRowActions: React.FC<RowActionsProps> = ({ meal, mealPlan, refetch }) => {
-    const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-    const buttonRef = React.useRef(null);
-    const { deleteItem } = useDeleteFetch();
-    const { patchItem } = usePatchFetch<MealUpdate, Meal>(`${MEAL_PLAN_URL}${MEAL_QUERY}`);
-    
-
-    const handleDelete = React.useCallback( async () => {
-        await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${MEAL_QUERY}${meal.id}/`)
-        refetch();
-    }, [deleteItem, meal.id, refetch]);
-
-    const handleDateChange =  React.useCallback( async (value: string) => {
-      await patchItem({date: value}, meal.id.toString());
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const buttonRef = React.useRef(null);
+  const { deleteItem } = useDeleteFetch();
+  const { patchItem } = usePatchFetch<MealUpdate, Meal>(`${MEAL_PLAN_URL}${MEAL_QUERY}`);
+  
+  const handleDelete = React.useCallback( async () => {
+      await deleteItem(`${API_URL}${MEAL_PLAN_QUERY}${MEAL_QUERY}${meal.id}/`)
       refetch();
-  }, [meal.id, patchItem, refetch]);
+  }, [deleteItem, meal.id, refetch]);
 
-    return (
-        <div>
-            <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)} ref={buttonRef}>⋮</MenuButton>
-            <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => handleDelete()}  buttonRef={buttonRef} mealPlan={mealPlan} onDateChange={handleDateChange} />
-        </div>
-    );
+  const handleDateChange =  async (value: string) => {
+    await patchItem({date: value}, meal.id.toString());
+    refetch();
+  };
+
+  return (
+      <div>
+          <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)} ref={buttonRef}>⋮</MenuButton>
+          <Menu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} onDelete={() => handleDelete()}  buttonRef={buttonRef} mealPlan={mealPlan} onDateChange={handleDateChange} />
+      </div>
+  );
 };
 
 export default MealRowActions;

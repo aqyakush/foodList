@@ -73,7 +73,7 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
         setMealType(event.target.value);
     };
 
-    const handleButtonClick = React.useCallback(async () => {
+    const handleButtonClick = async () => {
         let data = {};
         if (selectedDate) {
             data = { ...data, date: selectedDate }
@@ -83,17 +83,18 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
         }
         await patchItem(data, meal.id.toString());
         refetch();
-    }, [meal.id, mealType, patchItem, refetch, selectedDate]);
+    };
 
-    const createButton = React.useMemo(() => {
+    const createButtonText = React.useMemo(() => {
         if (selectedDate && meal.meal_type !== mealType && mealType) {
-            return <button onClick={handleButtonClick}>Change date and meal type</button>
+            return "Change date and meal type"
         } else if (selectedDate) {
-            return <button onClick={handleButtonClick}>Change date</button>
+            return "Change date"
         } else if (meal.meal_type !== mealType && mealType) {
-            return <button onClick={handleButtonClick}>Change meal type</button>
-        }
-    }, [handleButtonClick, meal.meal_type, mealType, selectedDate])
+            return "Change meal type"
+        } 
+        return "" 
+    }, [meal.meal_type, mealType, selectedDate])
 
     const  handleNameChange = React.useCallback((value: string) => {    
         patchItem({ 'name' : value}, meal.id.toString());
@@ -131,7 +132,7 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
                     }
                 })}
             </select>
-            {createButton}
+            {createButtonText ? <button onClick={handleButtonClick}>{createButtonText}</button> : <></>}
         </Row>
     );
 };
