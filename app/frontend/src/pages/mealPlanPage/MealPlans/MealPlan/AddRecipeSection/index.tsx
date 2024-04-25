@@ -32,7 +32,7 @@ type AddRecipeSelectionProps = {
     mealPlanId: string;
 }
 
-type option = {
+type Option = {
     value: number;
     label: string;
 };
@@ -41,7 +41,8 @@ type MealToCreate = Pick<Meal, 'name' | 'meal_plan'> & { date: null, recipe: nul
 
 const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ mealPlanId }) => {
     const { refetch } = useContext(MealPlansContext);
-    const [selectedRecipe, setSelectedRecipe] = useState<SingleValue<option>>();
+    const [selectedRecipe, setSelectedRecipe] = useState<SingleValue<Option>>();
+    const [options, setOptions] = useState<Option[]>([]);
 
     const { data,isLoading } = useFetch<Recipe[]>(`${API_URL}${RECIPES_QUERY}`);
 
@@ -49,14 +50,14 @@ const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ mealPlanId }) =
 
     const { patchItem } = usePatchFetch<MealPlanPatch, MealPlanType>(MEAL_PLAN_URL);
 
-    const options: option[] = React.useMemo(() => {
+    React.useEffect(() => {
         if (data) {
-            return data.map((recipe) => ({ value: recipe.id, label: recipe.name }));
+            const values = data.map((recipe) => ({ value: recipe.id, label: recipe.name }));
+            setOptions(values);
         }
-        return [];
     }, [data]);
 
-    const handleRecipeSelection = async (newValue: SingleValue<option>, actionMeta: ActionMeta<option>) => {
+    const handleRecipeSelection = async (newValue: SingleValue<Option>, actionMeta: ActionMeta<Option>) => {
         if (actionMeta.action === 'create-option') {
             const meal: MealToCreate = {
                 name: newValue?.label || '',
@@ -64,10 +65,24 @@ const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ mealPlanId }) =
                 recipe: null,
                 date: null
             }
+            const valueToAdd = { value: 0, label: meal.name };
+            setOptions(prevOptions => [...prevOptions, valueToAdd]);
             postData(meal);
             refetch();
         } else {
-            setSelectedRecipe(newValue);
+            if (newValue?.value === 0) {
+                const meal: MealToCreate = {
+                    name: newValue?.label || '',
+                    meal_plan: mealPlanId,
+                    recipe: null,
+                    date: null
+                }
+                postData(meal);
+                refetch();
+            } else {
+                setSelectedRecipe(newValue);
+            }
+            
         }
     };
 

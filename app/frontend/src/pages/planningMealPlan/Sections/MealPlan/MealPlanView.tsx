@@ -17,8 +17,6 @@ const MealPlanView: React.FC = () => {
       );
     }
 
-   
-
     if (mealPlan) {
       return (<MealPlan mealPlan={mealPlan}/>)
     } else {
