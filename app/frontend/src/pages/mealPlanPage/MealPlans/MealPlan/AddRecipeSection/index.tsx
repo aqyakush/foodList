@@ -57,7 +57,7 @@ const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ mealPlanId }) =
         }
     }, [data]);
 
-    const handleRecipeSelection = React.useCallback(async (newValue: SingleValue<Option>, actionMeta: ActionMeta<Option>) => {
+    const handleRecipeSelection = async (newValue: SingleValue<Option>, actionMeta: ActionMeta<Option>) => {
         if (actionMeta.action === 'create-option') {
             const meal: MealToCreate = {
                 name: newValue?.label || '',
@@ -84,7 +84,7 @@ const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ mealPlanId }) =
             }
             
         }
-    }, [mealPlanId, postData, refetch]);
+    };
 
     const handleAddToMealPlan = React.useCallback(() => {
         if (selectedRecipe) {
