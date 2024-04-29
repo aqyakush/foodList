@@ -87,10 +87,10 @@ const EditMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
         setIsMealTypeEditing(true);
     };
 
-    const handleBlur = async () => {
+    const handleBlur = () => {
         setIsMealTypeEditing(false);
         if (mealType !== initialMealType.current) { 
-            await patchItem({meal_type: mealType}, meal.id.toString());
+            patchItem({meal_type: mealType}, meal.id.toString());
             initialMealType.current = mealType;
             refetch();
         }
