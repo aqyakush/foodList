@@ -2,8 +2,6 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const Text = styled.div`
-  max-width: 100px; /* Adjust this value as needed */
-
   &:hover {
     cursor: text;
   }

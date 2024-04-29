@@ -1,6 +1,6 @@
 import React from 'react';
 import { MealPlan } from '../../../../../types';
-import MealRow from './NewMealRow';
+import NewMealRow from './NewMealRow';
 import List from '../../../../../components/List/List';
 
 
@@ -13,7 +13,7 @@ const MealList: React.FC<MealListProps> = ({ mealPlan}) => {
         <List>
             {mealPlan?.meals?.map((item) => (
                 !item.date && (
-                    <MealRow
+                    <NewMealRow
                         meal={item}
                         key={item.id}
                         mealPlan={mealPlan}

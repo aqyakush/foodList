@@ -68,7 +68,7 @@ const ShoppingListCard: React.FC<ShoppingListProps> = ({ shoppingList, refetch }
                     </li>
                 ))}
             </List>
-            <AddItemForm shoppingList={shoppingList.id} handleAction={refetch}/>
+            <AddItemForm shoppingList={shoppingList.id} handleAction={() => refetch()}/>
         </div>
     );
 };

@@ -4,7 +4,15 @@ import usePatchFetch from '../../../hooks/apiHooks/usePatchFetch';
 import { SHOPPING_LIST_ITEMS_URL } from '../../../utils/apis';
 import RowActions from './RowActions';
 import EditableDiv from '../../../components/EditableDiv';
+import styled from 'styled-components';
 
+const Row = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 5px;
+    margin-bottom: 10px;
+`;
 
 type ItemPatch = {
     is_bought?: boolean;
@@ -35,19 +43,17 @@ const ItemRow: React.FC<ItemRowProps> = ({ item, refetch }) => {
     }, [patchItem, item.id]);
 
     return (
-        <tr style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
-            <td>
-                <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={handleCheckboxChange}
-                />
-            </td>
+        <Row style={{ textDecoration: isChecked ? 'line-through' : 'none' }}>
+            <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+            />
             <EditableDiv initialValue={item.name} onValueChange={handleNameChange} />
             <EditableDiv initialValue={item.amount.toString()} onValueChange={handleAmountChange} />
-            <td>{item.unit}</td>
+            <div>{item.unit}</div>
             <RowActions item={item} refetch={refetch}/>
-        </tr>
+        </Row>
     );
 };
 
