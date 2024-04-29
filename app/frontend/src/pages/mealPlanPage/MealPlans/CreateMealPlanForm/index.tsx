@@ -9,6 +9,7 @@ import Form from '../../../../components/Form/Form';
 import InputField from '../../../../components/Form/Fields/InputField';
 import DateField from '../../../../components/Form/Fields/DateField';
 import { format, isValid } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -18,12 +19,13 @@ const ButtonContainer = styled.div`
 `;
 
 type CreateMealPlanFormProps = {
-    handleAction: () => void;
+    handleAction?: () => void;
+    returnUrl?: string;
 };
 
-const CreateMealPlanForm: React.FC<CreateMealPlanFormProps> = ({handleAction}) => {
+const CreateMealPlanForm: React.FC<CreateMealPlanFormProps> = ({handleAction, returnUrl}) => {
     const { control, handleSubmit, reset, formState: { errors } } = useForm<MealPlan>();
-    const { postData }  = usePostFetch<MealPlan>(`${API_URL}${MEAL_PLAN_QUERY}`);
+    const { postData }  = usePostFetch<MealPlan>(`${API_URL}${MEAL_PLAN_QUERY}`, returnUrl);
 
     const onSubmit = (data: MealPlan) => {
         try {
@@ -43,7 +45,7 @@ const CreateMealPlanForm: React.FC<CreateMealPlanFormProps> = ({handleAction}) =
                 end_date: undefined,
                 meals: [],
               });
-            handleAction();
+            handleAction && handleAction();
         } catch (error) {
             console.error(error);
         }

@@ -25,10 +25,10 @@ const PlanningNavigation: React.FC = () => {
     const { data, refetch } = useFetch<MealPlan[]>(`${API_URL}${MEAL_PLAN_QUERY}`);
     const [isCreateModalOpen, setIsCreateModalOpen] = React.useState(false);
 
-    const handleAction = React.useCallback(() => {
+    const handleAction = () => {
       setIsCreateModalOpen(false)
       refetch();
-    }, [refetch]);
+    };
 
     const handleAddMealPlan = React.useCallback(() => {
         setIsCreateModalOpen(true);
@@ -46,7 +46,7 @@ const PlanningNavigation: React.FC = () => {
                 </li>
             </MoreButton>
             <Modals isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} >
-                <CreateMealPlanForm handleAction={handleAction} />
+                <CreateMealPlanForm handleAction={handleAction} returnUrl='/planning/mealPlans/'/>
             </Modals>
         </>
         

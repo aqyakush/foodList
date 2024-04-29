@@ -84,7 +84,7 @@ const AddRecipeSelection: React.FC<AddRecipeSelectionProps> = ({ mealPlanId }) =
             }
             
         }
-    }, [postData, refetch, mealPlanId]);
+    }, [mealPlanId, postData, refetch]);
 
     const handleAddToMealPlan = React.useCallback(() => {
         if (selectedRecipe) {

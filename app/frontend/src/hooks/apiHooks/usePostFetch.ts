@@ -1,8 +1,10 @@
 import { useState, useCallback } from 'react';
 import { useNotification } from '../../components/Notifications/useNotification';
+import { useNavigate } from 'react-router-dom';
 
-const usePostFetch = <T>(url: string) => {
+const usePostFetch = <T>(url: string, redirectUrl?: string) => {
     const addNotification = useNotification();
+    const navigate = useNavigate();
     const [response, setResponse] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -22,6 +24,9 @@ const usePostFetch = <T>(url: string) => {
                 }
                 const responseData = await response.json();
                 setResponse(responseData);
+                if (redirectUrl) {
+                    navigate(`${redirectUrl}${responseData.id}`);
+                }
                 addNotification('Data created', 'Created successfully', 'success');
             } catch (error: any) {
                 setError(error.message);
@@ -32,7 +37,7 @@ const usePostFetch = <T>(url: string) => {
         };
 
         fetchData();
-    }, [url]);
+    }, [addNotification, navigate, redirectUrl, url]);
 
     return { response, isLoading, error, postData };
 };

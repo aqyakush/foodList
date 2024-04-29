@@ -10,6 +10,11 @@ import CreateMealPlanForm from './CreateMealPlanForm';
 const MealPlans: React.FC = () => {
     const { mealPlans, loading, refetch } = useContext(MealPlansContext);
 
+    const mealPlansCards = React.useMemo(() => {
+      return mealPlans?.map((mealPlan) => (
+        <MealPlanCard mealPlan={mealPlan} />
+    ))}, [mealPlans]);
+
     if (loading) {
       return (
         <CenterDiv>
@@ -20,12 +25,9 @@ const MealPlans: React.FC = () => {
 
     return (
         <CenterDiv>
-            {mealPlans?.map((mealPlan) => (
-                <MealPlanCard mealPlan={mealPlan} />
-            ))
-            }
+            {mealPlansCards}
             <Card>
-                <CreateMealPlanForm handleAction={refetch} />
+                <CreateMealPlanForm handleAction={() => refetch()} />
             </Card>
         </CenterDiv>
     );
