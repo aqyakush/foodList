@@ -73,7 +73,7 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
         setMealType(event.target.value);
     };
 
-    const handleButtonClick = async () => {
+    const handleButtonClick = () => {
         let data = {};
         if (selectedDate) {
             data = { ...data, date: selectedDate }
@@ -81,7 +81,7 @@ const NewMealRow: React.FC<MealProps> = ({ meal, mealPlan }) => {
         if (mealType) {
             data = { ...data, meal_type: mealType }
         }
-        await patchItem(data, meal.id.toString());
+        patchItem(data, meal.id.toString());
         refetch();
     };
 
