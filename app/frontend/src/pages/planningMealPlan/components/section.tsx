@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IconType } from 'react-icons';
-import ReactTooltip from 'react-tooltip';
 
 const SectionDiv = styled.div`
     flex-grow: 1;
