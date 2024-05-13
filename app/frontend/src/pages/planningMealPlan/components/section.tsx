@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { IconType } from 'react-icons';
+import ReactTooltip from 'react-tooltip';
 
 const SectionDiv = styled.div`
     flex-grow: 1;
@@ -32,19 +33,16 @@ const ClosedTitle = styled.h2`
   gap: 10px;
 `;
 
-const SmallText = styled.span`
-  font-size: small;
-`;
-
 type SectionProps = {
     title: string;
     children: React.ReactNode;
     isPossibleToClose?: boolean;
     openByDefault?: boolean;
     sectionName?: string;
+    icon: IconType;
 }
 
-const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, openByDefault, sectionName }) => {
+const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, openByDefault, sectionName, icon }) => {
     const [isOpen, setIsOpen] = React.useState(openByDefault);
 
     // Load saved state from localStorage when component mounts
@@ -67,6 +65,8 @@ const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, o
       }
     }, [isOpen, sectionName]);
 
+    const IconComponent = icon;
+
     const content = isOpen ? 
         <SectionDiv>
             <OpenTitle onClick={() => setIsOpen(!isOpen)}>
@@ -77,8 +77,8 @@ const Section: React.FC<SectionProps> = ({ title, children, isPossibleToClose, o
         </SectionDiv> : 
         <ClosedSection>
             <ClosedTitle onClick={() => setIsOpen(!isOpen)}>
-                <SmallText>{title}</SmallText>
-                <span title={`Open ${title}!`}>{isOpen ? '▶' : '◀' }</span> 
+            {IconComponent && <IconComponent title={title} />} 
+            <span title={`Open ${title}!`}>{isOpen ? '▶' : '◀' }</span> 
             </ClosedTitle>
         </ClosedSection>;
 

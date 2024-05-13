@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { MealPlansProvider } from '../../../mealPlanPage/MealPlansContext';
 import MealPlanView from './MealPlanView';
+import { FaRegListAlt } from 'react-icons/fa';
 
 
 const CenterDiv = styled.div`
@@ -19,7 +20,7 @@ const MealPlanSection: React.FC = () => {
     const params = useParams();
     
     return (
-        <Section title="Meal Plan" openByDefault sectionName='mealPlan'>
+        <Section title="Meal Plan" openByDefault sectionName='mealPlan' icon={FaRegListAlt}>
             <CenterDiv>
                 <MealPlansProvider params={params}>
                     <MealPlanView />
