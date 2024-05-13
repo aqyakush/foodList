@@ -8,6 +8,11 @@ const NavDiv = styled.div`
   flex-shrink: 0;
 `;
 
+const StickyNav = styled.div`
+  position: sticky;
+  top: 0;
+`;
+
 const StyledNav = styled.ul`
   list-style-type: none;
   margin: 0;
@@ -22,8 +27,10 @@ const NavBar = () => {
     return (
       <NavDiv>
           <StyledNav>
-            <ViewingNavigation />
-            <PlanningNavigation />
+            <StickyNav>
+              <ViewingNavigation />
+              <PlanningNavigation />
+            </StickyNav>
           </StyledNav>
       </NavDiv>
     );
