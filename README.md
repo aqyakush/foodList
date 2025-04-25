@@ -34,3 +34,5 @@ $ sudo docker build -t frontend:dev -f DockerfileDev .
 # Run frontend image for development
 
 $ docker run -it -p 3000:3000 -v ~/Projects/foodList/app/frontend:/app frontend:dev
+
+Test
