@@ -54,3 +54,5 @@ When building with helm update
 For local development use 
 
 "proxy": "http://localhost:8000"
+
+test
